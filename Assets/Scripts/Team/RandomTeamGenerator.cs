@@ -1,0 +1,43 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RandomTeamGenerator
+{
+    public static List<string> cityNames = new List<string>()
+    {
+        "Seoul", "Incheon", "Busan", "Daejeon", "Daegu", "Ulsan", "Gwangju", "Saejong", "Suwon", "Cheongju"
+    };
+
+    public static List<string> teamNames = new List<string>()
+    {
+        "Bears", "Wyverns", "Giants", "Eagles", "Lions", "Dolphins", "Tigers", "Heroes", "Wings", "Mariners"
+    };
+
+    public static List<string> shortNames = new List<string>()
+    {
+        "SLB", "ICW", "BSG", "DJE", "DGL", "USD", "GJT", "SJH", "SWW", "CJG"
+    };
+
+    public static Team CreateTeam(int index = -1)
+    {
+        Team team = new Team();
+
+        if(index == -1)
+        {
+            index = Random.Range(0, cityNames.Count);
+        }
+
+        team.teamData.SetData(TeamData.TP.CITY_NAME, cityNames[index]);
+        team.teamData.SetData(TeamData.TP.TEAM_NAME, teamNames[index]);
+        team.teamData.SetData(TeamData.TP.NAME, cityNames[index] + " " + teamNames[index]);
+        team.teamData.SetData(TeamData.TP.SHORT_NAME, shortNames[index]);
+
+        team.players.d = RandomPlayerGenerator.CreateTeam();
+        team.startingMembers.d = RandomPlayerGenerator.CreateStartingMember(team.players.d);
+
+        return team;
+    }
+
+
+}
