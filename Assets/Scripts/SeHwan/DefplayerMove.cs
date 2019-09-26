@@ -9,7 +9,7 @@ public class DefplayerMove : MonoBehaviour
     public Vector2 playerPlace;
     public float speed;
     public float fullTime = 0;
-  
+
 
     public void calculatePlayer() //공을 잡을 수비수의 위치 계산
     {
