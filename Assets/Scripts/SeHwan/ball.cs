@@ -8,18 +8,23 @@ public static class ball
 {
     //static Vector3 F = new Vector3(0, 0, 0); // 힘, xy기울기, z기울기 순서
     public static Vector2 nowPlace; //공의 위치 (BC가 증가할때마가 값 변함)
-    static bool isGuLum = false; //공이 구르는가 여부확인
     static bool HeightlessThenPlayer;
-    static float ballFullTime = 0;
     static float maxHeight = 0;
     public static float realTime = 0; //실제 공을 잡았을 때까지의 시간(ballfulltime은 공이 최대한 안잡혔을 때의 시간) <-이건 DefplayerMovemet에서 값이 정해짐
     public static int realBounceConter = 0; //실제 수비가 잡기 전 공이 튕겨진 횟수+1;
     public static bool GoToGround = false; //공이 땅볼인가?(ball.z가 음수)
 
-    public static List<float> times = new List<float>();
+
+    //공이 잡히지 않고 끝까지 굴러갔을 때 시간, 착지지점, 최대높이, 공의 힘을 순서대로 저장(단, landingPlaces는 타 배열보다 1 더 크며, 이는 처음에 0,0이 들어가기 때문
+    public static List<float> times = new List<float>(); 
     public static List<Vector2> landingPlaces = new List<Vector2>();
     public static List<float> maxHeights = new List<float>();
     public static List<Vector3> ballPowers = new List<Vector3>();
+
+    //-----------------------------덜 중요-----------------------------------
+    static float ballFullTime = 0;
+    static bool isGuLum = false; //공이 구르는가 여부확인
+
 
     public static Vector3 Hit(float hitterStrong, float accuracy, bool isRight) //공의 구면좌표 설정(타자의 힘, 정확도, 오른손잡이순서)
     {
@@ -34,7 +39,7 @@ public static class ball
             if (accuracy >= 0.8) //정확도가 높음 -> 플라이볼, 파울이 아님, 여기서는 장타만을 고려
             {
                 inclination = Random.Range(30, 45); //기울기를 구장의 오른쪽을 향하도록 설정
-                hightAngle = 1;//Random.Range(-10,10); //높이 설정(장타)
+                hightAngle = Random.Range(-10,-5); //높이 설정(장타)
                 Debug.Log("높이 기울기 : " + hightAngle);
 
             }
@@ -57,10 +62,8 @@ public static class ball
             {
                 inclination = Random.Range((float)(90), (float)135); //기울기가 왼쪽 파울영역으로 향하도록 설정
                 hightAngle = Random.Range(0, 90);
-
             }
         }
-
         return new Vector3(power, inclination, hightAngle);
     }
 
@@ -229,7 +232,7 @@ public static class ball
     {
         isGuLum = true;
         float time;
-        float R = 1.5f;
+        float R = 15f;
         Debug.Log("들어왔을때 속도: " + weakBall.x);
         float xySpeed = weakBall.x * Mathf.Cos((Mathf.PI / 180) * weakBall.z);
         Debug.Log("처음 속도: " + xySpeed);

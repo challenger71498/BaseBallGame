@@ -30,13 +30,24 @@ public class TotalMovement : MonoBehaviour
         ballObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 1, 0);
 
         Ball = ball.Hit(36, 1, true);
+        newBALL.SetBall(Ball);
+        newBALL.FirstFly();
+        do
+        {
+            Debug.Log("실행");
+            newBALL.NerfPower(0.5f);
+            newBALL.Bounding();
+        } while (newBALL.GetLastMaxHeight()>0.1f);
+        newBALL.GuLuneDaTilEnd(0.9f);
 
-        L = ball.LandingPlace2(ref Ball);
-        Debug.Log("LnadingPlace2 이후: " + Ball.x);
-        L = ball.Bounding(0.6f, L, ref Ball);
-        Debug.Log("Bounding이후: " + Ball.x);
-        L = ball.GuLuneDa2(Ball, L);
-        Debug.Log("L : " + L);
+        newBALL.GetHeight(Vector2.Distance(new Vector2(0, 0), newBALL.LandingLocations[newBALL.LandingLocations.Count - 2]));
+
+        //L = ball.LandingPlace2(ref Ball);
+        //Debug.Log("LnadingPlace2 이후: " + Ball.x);
+        //L = ball.Bounding(0.6f, L, ref Ball);
+        //Debug.Log("Bounding이후: " + Ball.x);
+        //L = ball.GuLuneDa2(Ball, L);
+        //Debug.Log("L : " + L);
         //ball.GuLuneDa(Ball, L, G.location, G.RealSpeed);
 
         //float h = ball.GetHeight(60);
@@ -118,36 +129,50 @@ public class TotalMovement : MonoBehaviour
     {
         setInGamePlayerList();//선수들을 리스트에 정렬
         Calculate();//구르기 전까지의 공의 위치 저장
-        calculatePlayer(inGam1);
-        Debug.Log(ball.realBounceConter);
+        //calculatePlayer(inGam1);
+        //Debug.Log(ball.realBounceConter);
 
-        for (int i = 0; i < ball.times.Count; i++)
+        //for (int i = 0; i < ball.times.Count; i++)
+        //{
+        //    Debug.Log(i + " : " + ball.times[i] + " : " + ball.landingPlaces[i + 1] + " : " + ball.realBounceConter);
+        //}
+        for(int i = 0; i < newBALL.GetListCount(); i++)
         {
-            Debug.Log(i + " : " + ball.times[i] + " : " + ball.landingPlaces[i + 1] + " : " + ball.realBounceConter);
+            Debug.Log(i + " : " +newBALL.LandingLocations[i]  + " : " + newBALL.TimeList[i]+ " : " + newBALL.MaxHeightList[i]);
         }
+        Debug.Log(newBALL.LandingLocations[newBALL.LandingLocations.Count-1]);
+        Debug.Log(newBALL.LandingLocations.Count + "개의 배열" + newBALL.GetListCount() +"개의 배열" + newBALL.MaxHeightList.Count + "개의 배열");
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (ball.times.Count > level && realtime >= ball.times[level])
+        //-------------------------------------------------------------------------------------------------------------------------공
+        if (newBALL.GetListCount() > level && realtime >= newBALL.TimeList[level])
         {
             realtime = 0;
             level++;
         }
-        if (level < ball.realBounceConter)//1 이상만 들어가면 끝까지 실행
+        else if (level < newBALL.GetListCount())//1 이상만 들어가면 끝까지 실행
         {
             realtime += Time.deltaTime; // ball.times[level]로 왜 나눴지?
             RectTransform Rt = ballObj.GetComponent<RectTransform>();
-            Rt.anchoredPosition = Vector2.Lerp(ball.landingPlaces[level] * 4, ball.landingPlaces[level + 1] * 4, realtime / ball.times[level]);
-            float a = 4 * ball.maxHeights[level] / Mathf.Pow(ball.times[level], 2);
-            float z = 0.04f * ((-1 * a) * Mathf.Pow((realtime - 0.5f * ball.times[level]), 2) + ball.maxHeights[level]);
+            Rt.anchoredPosition = Vector2.Lerp(newBALL.LandingLocations[level] * 4, newBALL.LandingLocations[level+1] * 4, realtime / newBALL.TimeList[level]);
+
+            float a = 4 * newBALL.MaxHeightList[level] / Mathf.Pow(newBALL.TimeList[level], 2);
+            float z = 0.04f * ((-1 * a) * Mathf.Pow((realtime - 0.5f * newBALL.TimeList[level]), 2) + newBALL.MaxHeightList[level]);
             if (ball.GoToGround == false)
             {
-                Rt.localScale = new Vector3(1 + z, 1 + z, 0);
+                if(z < 0)
+                {
+                    Rt.localScale = new Vector3(1 , 1 , 0);
+                }
+                else
+                    Rt.localScale = new Vector3(1 + z, 1 + z, 0);
             }
-
         }
+        //-------------------------------------------------------------------------------------------------------------------------공
+
     }
 }
