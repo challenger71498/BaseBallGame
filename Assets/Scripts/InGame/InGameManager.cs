@@ -206,7 +206,19 @@ public class InGameManager : MonoBehaviour
                 random = UnityEngine.Random.Range(0, 3);
                 if(random == 0)
                 {
-
+                    AddHit(Hit.SINGLE);
+                }
+                else if (random == 1)
+                {
+                    AddHit(Hit.DOUBLE);
+                }
+                else if (random == 2)
+                {
+                    AddHit(Hit.TRIPLE);
+                }
+                else if (random == 3)
+                {
+                    AddHit(Hit.HOME_RUN);
                 }
             }
         }
