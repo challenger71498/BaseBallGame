@@ -246,7 +246,6 @@ public class PlayerData
             data.d.Add(pref, new SerializableDictPP());
             ((SerializableDictPP)data.d[pref]).d.Add(p, f);
         }
-       
     }
     
     /// <summary>

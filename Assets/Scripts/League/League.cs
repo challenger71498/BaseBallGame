@@ -13,10 +13,10 @@ public class League
         teams = new SerializableList<KeyValuePair<int, Team>>();
         stats = new LeagueStatistics();
 
-        if(isRandom)
+        if (isRandom)
         {
             data = new LeagueData("Western League", "WSL", UnityEngine.Random.Range(1969, 1990), 5, 30);
-            for(int i = 0; i < teamAmount; ++i)
+            for (int i = 0; i < teamAmount; ++i)
             {
                 teams.d.Add(new KeyValuePair<int, Team>(i, RandomTeamGenerator.CreateTeam()));
             }
@@ -32,7 +32,7 @@ public class League
     {
         float sum = 0;
 
-        foreach(KeyValuePair<int, Team> teamPair in teams.d)
+        foreach (KeyValuePair<int, Team> teamPair in teams.d)
         {
             sum += teamPair.Value.GetPrefAverage(pref, teamPair.Value.players.d);
         }
@@ -44,7 +44,7 @@ public class League
     {
         float sum = 0;
 
-        foreach(KeyValuePair<int, Team> teamPair in teams.d)
+        foreach (KeyValuePair<int, Team> teamPair in teams.d)
         {
             sum += teamPair.Value.GetStatAverage(stat, teamPair.Value.players.d);
         }
@@ -54,7 +54,7 @@ public class League
 
     public void BuildGameSchedule(int year = -1)
     {
-        if(year == -1)
+        if (year == -1)
         {
             year = Values.date.Year;
         }
@@ -81,7 +81,7 @@ public class League
             currentDate = currentDate.AddDays(7);
             week++;
         }
-        
+
         DateTime startDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day);
 
         //Then initialize games.
@@ -121,18 +121,26 @@ public class League
                 continue;
             }
             int remainder = gamesMade % 9;
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 0), new Game(teams[0].Value, teams[circularNine(1, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 1), new Game(teams[circularNine(9, remainder)].Value, teams[circularNine(2, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 2), new Game(teams[circularNine(8, remainder)].Value, teams[circularNine(3, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 3), new Game(teams[circularNine(7, remainder)].Value, teams[circularNine(4, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 4), new Game(teams[circularNine(6, remainder)].Value, teams[circularNine(5, remainder)].Value, currentDate));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 1), new Game(teams[0].Value, teams[circularNine(1, remainder)].Value, currentDate));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 2), new Game(teams[circularNine(9, remainder)].Value, teams[circularNine(2, remainder)].Value, currentDate));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 3), new Game(teams[circularNine(8, remainder)].Value, teams[circularNine(3, remainder)].Value, currentDate));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 4), new Game(teams[circularNine(7, remainder)].Value, teams[circularNine(4, remainder)].Value, currentDate));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 5), new Game(teams[circularNine(6, remainder)].Value, teams[circularNine(5, remainder)].Value, currentDate));
+            //This is a bunch of lines for debug. :(
+            //Debug.Log("_____________________________________________________");
+            //Debug.Log("0: " + teams[0].Value.teamData.GetData(TeamData.TP.NAME) + " " + circularNine(1, remainder) + " " + teams[circularNine(1, remainder)].Value.teamData.GetData(TeamData.TP.NAME));
+            //Debug.Log(circularNine(9, remainder) + " " + teams[circularNine(9, remainder)].Value.teamData.GetData(TeamData.TP.NAME) + " " + circularNine(2, remainder) + " " + teams[circularNine(2, remainder)].Value.teamData.GetData(TeamData.TP.NAME));
+            //Debug.Log(circularNine(8, remainder) + " " + teams[circularNine(8, remainder)].Value.teamData.GetData(TeamData.TP.NAME) + " " + circularNine(3, remainder) + " " + teams[circularNine(3, remainder)].Value.teamData.GetData(TeamData.TP.NAME));
+            //Debug.Log(circularNine(7, remainder) + " " + teams[circularNine(7, remainder)].Value.teamData.GetData(TeamData.TP.NAME) + " " + circularNine(4, remainder) + " " + teams[circularNine(4, remainder)].Value.teamData.GetData(TeamData.TP.NAME));
+            //Debug.Log(circularNine(6, remainder) + " " + teams[circularNine(6, remainder)].Value.teamData.GetData(TeamData.TP.NAME) + " " + circularNine(5, remainder) + " " + teams[circularNine(5, remainder)].Value.teamData.GetData(TeamData.TP.NAME));
+            //Debug.Log("_____________________________________________________");
             currentDate = currentDate.AddDays(1);
             gamesMade++;
         }
-        
+
         Values.myTeam.SetSchedule(startDate, this);
     }
-    
+
     public Game FindGame(DateTime date, Team team)
     {
         bool findYear(DateTime d)
@@ -144,16 +152,20 @@ public class League
 
         Predicate<DateTime> predicate = findYear;
 
-        int index = 0;
-        while(index != -1)
+        int index = -1;
+        while (true)
         {
             List<DateTime> keyList = SeasonGames.Keys.ToList();
-            index = keyList.FindIndex(index+1, predicate);
-            if(index == -1)
+            keyList.Insert(0, new DateTime(1, 1, 1));
+            index = keyList.FindIndex(index + 1, predicate);
+            if (index == 0 || index == -1)
             {
                 break;
             }
-            if(SeasonGames[keyList[index]].home == team || SeasonGames[keyList[index]].away == team)
+
+            Debug.Log(index);
+
+            if (SeasonGames[keyList[index]].home == team || SeasonGames[keyList[index]].away == team)
             {
                 return SeasonGames[keyList[index]];
             }
@@ -176,7 +188,7 @@ public class League
         for (int i = 0; i < amount; ++i)
         {
             bool isEndOfSeasonGames = false;
-            
+
             while (FindGame(date, team) == null /*|| !FindGame(date, team).isPlayed*/)  //Should be uncommented after.
             {
                 date = date.AddDays(-1);
@@ -187,7 +199,8 @@ public class League
                 }
             }
 
-            if (isEndOfSeasonGames) {
+            if (isEndOfSeasonGames)
+            {
                 break;
             }
             else

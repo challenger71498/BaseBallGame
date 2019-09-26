@@ -19,6 +19,12 @@ public class Team
         startingMembers = new SerializableList<KeyValuePair<Player.Position, Player>>();
     }
 
+    //Override functions
+    public override string ToString()
+    {
+        return teamData.GetData(TeamData.TP.NAME);
+    }
+
     //Member functions
     public float GetPrefAverage(PlayerData.PP pref, List<KeyValuePair<int, Player>> players)
     {

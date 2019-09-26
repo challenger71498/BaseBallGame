@@ -135,7 +135,7 @@ public class Player
     /// <summary>
     /// Total number of player created that year.
     /// </summary>
-    public static Dictionary<int, int> PlayerCreated = new Dictionary<int, int>();
+    public static Dictionary<int, int> playerCreated = new Dictionary<int, int>();
 
     /// <summary>
     /// Getter for PlayerCreated. Default year value is current year.
@@ -149,9 +149,9 @@ public class Player
             year = Values.date.Year;
         }
 
-        if (PlayerCreated.ContainsKey(year))
+        if (playerCreated.ContainsKey(year))
         {
-            return PlayerCreated[year];
+            return playerCreated[year];
         }
         else
         {
@@ -171,15 +171,15 @@ public class Player
             year = Values.date.Year;
         }
 
-        if (PlayerCreated.ContainsKey(year))
+        if (playerCreated.ContainsKey(year))
         {
-            ++PlayerCreated[year];
+            ++playerCreated[year];
         }
         else
         {
             if (makeNewIfNone)
             {
-                PlayerCreated.Add(year, 1);
+                playerCreated.Add(year, 1);
             }
             else
             {
@@ -199,9 +199,9 @@ public class Player
             year = Values.date.Year;
         }
 
-        if (PlayerCreated.ContainsKey(year))
+        if (playerCreated.ContainsKey(year))
         {
-            --PlayerCreated[year];
+            --playerCreated[year];
         }
         else
         {
@@ -288,6 +288,11 @@ public class Player
         return sum / finalStats.d.Count;
     }
 
+    /// <summary>
+    /// Get Training data modified by player stats.
+    /// </summary>
+    /// <param name="train"></param>
+    /// <returns></returns>
     public Training GetTraining(Training.Train train)
     {
         Training training = Trainings.trainings[train].DeepCopy();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;  //For debug purpose.
 using UnityEngine;
 using TMPro;
 
@@ -175,11 +176,11 @@ public static class Schedules
 
                     List<Game> recentGames0 = Values.league.RecentMatches(3, home, scheduleMatchUp.game.date.date);
                     List<Game> recentGames1 = Values.league.RecentMatches(3, away, scheduleMatchUp.game.date.date);
+                    
                     for(int i = 0; i < recentGames0.Count; ++i)
                     {
                         GameObject recentMatchObject = UnityEngine.Object.Instantiate(gameManager.recentMatchPanel, teamPanel0.recentMatchesContent.transform);
                         RecentMatchObject matchObject = new RecentMatchObject(recentMatchObject);
-                        Debug.Log(recentGames0[i]);
                         matchObject.SetByGame(recentGames0[i], home);
                     }
                     for (int i = 0; i < recentGames1.Count; ++i)

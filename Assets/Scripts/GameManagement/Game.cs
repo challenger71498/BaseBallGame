@@ -19,6 +19,8 @@ public class Game
         home = _home;
         away = _away;
         date = new SerializableDateTime(new DateTime(year, month, day));
+        homeScoreBoard = new ScoreBoard();
+        awayScoreBoard = new ScoreBoard();
     }
 
     public Game(Team _home, Team _away, DateTime _date)
@@ -27,6 +29,8 @@ public class Game
         home = _home;
         away = _away;
         date = new SerializableDateTime(new DateTime(_date.Year, _date.Month, _date.Day));
+        homeScoreBoard = new ScoreBoard();
+        awayScoreBoard = new ScoreBoard();
     }
 
     public void WriteData()

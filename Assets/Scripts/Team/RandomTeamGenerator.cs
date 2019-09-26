@@ -19,13 +19,15 @@ public class RandomTeamGenerator
         "SLB", "ICW", "BSG", "DJE", "DGL", "USD", "GJT", "SJH", "SWW", "CJG"
     };
 
+    static int teamCreated = 0;
     public static Team CreateTeam(int index = -1)
     {
+
         Team team = new Team();
 
         if(index == -1)
         {
-            index = Random.Range(0, cityNames.Count);
+            index = teamCreated;
         }
 
         team.teamData.SetData(TeamData.TP.CITY_NAME, cityNames[index]);
@@ -35,6 +37,8 @@ public class RandomTeamGenerator
 
         team.players.d = RandomPlayerGenerator.CreateTeam();
         team.startingMembers.d = RandomPlayerGenerator.CreateStartingMember(team.players.d);
+
+        teamCreated++;
 
         return team;
     }
