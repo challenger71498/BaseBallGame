@@ -14,7 +14,7 @@ public class InGameManager : MonoBehaviour
     public static Team currentAttack;
     public static Team currentDefend;
     public static Pitcher currentPitcher;
-    public static Pitcher otherPitcher;
+    public static Pitcher savedPitcher;
     public static Batter currentBatter;
     public static List<KeyValuePair<int, Batter>> homeBattingOrder;
     public static List<KeyValuePair<int, Batter>> awayBattingOrder;
@@ -452,7 +452,7 @@ public class InGameManager : MonoBehaviour
         }
 
         //Switch side.
-        currentPitcher = otherPitcher;
+        currentPitcher = savedPitcher;
 
         if (currentAttack == game.home)
         {
