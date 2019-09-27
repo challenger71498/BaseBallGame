@@ -80,7 +80,7 @@ public class Training
     {
         if(value < 0 || 1 < value)
         {
-            throw new NullReferenceException("Value should be between 0 to 1.");
+            throw new ArgumentOutOfRangeException("Value should be between 0 to 1.");
         }
 
         if(modifier.ContainsKey(pref))
