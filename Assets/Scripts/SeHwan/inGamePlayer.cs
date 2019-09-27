@@ -6,17 +6,28 @@ using UnityEngine;
 public class inGamePlayer : MonoBehaviour
 {
     public Vector2 location;
+    public List<Vector2> locationList; //플레이어의 위치변화를 담는 리스트
     public Player player;
     public float AbsPower, AbsSpeed, Absaccuracy, RealPower, RealSpeed, RealAccuracy;
-    float playerTime =0 ;
+    float playerTime =0 ; //deltaTime을 담기위한 용도
     float DistanceTime = 0; //특정 거리 이동시 걸리는 시간
    
-    void setLocation(Vector2 loc)  //위치 변경
+
+    //MoveTo test, update부분에서 호출됨
+    public void MoveTo(Vector2 goalLocation, float delta)
     {
-        location = loc;
+        GetDistanceTime(Vector2.Distance(location,goalLocation));
+        PlusDeltaTime(delta);
+
     }
 
-    Vector2 getLocation()
+    public void setLocation(Vector2 loc)  //위치 변경, 처음 선수가 생성될때도 호출 필요
+    {
+        location = loc;
+        locationList.Add(location); //변경된 위치를 리스트에 저장
+    }
+
+    public Vector2 getLocation()
     {
         return location;
     }

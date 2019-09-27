@@ -42,6 +42,21 @@ public class TotalMovement : MonoBehaviour
         newBALL.GuLuneDaTilEnd(1.9f);
 
     }
+    
+    //MoveTo(in totalMovement.cs) test
+    public void MoveTo(inGamePlayer inG,GameObject inGObj ,Vector2 Goal, float StartTime) //goal은 목표위치, StartTime은 함수 시작 시간
+    { //근데 이거 이렇게 하면 도달한 거리를 inG.locationList에 저장못함
+        if (RealTime < StartTime || RealTime > StartTime + inG.GetDistanceTime(Vector2.Distance(inG.locationList[inG.locationList.Count - 1], Goal))) //아직 시작할 시간이 아닌경우, 이미 이동을 다 끝낸 경우
+        {
+            return;
+        }
+        else
+        {
+            RectTransform Prt = inGObj.GetComponent<RectTransform>();
+            Prt.anchoredPosition = Vector2.Lerp(inG.locationList[inG.locationList.Count-1], Goal, (RealTime - StartTime) / inG.GetDistanceTime(Vector2.Distance(inG.locationList[inG.locationList.Count - 1], Goal)));
+        }
+    }
+
 
 
 
@@ -65,8 +80,8 @@ public class TotalMovement : MonoBehaviour
             {                
                 isCatch = true;
                 playerPlace.x = newBALL.LandingLocations[i + 1].x;
-                playerPlace.y = newBALL.LandingLocations[i + 1].y; //플레이어의 위치를 공의 위치로 변경
-                
+                playerPlace.y = newBALL.LandingLocations[i + 1].y;
+                G.setLocation(playerPlace);//플레이어의 위치를 공의 위치로 변경
                 break;
             }            
         } //마지막에서 2번째 인덱스를 catchTime이 가져야 함
@@ -77,14 +92,15 @@ public class TotalMovement : MonoBehaviour
             if (fullTime*G.RealSpeed >= Vector2.Distance(playerPlace, newBALL.LandingLocations[i + 1]))
             {
                 newBALL.GuLuneDa(G.location, G.RealSpeed, 1.9f); //공의 위치 변경
-                playerPlace =  newBALL.GetLocation(); //플레이어 위치를 GuLuneDa실행 후 공의 위치로 변경
+                playerPlace =  newBALL.GetLocation();
+                G.setLocation(playerPlace); //플레이어 위치를 GuLuneDa실행 후 공의 위치로 변경
             }
             else
             {
                 playerPlace.x = newBALL.LandingLocations[i + 1].x;
-                playerPlace.y = newBALL.LandingLocations[i + 1].y; //플레이어의 위치를 공의 위치로 변경
+                playerPlace.y = newBALL.LandingLocations[i + 1].y;
+                G.setLocation(playerPlace); //플레이어의 위치를 공의 위치로 변경
             }
-
         }
     }
 
@@ -96,8 +112,12 @@ public class TotalMovement : MonoBehaviour
         inGams.Add(inGam4);
         inGams.Add(inGam5);
 
+
+
         for (int i = 0; i < inGams.Count; i++)
         {
+            inGams[i].setLocation(inGams[i].getLocation()); //setLocation을 함으로써 선수들의 처음 위치를 locationList에 저장
+            Debug.Log("선수위치 "+inGams[i].getLocation());
             RectTransform Rt = inGams[i].GetComponent<RectTransform>();
             Rt.anchoredPosition = inGams[i].location * 4;
         }
@@ -126,14 +146,14 @@ public class TotalMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        RealTime += Time.deltaTime; //필드 전체의 시간
         //-------------------------------------------------------------------------------------------------------------------------공
         if (CatchTime >= level && BallRealtime >= newBALL.TimeList[level]) //newBALL.GetListCount()를 잠시 CatchTime으로 변경
         {
             BallRealtime = 0;
             level++;
         }
-        else if (level <= CatchTime)//1 이상만 들어가면 끝까지 실행
+        else if (level <= CatchTime)//오류 발견 공이 한번 더 튕김
         {
             BallRealtime += Time.deltaTime; // ball.times[level]로 왜 나눴지?
             RectTransform Rt = ballObj.GetComponent<RectTransform>();
@@ -154,17 +174,22 @@ public class TotalMovement : MonoBehaviour
         }
         //-------------------------------------------------------------------------------------------------------------------------공
 
-        //-------------------------------------------------------------------------------------------------------------------------선수
+        //-------------------------------------------------------------------------------------------------------------------------선수1
         //실제로는 inGamePleyer에서 GameObject를 받아와서 그걸로 해야함, 여기서는 일단 방법을 몰라 임의의 GameObject에서 실행
         RectTransform Prt = PlayerObj1.GetComponent<RectTransform>();
         inGam1.PlusDeltaTime(Time.deltaTime);
 
-        if(inGam1.GetTime()<=inGam1.GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[level+1], inGam1.location)))
+        if(newBALL.LandingLocations.Count-1 >= level+1) //이거 추가함, 만약 이상하면 이 if문을 제거
         {
-            Prt.anchoredPosition = Vector2.Lerp(inGam1.location * 4, newBALL.LandingLocations[level+1] * 4, inGam1.GetTime() / inGam1.GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[level + 1], inGam1.location)));
+            if (inGam1.GetTime() <= inGam1.GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime], inGam1.locationList[0])))
+            {
+                Prt.anchoredPosition = Vector2.Lerp(inGam1.location * 4, newBALL.LandingLocations[CatchTime] * 4, inGam1.GetTime() / inGam1.GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime], inGam1.locationList[0])));               
+            }
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------선수1
 
-        //-------------------------------------------------------------------------------------------------------------------------선수
+
+
     }
 }
