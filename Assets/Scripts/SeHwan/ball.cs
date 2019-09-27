@@ -39,7 +39,7 @@ public static class ball
             if (accuracy >= 0.8) //정확도가 높음 -> 플라이볼, 파울이 아님, 여기서는 장타만을 고려
             {
                 inclination = Random.Range(30, 45); //기울기를 구장의 오른쪽을 향하도록 설정
-                hightAngle = Random.Range(-10,-5); //높이 설정(장타)
+                hightAngle = Random.Range(20,30); //높이 설정(장타)
                 Debug.Log("높이 기울기 : " + hightAngle);
 
             }

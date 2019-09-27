@@ -18,6 +18,45 @@ public class newBALL : MonoBehaviour
     public static List<float> MaxHeightList = new List<float>(); //최대높이 모음
     static List<Vector3> BallSpeedList = new List<Vector3>(); //공의속도 모음 -> 이후 특정지점의 높이 구할때 사용
 
+
+    public static void Hit(float HitterStrong, float Accuracy, bool isRight) //공의 구면좌표 설정(타자의 힘, 정확도, 오른손잡이순서)
+    {
+        //---------------변수-------------------
+        float inclination;
+        float power = HitterStrong; //타자의 힘에 따라 공이 받는 힘 설정 (m/s)
+        float hightAngle;
+
+        //---------------내용-------------------
+        if (isRight) //우선 오른손잡이면 공이 오른쪽으로, 왼손잡이면 공이 왼쪽으로 향하게 함. 나중에 변경 예정
+        {
+            if (Accuracy >= 0.8) //정확도가 높음 -> 플라이볼, 파울이 아님, 여기서는 장타만을 고려
+            {
+                inclination = Random.Range(30, 45); //기울기를 구장의 오른쪽을 향하도록 설정
+                hightAngle = Random.Range(20,30); //높이 설정(장타)
+            }
+            else //파울
+            {
+                inclination = Random.Range(225, 360); //기울기가 오른쪽 파울영역으로 향하도록 설정
+                hightAngle = Random.Range(0, 90);
+            }
+        }
+        else
+        {
+            if (Accuracy >= 0.8) //정확도가 높음 -> 플라이볼, 파울이 아님, 여기서는 장타만을 고려
+            {
+                inclination = Random.Range((float)45, (float)90); //기울기를 구장의 왼쪽을 향하도록 설정
+                hightAngle = Random.Range(20, 30); //높이 설정(장타)
+            }
+            else //파울
+            {
+                inclination = Random.Range((float)(90), (float)135); //기울기가 왼쪽 파울영역으로 향하도록 설정
+                hightAngle = Random.Range(0, 90);
+            }
+        }
+        SetBall( new Vector3(power, inclination, hightAngle));
+    }
+
+
     public static void FirstFly() //공이 처음 날아갈 때 처음 위치를 고려해야 하므로 따로 만듦, 이거 호출 전 setBall 반드시 호출
     {
         //---------------변수-------------------
@@ -204,5 +243,9 @@ public class newBALL : MonoBehaviour
     public static int GetListCount()
     {
         return TimeList.Count;
+    }
+    public static Vector2 GetLocation()
+    {
+        return Location;
     }
 }

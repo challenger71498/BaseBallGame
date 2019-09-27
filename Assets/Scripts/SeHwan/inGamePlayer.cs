@@ -8,6 +8,8 @@ public class inGamePlayer : MonoBehaviour
     public Vector2 location;
     public Player player;
     public float AbsPower, AbsSpeed, Absaccuracy, RealPower, RealSpeed, RealAccuracy;
+    float playerTime =0 ;
+    float DistanceTime = 0; //특정 거리 이동시 걸리는 시간
    
     void setLocation(Vector2 loc)  //위치 변경
     {
@@ -19,8 +21,23 @@ public class inGamePlayer : MonoBehaviour
         return location;
     }
 
-
-
+    public void PlusDeltaTime(float t)
+    {
+        playerTime += t;
+    }
+    public void ResetTime()
+    {
+        playerTime = 0;
+    }
+    public float GetTime()
+    {
+        return playerTime;
+    }
+    public float GetDistanceTime(float distance)
+    {
+        DistanceTime = distance / RealSpeed;
+        return DistanceTime;
+    }
     // Start is called before the first frame update
     void Start()
     {

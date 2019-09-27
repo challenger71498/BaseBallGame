@@ -11,7 +11,7 @@ public class DefplayerMove : MonoBehaviour
     public float fullTime = 0;
 
 
-    public void calculatePlayer() //공을 잡을 수비수의 위치 계산
+    public void calculatePlayer() //공을 잡을 수비수의 위치 계산 <-이건 totalMovement로 이동되었습니다.
     {
         int i;
         bool isCatch = false;
