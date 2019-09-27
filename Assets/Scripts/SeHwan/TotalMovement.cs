@@ -31,7 +31,7 @@ public class TotalMovement : MonoBehaviour
     {
         ballObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 1, 0);
 
-        newBALL.Hit(45, 1, true);
+        newBALL.Hit(35, 1, true);
 
         newBALL.FirstFly();
         do
@@ -128,7 +128,7 @@ public class TotalMovement : MonoBehaviour
     {
 
         //-------------------------------------------------------------------------------------------------------------------------공
-        if (CatchTime >= level && BallRealtime >= newBALL.TimeList[level]) //newBALL.GetListCount()를 잠시 CatchTime으로 변경
+        if (CatchTime > level && BallRealtime >= newBALL.TimeList[level]) //newBALL.GetListCount()를 잠시 CatchTime으로 변경
         {
             BallRealtime = 0;
             level++;
