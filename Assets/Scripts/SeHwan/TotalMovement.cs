@@ -15,6 +15,18 @@ public class TotalMovement : MonoBehaviour
     public inGamePlayer inGam4;
     public GameObject PlayerObj5;
     public inGamePlayer inGam5;
+    public GameObject PlayerObj6;
+    public inGamePlayer inGam6;
+    public GameObject PlayerObj7;
+    public inGamePlayer inGam7;
+    public GameObject PlayerObj8;
+    public inGamePlayer inGam8;
+    public GameObject PlayerObj9;
+    public inGamePlayer inGam9;
+
+    
+    
+
     public List<inGamePlayer> inGams = new List<inGamePlayer>();
 
     public float BallRealtime = 0;
