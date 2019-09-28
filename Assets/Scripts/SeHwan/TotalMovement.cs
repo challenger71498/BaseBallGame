@@ -5,29 +5,9 @@ using UnityEngine;
 public class TotalMovement : MonoBehaviour
 {
     public GameObject ballObj;
-    public GameObject PlayerObj1;
-    public inGamePlayer inGam1;
-    public GameObject PlayerObj2;
-    public inGamePlayer inGam2;
-    public GameObject PlayerObj3;
-    public inGamePlayer inGam3;
-    public GameObject PlayerObj4;
-    public inGamePlayer inGam4;
-    public GameObject PlayerObj5;
-    public inGamePlayer inGam5;
-    public GameObject PlayerObj6;
-    public inGamePlayer inGam6;
-    public GameObject PlayerObj7;
-    public inGamePlayer inGam7;
-    public GameObject PlayerObj8;
-    public inGamePlayer inGam8;
-    public GameObject PlayerObj9;
-    public inGamePlayer inGam9;
-
-    
-    
-
-    public List<inGamePlayer> inGams = new List<inGamePlayer>();
+    public GameObject PlayerObj1, PlayerObj2, PlayerObj3, PlayerObj4, PlayerObj5, PlayerObj6, PlayerObj7, PlayerObj8, PlayerObj9;
+    public inGamePlayer inGam1, inGam2, inGam3, inGam4, inGam5, inGam6, inGam7, inGam8, inGam9;
+     public List<inGamePlayer> inGams = new List<inGamePlayer>();   
 
     public float BallRealtime = 0;
     public float RealTime =0;
@@ -102,11 +82,16 @@ public class TotalMovement : MonoBehaviour
 
     void setInGamePlayerList()
     {
+
         inGams.Add(inGam1);
         inGams.Add(inGam2);
         inGams.Add(inGam3);
         inGams.Add(inGam4);
         inGams.Add(inGam5);
+        inGams.Add(inGam6);
+        inGams.Add(inGam7);
+        inGams.Add(inGam8);
+        inGams.Add(inGam9);     
 
         for (int i = 0; i < inGams.Count; i++)
         {
