@@ -120,7 +120,7 @@ public class TotalMovement : MonoBehaviour
         //---------------내용-------------------
         if (newBALL.BallPowerList[0].y <= 45)
         {
-            for(int i = 2; i <= 5; i++)
+            for(int i =2; i <= 5; i++)
             {
 
             }
