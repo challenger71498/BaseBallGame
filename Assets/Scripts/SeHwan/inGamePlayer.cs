@@ -14,7 +14,7 @@ public class inGamePlayer : MonoBehaviour
     float DistanceTime = 0; //특정 거리 이동시 걸리는 시간
     int playerCallTime = -1; //인덱스로 사용되며, 플레이어의 위치리스트에서 알맞은 위치를 가져오기 위해 사용됨
    
-    void setLocation(Vector2 loc)  //변경된 위치를 리스트에 저장
+    public void setLocation(Vector2 loc)  //변경된 위치를 리스트에 저장
     {
         locations.Add(location);
     }
