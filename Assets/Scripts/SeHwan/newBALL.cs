@@ -16,7 +16,7 @@ public class newBALL : MonoBehaviour
     static float HittingPoint = 0.7f;
     public static List<float> TimeList = new List<float>(); //공이 땅에 닿을때 각 텀에 대한 시간
     public static List<float> MaxHeightList = new List<float>(); //최대높이 모음
-    static List<Vector3> BallSpeedList = new List<Vector3>(); //공의속도 모음 -> 이후 특정지점의 높이 구할때 사용
+    public static List<Vector3> BallPowerList = new List<Vector3>(); //공의 힘벡터 모음 -> 이후 특정지점의 높이 구할때 사용
 
 
     public static void Hit(float HitterStrong, float Accuracy, bool isRight) //공의 구면좌표 설정(타자의 힘, 정확도, 오른손잡이순서)
@@ -32,7 +32,7 @@ public class newBALL : MonoBehaviour
             if (Accuracy >= 0.8) //정확도가 높음 -> 플라이볼, 파울이 아님, 여기서는 장타만을 고려
             {
                 inclination = Random.Range(30, 45); //기울기를 구장의 오른쪽을 향하도록 설정
-                hightAngle = Random.Range(20,30); //높이 설정(장타)
+                hightAngle = Random.Range(60,70); //높이 설정(장타)
             }
             else //파울
             {
@@ -64,7 +64,7 @@ public class newBALL : MonoBehaviour
         Vector2 v1, v2, v3;
 
         //---------------내용-------------------
-        BallSpeedList.Add(PowerVector);
+        BallPowerList.Add(PowerVector);
 
         zSpeed = PowerVector.x * Mathf.Sin((Mathf.PI / 180) * PowerVector.z);
         xySpeed = PowerVector.x * Mathf.Cos((Mathf.PI / 180) * PowerVector.z);
@@ -112,7 +112,7 @@ public class newBALL : MonoBehaviour
         float time, zSpeed, xySpeed,maxHeight, distance;
 
         //---------------내용-------------------
-        BallSpeedList.Add(PowerVector);
+        BallPowerList.Add(PowerVector);
 
         zSpeed = PowerVector.x * Mathf.Sin((Mathf.PI / 180) * PowerVector.z);
         xySpeed = PowerVector.x * Mathf.Cos((Mathf.PI / 180) * PowerVector.z);
@@ -133,7 +133,7 @@ public class newBALL : MonoBehaviour
         float time, zSpeed, xySpeed, maxHeight, distance, register;
 
         //---------------내용-------------------
-        BallSpeedList.Add(PowerVector);
+        BallPowerList.Add(PowerVector);
 
         maxHeight = 0.05f;
         MaxHeightList.Add(maxHeight);
@@ -195,8 +195,8 @@ public class newBALL : MonoBehaviour
             if (Vector2.Distance(LandingLocations[0], LandingLocations[i + 1]) > someDistance) //LandingLocation범위에 있는 경우
             {
  
-                zSpeed = BallSpeedList[i].x * Mathf.Sin((Mathf.PI / 180) * BallSpeedList[i].z);
-                xySpeed = BallSpeedList[i].x * Mathf.Cos((Mathf.PI / 180) * BallSpeedList[i].z);
+                zSpeed = BallPowerList[i].x * Mathf.Sin((Mathf.PI / 180) * BallPowerList[i].z);
+                xySpeed = BallPowerList[i].x * Mathf.Cos((Mathf.PI / 180) * BallPowerList[i].z);
               
                 TempTime = someDistance / xySpeed;
 
