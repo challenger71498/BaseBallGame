@@ -17,6 +17,8 @@ public class Team
             players.d = playerList;
         }
         startingMembers = new SerializableList<KeyValuePair<Player.Position, Player>>();
+        battingOrder = new SerializableList<Batter>();
+        startPitchOrder = new SerializableList<Pitcher>();
     }
 
     //Override functions
@@ -110,7 +112,8 @@ public class Team
     //Data members
     public SerializableList<KeyValuePair<int, Player>> players;
     public SerializableList<KeyValuePair<Player.Position, Player>> startingMembers;
-    public SerializableList<KeyValuePair<int, Batter>> battingOrder;
+    public SerializableList<Batter> battingOrder;
+    public SerializableList<Pitcher> startPitchOrder;
     public TeamData teamData;
     public TeamStatistics teamStats;
 }

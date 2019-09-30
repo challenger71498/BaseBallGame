@@ -13,7 +13,7 @@ public class Game
     }
 
 
-    public Game(Team _home, Team _away, int year, int month, int day)
+    public Game(Team _home, Team _away, Pitcher _homePitcher, Pitcher _awayPitcher, int year, int month, int day)
     {
         isPlayed = false;
         home = _home;
@@ -21,9 +21,11 @@ public class Game
         date = new SerializableDateTime(new DateTime(year, month, day));
         homeScoreBoard = new ScoreBoard();
         awayScoreBoard = new ScoreBoard();
+        homeStarterPitcher = _homePitcher;
+        awayStarterPitcher = _awayPitcher;
     }
 
-    public Game(Team _home, Team _away, DateTime _date)
+    public Game(Team _home, Team _away, Pitcher _homePitcher, Pitcher _awayPitcher, DateTime _date)
     {
         isPlayed = false;
         home = _home;
@@ -31,6 +33,8 @@ public class Game
         date = new SerializableDateTime(new DateTime(_date.Year, _date.Month, _date.Day));
         homeScoreBoard = new ScoreBoard();
         awayScoreBoard = new ScoreBoard();
+        homeStarterPitcher = _homePitcher;
+        awayStarterPitcher = _awayPitcher;
     }
 
     public void WriteData()

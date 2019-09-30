@@ -240,6 +240,7 @@ public class Player
         }
 
         train = _train;
+        order = -1;
 
         //Debug.Log("STAT:   " + stats.statistics.d.Count);
         //Debug.Log("SEASON: " + stats.seasonStats.d.Count);
@@ -328,6 +329,7 @@ public class Player
     public SerializableDict<string, float> finalStats;
     public PlayerStatistics stats;
     public Training.Train train;
+    public int order;
 
     public Form form = Form.typea;
 }

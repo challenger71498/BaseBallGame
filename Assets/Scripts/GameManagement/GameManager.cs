@@ -204,11 +204,10 @@ public class GameManager : MonoBehaviour
 
             //MyTeam Initailization
             Values.myTeam = Values.league.teams[0].Value;
-
             //Values.myTeam = Values.league.teams[UnityEngine.Random.Range(0, Values.league.teams.d.Count)].Value;
-            Values.schedules = new Dictionary<int, Schedule>();
-
+            
             //MyTeam schedule Initialization
+            Values.schedules = new Dictionary<int, Schedule>();
             Values.league.BuildGameSchedule();
 
             isCreated = true;
@@ -785,6 +784,15 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI nameText = playerObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         nameText.text = player.playerData.GetData(PlayerData.PP.NAME);   //Name
         playerObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = player.playerData.GetData(PlayerData.PP.NUMBER).ToString(); //Number
+        TextMeshProUGUI orderText = playerObject.transform.GetChild(8).GetComponent<TextMeshProUGUI>(); //Batting/StartPitching order
+        if (player.order == -1)
+        {
+            orderText.text = "";
+        }
+        else
+        {
+            orderText.text = OrdinalNumbers.AddOrdinal(player.order);
+        }
         TextMeshProUGUI overallText = playerObject.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
         overallText.text = Mathf.FloorToInt(player.GetOverall()).ToString();   //Overall
         for (int i = 0; i < Player.statRange.Count; ++i)
@@ -842,6 +850,15 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI nameText = playerObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         nameText.text = player.playerData.GetData(PlayerData.PP.NAME);   //Name
         playerObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = player.playerData.GetData(PlayerData.PP.NUMBER).ToString(); //Number
+        TextMeshProUGUI orderText = playerObject.transform.GetChild(8).GetComponent<TextMeshProUGUI>(); //Batting/StartPitching order
+        if (player.order == -1)
+        {
+            orderText.text = "";
+        }
+        else
+        {
+            orderText.text = OrdinalNumbers.AddOrdinal(player.order);
+        }
         TextMeshProUGUI overallText = playerObject.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
         overallText.text = Mathf.FloorToInt(player.GetOverall()).ToString();   //Overall
         for (int i = 0; i < Player.statRange.Count; ++i)

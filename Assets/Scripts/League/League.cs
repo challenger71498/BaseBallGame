@@ -121,11 +121,42 @@ public class League
                 continue;
             }
             int remainder = gamesMade % 9;
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 1), new Game(teams[0].Value, teams[circularNine(1, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 2), new Game(teams[circularNine(9, remainder)].Value, teams[circularNine(2, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 3), new Game(teams[circularNine(8, remainder)].Value, teams[circularNine(3, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 4), new Game(teams[circularNine(7, remainder)].Value, teams[circularNine(4, remainder)].Value, currentDate));
-            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 5), new Game(teams[circularNine(6, remainder)].Value, teams[circularNine(5, remainder)].Value, currentDate));
+            int pitchingOrder = gamesMade % 5;
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 1), new Game(
+                teams[0].Value, 
+                teams[circularNine(1, remainder)].Value, 
+                teams[0].Value.startPitchOrder[pitchingOrder], 
+                teams[circularNine(1, remainder)].Value.startPitchOrder[pitchingOrder], 
+                currentDate
+                ));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 2), new Game(
+                teams[circularNine(9, remainder)].Value, 
+                teams[circularNine(2, remainder)].Value,
+                teams[circularNine(9, remainder)].Value.startPitchOrder[pitchingOrder],
+                teams[circularNine(2, remainder)].Value.startPitchOrder[pitchingOrder],
+                currentDate
+                ));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 3), new Game(
+                teams[circularNine(8, remainder)].Value,
+                teams[circularNine(3, remainder)].Value,
+                teams[circularNine(8, remainder)].Value.startPitchOrder[pitchingOrder],
+                teams[circularNine(3, remainder)].Value.startPitchOrder[pitchingOrder],
+                currentDate
+                ));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 4), new Game(
+                teams[circularNine(7, remainder)].Value,
+                teams[circularNine(4, remainder)].Value,
+                teams[circularNine(7, remainder)].Value.startPitchOrder[pitchingOrder],
+                teams[circularNine(4, remainder)].Value.startPitchOrder[pitchingOrder],
+                currentDate
+                ));
+            SeasonGames.Add(new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 5), new Game(
+                teams[circularNine(6, remainder)].Value,
+                teams[circularNine(5, remainder)].Value,
+                teams[circularNine(6, remainder)].Value.startPitchOrder[pitchingOrder],
+                teams[circularNine(5, remainder)].Value.startPitchOrder[pitchingOrder],
+                currentDate
+                ));
             //This is a bunch of lines for debug. :(
             //Debug.Log("_____________________________________________________");
             //Debug.Log("0: " + teams[0].Value.teamData.GetData(TeamData.TP.NAME) + " " + circularNine(1, remainder) + " " + teams[circularNine(1, remainder)].Value.teamData.GetData(TeamData.TP.NAME));
@@ -162,8 +193,6 @@ public class League
             {
                 break;
             }
-
-            Debug.Log(index);
 
             if (SeasonGames[keyList[index]].home == team || SeasonGames[keyList[index]].away == team)
             {

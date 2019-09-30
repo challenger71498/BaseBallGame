@@ -196,4 +196,76 @@ public class RandomPlayerGenerator
 
         return myStartingMembers;
     }
+
+    /// <summary>
+    /// Choose 8 batters randomly in my team, and add it to battingOrder list.
+    /// </summary>
+    /// <param name="myPlayers"></param>
+    /// <returns></returns>
+    public static List<Batter> CreateBattingOrder(List<KeyValuePair<int, Player>> myPlayers)
+    {
+        List<Batter> batters = new List<Batter>();
+        
+        while(batters.Count < 8)
+        {
+            Player player = myPlayers[UnityEngine.Random.Range(0, myPlayers.Count)].Value;
+            if (!player.isStartingMember)
+            {
+                continue;
+            }
+            else if (player.GetType() != typeof(Batter))
+            {
+                continue;
+            }
+            else if (batters.Find(delegate(Batter batter){ return player == batter; }) != null)
+            {
+                continue;
+            }
+            else
+            {
+                batters.Add((Batter)player);
+                player.order = batters.Count;
+            }
+        }
+
+        return batters;
+    }
+
+    /// <summary>
+    /// Choose 5 pitcher randomly in my team, and add it to startPitchingOrder list.
+    /// </summary>
+    /// <param name="myPlayers"></param>
+    /// <returns></returns>
+    public static List<Pitcher> CreateStartPitchingOrder(List<KeyValuePair<int, Player>> myPlayers)
+    {
+        List<Pitcher> pitchers = new List<Pitcher>();
+
+        while(pitchers.Count < 5)
+        {
+            Player player = myPlayers[UnityEngine.Random.Range(0, myPlayers.Count)].Value;
+            if(!player.isStartingMember)
+            {
+                continue;
+            }
+            else if (player.GetType() != typeof(Pitcher))
+            {
+                continue;
+            }
+            else if (player.playerData.GetData(PlayerData.PP.POSITION) != Player.Position.STARTER_PITCHER)
+            {
+                continue;
+            }
+            else if (pitchers.Find(delegate (Pitcher pitcher) { return player == pitcher; }) != null)
+            {
+                continue;
+            }
+            else
+            {
+                pitchers.Add((Pitcher)player);
+                player.order = pitchers.Count;
+            }
+        }
+
+        return pitchers;
+    }
 }
