@@ -5,10 +5,10 @@ using UnityEngine;
 public class TotalMovement : MonoBehaviour
 {
     public GameObject ballObj;
-    public GameObject PlayerObj1, PlayerObj2, PlayerObj3, PlayerObj4, PlayerObj5, PlayerObj6, PlayerObj7, PlayerObj8, PlayerObj9;
-    public inGamePlayer inGam1, inGam2, inGam3, inGam4, inGam5, inGam6, inGam7, inGam8, inGam9;
-    public List<inGamePlayer> inGams = new List<inGamePlayer>();
-    public List<GameObject> inGamObjs = new List<GameObject>();
+    //public GameObject PlayerObj1, PlayerObj2, PlayerObj3, PlayerObj4, PlayerObj5, PlayerObj6, PlayerObj7, PlayerObj8, PlayerObj9; 리스트만 사용하면 됩니다.
+    //public inGamePlayer inGam1, inGam2, inGam3, inGam4, inGam5, inGam6, inGam7, inGam8, inGam9;
+    [HideInInspector] public List<inGamePlayer> inGams;
+    public List<GameObject> inGamObjs;
 
     public float BallRealtime = 0;
     public float RealTime =0; //경기장 시간
@@ -39,7 +39,7 @@ public class TotalMovement : MonoBehaviour
 
 
 
-    public void calculatePlayer(inGamePlayer G) //공을 잡을 수비수G의 위치 계산, 플레이어의 시간은 고려하지 않았음
+    public void CalculatePlayer(inGamePlayer G) //공을 잡을 수비수G의 위치 계산, 플레이어의 시간은 고려하지 않았음
     {
         //---------------변수-------------------
         int i;
@@ -82,30 +82,32 @@ public class TotalMovement : MonoBehaviour
         }
     }
 
-    void setInGamePlayerList() //순서대로, 포수-투수-1루수-우익수-2루수-중견수-유격수-좌익수-3루수 순서(방향에 따른 정렬)
+    void SetInGamePlayerList() //순서대로, 포수-투수-1루수-우익수-2루수-중견수-유격수-좌익수-3루수 순서(방향에 따른 정렬)
     {
-        inGams.Add(inGam1); //포수
-        inGams.Add(inGam2); //투수
-        inGams.Add(inGam3); //1루수
-        inGams.Add(inGam4); //우익수
-        inGams.Add(inGam5); //2루수
-        inGams.Add(inGam6); //중견수
-        inGams.Add(inGam7); //유격수
-        inGams.Add(inGam8); //좌익수
-        inGams.Add(inGam9); //3루수
+        //여기서 초기화 하지 않고 리스트에서 바로 초기화함.
+        //inGamObjs.Add(PlayerObj1);
+        //inGamObjs.Add(PlayerObj2);
+        //inGamObjs.Add(PlayerObj3);
+        //inGamObjs.Add(PlayerObj4);
+        //inGamObjs.Add(PlayerObj5);
+        //inGamObjs.Add(PlayerObj6);
+        //inGamObjs.Add(PlayerObj7);
+        //inGamObjs.Add(PlayerObj8);
+        //inGamObjs.Add(PlayerObj9);
 
-        inGamObjs.Add(PlayerObj1);
-        inGamObjs.Add(PlayerObj2);
-        inGamObjs.Add(PlayerObj3);
-        inGamObjs.Add(PlayerObj4);
-        inGamObjs.Add(PlayerObj5);
-        inGamObjs.Add(PlayerObj6);
-        inGamObjs.Add(PlayerObj7);
-        inGamObjs.Add(PlayerObj8);
-        inGamObjs.Add(PlayerObj9);
+        //inGams.Add(inGam1); //포수
+        //inGams.Add(inGam2); //투수
+        //inGams.Add(inGam3); //1루수
+        //inGams.Add(inGam4); //우익수
+        //inGams.Add(inGam5); //2루수
+        //inGams.Add(inGam6); //중견수
+        //inGams.Add(inGam7); //유격수
+        //inGams.Add(inGam8); //좌익수
+        //inGams.Add(inGam9); //3루수
 
-        for (int i = 0; i < inGams.Count; i++)
+        for (int i = 0; i < inGamObjs.Count; i++)
         {
+            inGams.Add(inGamObjs[i].GetComponent<inGamePlayer>());  //InGame Object에서 InGamePlayer 인스턴스를 inGams에 추가함.
             RectTransform Rt = inGams[i].GetComponent<RectTransform>();
             Rt.anchoredPosition = inGams[i].location * 4;
             inGams[i].setLocation(Rt.anchoredPosition);
@@ -114,7 +116,7 @@ public class TotalMovement : MonoBehaviour
         //Rt.anchoredPosition = inGam1.location;
     }
 
-    int ballCatchPlayer()
+    int BallCatchPlayer()
     {
         //---------------변수-------------------
         float ShortestDistance = 1000;
@@ -164,15 +166,16 @@ public class TotalMovement : MonoBehaviour
     // Start is called before the first frame update------------------------------------------------------------------------------
     void Start()
     {
-        setInGamePlayerList();//선수들을 리스트에 정렬
+        inGams = new List<inGamePlayer>();
+        SetInGamePlayerList();//선수들을 리스트에 정렬
         Calculate();//구르기 전까지의 공의 위치 저장
 
         for(int i = 0; i < newBALL.GetListCount(); i++) //검사용
         {
             Debug.Log(i + " : " +newBALL.LandingLocations[i]  + " : " + newBALL.TimeList[i]+ " : " + newBALL.MaxHeightList[i]);
         }
-        FirstCatchPlayerNumber = ballCatchPlayer();
-        calculatePlayer(inGams[FirstCatchPlayerNumber]);
+        FirstCatchPlayerNumber = BallCatchPlayer();
+        CalculatePlayer(inGams[FirstCatchPlayerNumber]);
     }
 
     // Update is called once per frame------------------------------------------------------------------------------
