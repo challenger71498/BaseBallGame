@@ -23,10 +23,10 @@ public class TotalMovement : MonoBehaviour
 
     void Calculate()
     {
+
         ballObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 1, 0);
 
-        newBALL.Hit(38, 1, true);
-
+        newBALL.Hit(35, 1, true);
         newBALL.FirstFly();
         do
         {
@@ -34,9 +34,55 @@ public class TotalMovement : MonoBehaviour
             newBALL.Bounding();
         } while (newBALL.GetLastMaxHeight()>0.1f);
         newBALL.GuLuneDaTilEnd(1.9f);
-
     }
 
+
+    public int BallCatchPlayer2()
+    {
+        //---------------변수-------------------
+        float tempFullTime = 0;
+        float tempDistance = 0;
+        int tempNumber = -1;
+        float ShortTime = 1000;
+
+        //---------------내용-------------------
+        for (int i = 0; i <= 8; i++)
+        {
+            tempFullTime = 0;
+            for(int j= 0; j < newBALL.LandingLocations.Count-1; j++)// -1 이유: LandingLocations는 타 리스트보다 크기가 1 더 크다
+            {
+                tempFullTime += newBALL.TimeList[j];
+                tempDistance = Vector2.Distance(inGams[i].locations[0], newBALL.LandingLocations[j + 1]);
+                if (tempDistance <= tempFullTime * inGams[i].RealSpeed)
+                {
+                    if(ShortTime > tempFullTime)
+                    {
+                        tempNumber = i; //선수 지정
+                        ShortTime = tempFullTime;
+                    }
+                }
+
+            }
+        }
+        if (tempNumber == -1)
+        {
+            float ShortTime2 = 1000;
+            for(int i = 0; i < 9; i++)
+            {
+                tempDistance = Vector2.Distance(inGams[i].locations[0], newBALL.LandingLocations[newBALL.LandingLocations.Count - 1]);
+                if(ShortTime2 > tempDistance / inGams[i].RealSpeed)
+                {
+                    ShortTime2 = tempDistance / inGams[i].RealSpeed;
+                    tempNumber = i;
+                }
+            }
+            return tempNumber;
+        }
+        else
+        {
+            return tempNumber;
+        }
+    }
 
 
     public void CalculatePlayer(inGamePlayer G) //공을 잡을 수비수G의 위치 계산, 플레이어의 시간은 고려하지 않았음
@@ -195,6 +241,7 @@ public class TotalMovement : MonoBehaviour
     // Start is called before the first frame update------------------------------------------------------------------------------
     void Start()
     {
+        Debug.Log("Start!");
         inGams = new List<inGamePlayer>();
         SetInGamePlayerList();//선수들을 리스트에 정렬
         Calculate();//구르기 전까지의 공의 위치 저장
@@ -203,7 +250,8 @@ public class TotalMovement : MonoBehaviour
         {
             Debug.Log(i + " : " +newBALL.LandingLocations[i]  + " : " + newBALL.TimeList[i]+ " : " + newBALL.MaxHeightList[i]);
         }
-        FirstCatchPlayerNumber = BallCatchPlayer();
+        FirstCatchPlayerNumber = BallCatchPlayer2();
+        
         CalculatePlayer(inGams[FirstCatchPlayerNumber]);
     }
 
@@ -240,6 +288,7 @@ public class TotalMovement : MonoBehaviour
 
         //-------------------------------------------------------------------------------------------------------------------------선수
         //실제로는 inGamePleyer에서 GameObject를 받아와서 그걸로 해야함, 여기서는 일단 방법을 몰라 임의의 GameObject에서 실행
+        
         RectTransform Prt = inGamObjs[FirstCatchPlayerNumber].GetComponent<RectTransform>(); //에러나면 다 0번째 element로 바꿔라
         inGams[FirstCatchPlayerNumber].PlusDeltaTime(Time.deltaTime);  //level을 대체할 변수 만들어야 함
 
