@@ -115,11 +115,12 @@ public class Game
     /// <summary>
     /// A data structure class for score boarding.
     /// </summary>
+    [Serializable]
     public class ScoreBoard
     {
         public ScoreBoard()
         {
-            inningScores = new List<int>();
+            inningScores = new SerializableList<int>();
             R = 0;
             H = 0;
             E = 0;
@@ -127,9 +128,9 @@ public class Game
 
         public void AddRun(int inning)
         {
-            if (inningScores.Count < inning)
+            if (inningScores.d.Count < inning)
             {
-                inningScores.Add(1);
+                inningScores.d.Add(1);
             }
             else
             {
@@ -137,7 +138,7 @@ public class Game
             }
         }
 
-        public List<int> inningScores;
+        public SerializableList<int> inningScores;
         public int R;
         public int H;
         public int E;
