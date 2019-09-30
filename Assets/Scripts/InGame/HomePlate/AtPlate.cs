@@ -4,15 +4,6 @@ using UnityEngine;
 
 public static class AtPlate
 {
-    public static Game game = InGameManager.game;
-    public static Team currentAttack = InGameManager.currentAttack;
-
-    public static Batter[] runnerInBases = InGameManager.runnerInBases;
-    public static Batter currentBatter = InGameManager.currentBatter;
-    public static Pitcher currentPitcher = InGameManager.currentPitcher;
-    public static List<Batter> homeBattingOrder = InGameManager.homeBattingOrder;
-    public static List<Batter> awayBattingOrder = InGameManager.awayBattingOrder;
-
     /// <summary>
     /// Determines whether swing or not.
     /// </summary>
@@ -21,7 +12,7 @@ public static class AtPlate
     {
         if (isRandom)
         {
-            return UnityEngine.Random.Range(0, 1) < 0.5f;
+            return UnityEngine.Random.Range(0f, 1f) < 0.2f;
         }
         else
         {
@@ -37,6 +28,7 @@ public static class AtPlate
         if (InGameManager.strikeCount < 2)
         {
             InGameManager.strikeCount++;
+            Debug.Log("STRIKE");
         }
         else
         {
@@ -50,26 +42,34 @@ public static class AtPlate
     /// </summary>
     public static void AddBall(bool isHBP = false, bool isIBB = false)
     {
-        if (InGameManager.ballCount < 3)
+        if (isHBP)
         {
-            InGameManager.ballCount++;
+            InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.HB);
+            InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.HBP);
+            BaseRunning.AdvanceRunner(1);
+            ClearCount();
+            Debug.Log("HBP");
+        }
+        else if (isIBB)
+        {
+            InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.IBB_PIT);
+            InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.IBB_BAT);
+            BaseRunning.AdvanceRunner(1);
+            ClearCount();
+            Debug.Log("IBB");
+        }
+        else if (InGameManager.ballCount >= 3)
+        {
+            InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.BB_PIT);
+            InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.BB_BAT);
+            BaseRunning.AdvanceRunner(1);
+            ClearCount();
+            Debug.Log("BASE ON BALLS");
         }
         else
         {
-            BaseRunning.AdvanceRunner(1);
-            if (isHBP)
-            {
-                currentPitcher.stats.SetStat(1, PlayerStatistics.PS.HB);
-                currentBatter.stats.SetStat(1, PlayerStatistics.PS.HBP);
-            }
-            if (isIBB)
-            {
-                currentPitcher.stats.SetStat(1, PlayerStatistics.PS.IBB_PIT);
-                currentBatter.stats.SetStat(1, PlayerStatistics.PS.IBB_BAT);
-            }
-            currentPitcher.stats.SetStat(1, PlayerStatistics.PS.BB_PIT);
-            currentBatter.stats.SetStat(1, PlayerStatistics.PS.BB_BAT);
-            ClearCount();
+            InGameManager.ballCount++;
+            Debug.Log("BALL");
         }
     }
 
@@ -83,37 +83,43 @@ public static class AtPlate
     /// </summary>
     public static void AddOut(Out outs)
     {
+        //Clears count.
+        ClearCount();
+
         //Statistics.
-        currentPitcher.stats.SetStat(0.1f, PlayerStatistics.PS.IP);
+        InGameManager.currentPitcher.stats.SetStat(0.1f, PlayerStatistics.PS.IP);
 
         //Determine which out happened, and apply appropriate stats.
         //Strikout
         if (outs == Out.STRIKEOUT)
         {
-            currentPitcher.stats.SetStat(1, PlayerStatistics.PS.K_PIT);
-            currentBatter.stats.SetStat(1, PlayerStatistics.PS.K_BAT);
+            InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.K_PIT);
+            InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.K_BAT);
+            Debug.Log("STRIKEOUT");
         }
         else if (outs == Out.GROUND_BALL)
         {
-            currentPitcher.stats.SetStat(1, PlayerStatistics.PS.GB_PIT);
-            currentBatter.stats.SetStat(1, PlayerStatistics.PS.GB_BAT);
+            InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.GB_PIT);
+            InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.GB_BAT);
+            Debug.Log("GROUNDBALL");
         }
         else if (outs == Out.FLY_BALL)
         {
-            currentPitcher.stats.SetStat(1, PlayerStatistics.PS.FB_PIT);
-            currentBatter.stats.SetStat(1, PlayerStatistics.PS.FB_BAT);
+            InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.FB_PIT);
+            InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.FB_BAT);
+            Debug.Log("FLYBALL");
         }
 
         //Advance Batter.
         if (InGameManager.outCount < 2)
         {
             InGameManager.outCount++;
-            if (currentAttack == game.home)
+            if (InGameManager.currentAttack == InGameManager.game.home)
             {
                 Innings.AdvanceBattingOrder(ref InGameManager.homeCurrentBattersIndex);
                 AdvanceBatterToPlate();
             }
-            else if (currentAttack == game.away)
+            else if (InGameManager.currentAttack == InGameManager.game.away)
             {
                 Innings.AdvanceBattingOrder(ref InGameManager.awayCurrentBattersIndex);
                 AdvanceBatterToPlate();
@@ -121,7 +127,14 @@ public static class AtPlate
         }
         else
         {
-            Innings.AdvanceInning();
+            if(InGameManager.isBottom)
+            {
+                Innings.AdvanceInning();
+            }
+            else
+            {
+                Innings.AdvanceInning();
+            }
         }
     }
 
@@ -139,22 +152,22 @@ public static class AtPlate
     /// </summary>
     public static void AdvanceBatterToPlate()
     {
-        if (currentAttack == game.home)
+        if (InGameManager.currentAttack == InGameManager.game.home)
         {
-            runnerInBases[0] = homeBattingOrder[InGameManager.homeCurrentBattersIndex];
-            currentBatter = runnerInBases[0];
+            InGameManager.runnerInBases[0] = InGameManager.homeBattingOrder[InGameManager.homeCurrentBattersIndex];
+            InGameManager.currentBatter = InGameManager.runnerInBases[0];
         }
-        else if (currentAttack == game.away)
+        else if (InGameManager.currentAttack == InGameManager.game.away)
         {
-            runnerInBases[0] = awayBattingOrder[InGameManager.awayCurrentBattersIndex];
-            currentBatter = runnerInBases[0];
+            InGameManager.runnerInBases[0] = InGameManager.awayBattingOrder[InGameManager.awayCurrentBattersIndex];
+            InGameManager.currentBatter = InGameManager.runnerInBases[0];
         }
         else
         {
             throw new System.Exception("There is no currentAttack team matching any home or away team. Check currentAttack variable to fix.");
         }
 
-        currentBatter.stats.SetStat(1, PlayerStatistics.PS.PA);
-        currentPitcher.stats.SetStat(1, PlayerStatistics.PS.BF);
+        InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.PA);
+        InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.BF);
     }
 }

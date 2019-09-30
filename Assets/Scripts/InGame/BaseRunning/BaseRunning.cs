@@ -4,13 +4,6 @@ using UnityEngine;
 
 public static class BaseRunning
 {
-    public static Game game = InGameManager.game;
-    public static Team currentAttack = InGameManager.currentAttack;
-
-    public static Batter[] runnerInBases = InGameManager.runnerInBases;
-    public static Batter currentBatter = InGameManager.currentBatter;
-    public static Pitcher currentPitcher = InGameManager.currentPitcher;
-    
     /// <summary>
     /// Determines whether attempt to steal base or not.
     /// </summary>
@@ -20,7 +13,7 @@ public static class BaseRunning
     {
         if (isRandom)
         {
-            return UnityEngine.Random.Range(0, 1) < 0.5f;
+            return false;
         }
         else
         {
@@ -38,30 +31,30 @@ public static class BaseRunning
         {
             if (runnerBase == 3)
             {
-                RunnerToHomePlate(runnerInBases[3]);
+                RunnerToHomePlate(InGameManager.runnerInBases[3]);
             }
-
-            if (runnerInBases[runnerBase + 1] != null)
+            else if (InGameManager.runnerInBases[runnerBase + 1] != null)
             {
                 Advance(runnerBase + 1);
             }
-            runnerInBases[runnerBase + 1] = runnerInBases[runnerBase];
-            runnerInBases[runnerBase] = null;
+
+            InGameManager.runnerInBases[runnerBase + 1] = InGameManager.runnerInBases[runnerBase];
+            InGameManager.runnerInBases[runnerBase] = null;
         }
 
         if (includeBatter)
         {
-            runnerInBases[0] = currentBatter;
+            InGameManager.runnerInBases[0] = InGameManager.currentBatter;
             for (int i = 0; i < amount; ++i)
             {
-                Advance(amount);
+                Advance(i);
             }
         }
         else
         {
             for (int i = 1; i <= amount; ++i)
             {
-                Advance(amount);
+                Advance(i);
             }
         }
     }
@@ -72,15 +65,15 @@ public static class BaseRunning
     /// <param name="batter"></param>
     public static void RunnerToHomePlate(Batter batter)
     {
-        runnerInBases[3] = null;
+        InGameManager.runnerInBases[3] = null;
         //Add score by 1;
-        if (currentAttack == game.home)
+        if (InGameManager.currentAttack == InGameManager.game.home)
         {
-            game.homeScoreBoard.AddRun(1);
+            InGameManager.game.homeScoreBoard.AddRun(1);
         }
-        else if (currentAttack == game.away)
+        else if (InGameManager.currentAttack == InGameManager.game.away)
         {
-            game.awayScoreBoard.AddRun(1);
+            InGameManager.game.awayScoreBoard.AddRun(1);
         }
         else
         {
@@ -92,10 +85,10 @@ public static class BaseRunning
         if (isEarnedRun)
         {
             //Earned Run
-            currentPitcher.stats.SetStat(1, PlayerStatistics.PS.ER);
+            InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.ER);
         }
         //Runs Batted In
-        currentBatter.stats.SetStat(1, PlayerStatistics.PS.RBI);
+        InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.RBI);
         //Run
         batter.stats.SetStat(1, PlayerStatistics.PS.R);
     }

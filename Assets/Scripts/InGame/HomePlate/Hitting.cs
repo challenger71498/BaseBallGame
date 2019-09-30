@@ -17,20 +17,26 @@ public static class Hitting
     /// <param name="hit"></param>
     public static void AddHit(Hit hit, bool isITPHR = false)
     {
+        //Clears count.
+        AtPlate.ClearCount();
+
         if (hit == Hit.SINGLE)
         {
             currentBatter.stats.SetStat(1, PlayerStatistics.PS.SIN);
             BaseRunning.AdvanceRunner(1);
+            Debug.Log("SINGLE");
         }
         else if (hit == Hit.DOUBLE)
         {
             currentBatter.stats.SetStat(1, PlayerStatistics.PS.DBL);
             BaseRunning.AdvanceRunner(2);
+            Debug.Log("DOUBLE");
         }
         else if (hit == Hit.TRIPLE)
         {
             currentBatter.stats.SetStat(1, PlayerStatistics.PS.TRP);
             BaseRunning.AdvanceRunner(3);
+            Debug.Log("TRIPLE");
         }
         else if (hit == Hit.HOME_RUN)
         {
@@ -40,6 +46,7 @@ public static class Hitting
                 currentBatter.stats.SetStat(1, PlayerStatistics.PS.ITPHR);
             }
             BaseRunning.AdvanceRunner(4);
+            Debug.Log("HOME RUN");
         }
     }
     /// <summary>
@@ -50,7 +57,7 @@ public static class Hitting
     {
         if (isRandom)
         {
-            return UnityEngine.Random.Range(0, 1) < 0.5f;
+            return UnityEngine.Random.Range(0f, 1f) < 0.5f;
         }
         else
         {

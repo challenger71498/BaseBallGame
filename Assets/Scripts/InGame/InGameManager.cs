@@ -23,6 +23,7 @@ public class InGameManager : MonoBehaviour
     public static int homeCurrentBattersIndex;
     public static int awayCurrentBattersIndex;
 
+    //public static Queue<Batter> runnerInBases;
     public static Batter[] runnerInBases = { null, null, null, null };
     public static bool[] stealingAttempts = { false, false, false, false };
     public static int strikeCount;
@@ -32,10 +33,16 @@ public class InGameManager : MonoBehaviour
     public void Start()
     {
         InitializeGame();
+        
+        StartCoroutine(TurnDelayed(1f));
+    }
 
-        while(!isGameEnd)
+    IEnumerator TurnDelayed(float delayAmount = 1f)
+    {
+        while (!isGameEnd)
         {
             Turn();
+            yield return new WaitForSeconds(delayAmount);
         }
     }
 
@@ -52,12 +59,13 @@ public class InGameManager : MonoBehaviour
 
         //Setting batting orders.
         homeBattingOrder = game.home.battingOrder.d;
-        homeCurrentBattersIndex = 1;
+        homeCurrentBattersIndex = 0;
         awayBattingOrder = game.away.battingOrder.d;
-        awayCurrentBattersIndex = 1;
+        awayCurrentBattersIndex = 0;
 
         //Setting a pitcher.
         currentPitcher = game.awayStarterPitcher;
+        otherPitcher = game.homeStarterPitcher;
         strikeCount = 0;
         ballCount = 0;
         outCount = 0;
@@ -71,8 +79,15 @@ public class InGameManager : MonoBehaviour
     /// </summary>
     public void Turn()
     {
+        //InningPanel
+        inGameObjects.inningPanel.UpdateLayout();
+
+        //OutPanel
         inGameObjects.outPanelLayout.ClearLayout();
         inGameObjects.outPanelLayout.UpdateLayout();
+
+        //BasePanel
+        inGameObjects.basePanel.UpdateLayout();
 
         //Initializes stealingAttempts array to false.
         for (int i = 0; i < 4; ++i)
@@ -206,32 +221,32 @@ public class InGameManager : MonoBehaviour
             int random = UnityEngine.Random.Range(0, 10);
 
             //FlyOut
-            if (0 <= random || random <= 3)
+            if (0 <= random && random <= 3)
             {
                 AtPlate.AddOut(AtPlate.Out.FLY_BALL);
             }
             //GroundBall
-            else if (4 <= random || random <= 7)
+            else if (4 <= random && random <= 7)
             {
                 AtPlate.AddOut(AtPlate.Out.GROUND_BALL);
             }
             //Hit
-            else if (8 <= random || random <= 9)
+            else if (8 <= random && random <= 9)
             {
                 random = UnityEngine.Random.Range(0, 10);
-                if (0 <= random || random <= 4)
+                if (0 <= random && random <= 4)
                 {
                     Hitting.AddHit(Hitting.Hit.SINGLE);
                 }
-                else if (5 <= random || random <= 7)
+                else if (5 <= random && random <= 7)
                 {
                     Hitting.AddHit(Hitting.Hit.DOUBLE);
                 }
-                else if (8 <= random || random <= 8)
+                else if (8 <= random && random <= 8)
                 {
                     Hitting.AddHit(Hitting.Hit.TRIPLE);
                 }
-                else if (9 <= random || random <= 9)
+                else if (9 <= random && random <= 9)
                 {
                     Hitting.AddHit(Hitting.Hit.HOME_RUN);
                 }

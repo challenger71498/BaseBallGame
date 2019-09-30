@@ -53,6 +53,21 @@ public static class Innings
             throw new System.NullReferenceException("Error: There is no appropriate team matching. Check currentAttack and Game instance again.");
         }
 
+        if(InGameManager.isBottom)
+        {
+            InGameManager.isBottom = false;
+            InGameManager.currentInning++;
+        }
+        else
+        {
+            InGameManager.isBottom = true;
+        }
+
+        for(int i = 0; i < 4; ++i)
+        {
+            InGameManager.runnerInBases[i] = null;
+        }
+
         InGameManager.outCount = 0;
         AtPlate.ClearCount();
     }
