@@ -25,12 +25,12 @@ public class TotalMovement : MonoBehaviour
     {
         ballObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 1, 0);
 
-        newBALL.Hit(45, 1, true);
+        newBALL.Hit(38, 1, true);
 
         newBALL.FirstFly();
         do
         {
-            newBALL.NerfPower(0.3f);
+            newBALL.NerfPower(0.5f);
             newBALL.Bounding();
         } while (newBALL.GetLastMaxHeight()>0.1f);
         newBALL.GuLuneDaTilEnd(1.9f);
@@ -82,6 +82,39 @@ public class TotalMovement : MonoBehaviour
         }
     }
 
+    //테스트
+
+    public void calculatePlayer2(List<inGamePlayer> Gs) //공을 잡을 수비수G의 위치 계산, 플레이어의 시간은 고려하지 않았음
+    {
+        //---------------변수-------------------
+        int i, CatchPlayerNumber;
+        bool isCatch = false; 
+        Vector2 playerPlace;
+        float tempfullTime = 0; //realfullTime을 담기 전에 비교할 변수
+        float tempDistance = 0;
+        float realfullTime = 0; //정해진 수비수의 공을 잡을때까지의 시간
+        int tempCatchTime = -1; //CatchTime을 최종적으로 담기 전 비교할 변수
+        //---------------내용-------------------
+        if(newBALL.BallPowerList[0].y >=0 && newBALL.BallPowerList[0].y <= 30)
+        {
+            for (int a = 1; a <= 5; a++) //선수 전체 비교
+            {
+                
+            }
+        }
+        else if(newBALL.BallPowerList[0].y > 30 && newBALL.BallPowerList[0].y <= 60)
+        {
+
+        }
+        else if(newBALL.BallPowerList[0].y > 60 && newBALL.BallPowerList[0].y <= 90)
+        {
+
+        }
+    }
+
+    //
+
+
     void setInGamePlayerList() //순서대로, 포수-투수-1루수-우익수-2루수-중견수-유격수-좌익수-3루수 순서(방향에 따른 정렬)
     {
         inGams.Add(inGam1); //포수
@@ -126,7 +159,7 @@ public class TotalMovement : MonoBehaviour
             for(int i =2; i <= 5; i++)
             {
                 tempDistance = Vector2.Distance(newBALL.LandingLocations[1], inGams[i].locations[0]);
-                
+                Debug.Log("선수위치: " + inGams[i].locations[0] + " 공과의 거리차 :" + tempDistance);
                 if(ShortestDistance > tempDistance)
                 {
                     ShortestDistance = tempDistance;
