@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InGameObjects : MonoBehaviour
 {
@@ -10,4 +11,13 @@ public class InGameObjects : MonoBehaviour
     public Image[] strikes;
     public Image[] balls;
     public Image[] outs;
+
+    [Header("InningPanel")]
+    public InningPanel inningPanel;
+    public TextMeshProUGUI inningText;
+    public Image inningImage;
+
+    [Header("BasePanel")]
+    public BasePanel basePanel;
+    public Image[] bases;
 }
