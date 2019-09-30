@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class Innings
 {
@@ -57,7 +58,7 @@ public static class Innings
     }
 
     /// <summary>
-    /// Advance batting order by 1.
+    /// Advances batting order by 1.
     /// </summary>
     /// <param name="index"></param>
     public static void AdvanceBattingOrder(ref int index)
@@ -72,6 +73,10 @@ public static class Innings
     public static void EndGame()
     {
         game.isPlayed = true;
-        //Show a summary tab after finishes a game.
+        InGameManager.isGameEnd = true;
+        //Shows a summary tab after finishes a game.
+
+        //TEMPORARILY Changes scene to main.
+        SceneManager.LoadScene("Main");
     }
 }
