@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class OutPanelLayout : MonoBehaviour
 {
-    InGameObjects inGameObjects;
+    public InGameObjects inGameObjects;
 
     public void UpdateLayout()
     {
-        inGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
-
         for(int i = 0; i < InGameManager.strikeCount; ++i)
         {
             inGameObjects.strikes[i].color = Colors.yellowDark;
@@ -26,7 +24,7 @@ public class OutPanelLayout : MonoBehaviour
 
     public void ClearLayout()
     {
-        for(int i = 0; i < 2; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             inGameObjects.strikes[i].color = Color.white;
             inGameObjects.outs[i].color = Color.white;
