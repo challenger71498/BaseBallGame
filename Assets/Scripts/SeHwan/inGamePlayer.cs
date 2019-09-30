@@ -6,12 +6,21 @@ using UnityEngine;
 public class inGamePlayer : MonoBehaviour
 {
     public Vector2 location;
+    public List<Vector2> locations;
     public Player player;
+    public string PlayerPosition; //이건 플레이어의 좌표가 아니라 투수, 포수와 같은 역할을 나타냄
     public float AbsPower, AbsSpeed, Absaccuracy, RealPower, RealSpeed, RealAccuracy;
     float playerTime =0 ;
     float DistanceTime = 0; //특정 거리 이동시 걸리는 시간
+    int playerCallTime = -1; //인덱스로 사용되며, 플레이어의 위치리스트에서 알맞은 위치를 가져오기 위해 사용됨
    
-    void setLocation(Vector2 loc)  //위치 변경
+    public void setLocation(Vector2 loc)  //변경된 위치를 리스트에 저장
+    {
+        locations.Add(location);
+    }
+
+    //이건 안쓸수도 있겄다
+    void setBaseLocation(Vector2 loc) //이건 전략(전방배치 등)으로 인해 처음 위치가 변한 경우 위치리스트에 추가하기 전 사용된다.(즉, 처음에 이걸 사용 후 setLocation 사용할것 
     {
         location = loc;
     }

@@ -7,11 +7,13 @@ public class TotalMovement : MonoBehaviour
     public GameObject ballObj;
     public GameObject PlayerObj1, PlayerObj2, PlayerObj3, PlayerObj4, PlayerObj5, PlayerObj6, PlayerObj7, PlayerObj8, PlayerObj9;
     public inGamePlayer inGam1, inGam2, inGam3, inGam4, inGam5, inGam6, inGam7, inGam8, inGam9;
-     public List<inGamePlayer> inGams = new List<inGamePlayer>();   
+    public List<inGamePlayer> inGams = new List<inGamePlayer>();
+    public List<GameObject> inGamObjs = new List<GameObject>();
 
     public float BallRealtime = 0;
-    public float RealTime =0;
+    public float RealTime =0; //경기장 시간
 
+    int FirstCatchPlayerNumber = -1;
     int CatchTime = -1; //공이 몇번째에 잡히는가? index로 쓰이기 때문에 -1부터 시작
     int level = 0;
 
@@ -23,7 +25,7 @@ public class TotalMovement : MonoBehaviour
     {
         ballObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 1, 0);
 
-        newBALL.Hit(35, 1, true);
+        newBALL.Hit(45, 1, true);
 
         newBALL.FirstFly();
         do
@@ -80,34 +82,86 @@ public class TotalMovement : MonoBehaviour
         }
     }
 
-    void setInGamePlayerList()
+    void setInGamePlayerList() //순서대로, 포수-투수-1루수-우익수-2루수-중견수-유격수-좌익수-3루수 순서(방향에 따른 정렬)
     {
+        inGams.Add(inGam1); //포수
+        inGams.Add(inGam2); //투수
+        inGams.Add(inGam3); //1루수
+        inGams.Add(inGam4); //우익수
+        inGams.Add(inGam5); //2루수
+        inGams.Add(inGam6); //중견수
+        inGams.Add(inGam7); //유격수
+        inGams.Add(inGam8); //좌익수
+        inGams.Add(inGam9); //3루수
 
-        inGams.Add(inGam1);
-        inGams.Add(inGam2);
-        inGams.Add(inGam3);
-        inGams.Add(inGam4);
-        inGams.Add(inGam5);
-        inGams.Add(inGam6);
-        inGams.Add(inGam7);
-        inGams.Add(inGam8);
-        inGams.Add(inGam9);     
+        inGamObjs.Add(PlayerObj1);
+        inGamObjs.Add(PlayerObj2);
+        inGamObjs.Add(PlayerObj3);
+        inGamObjs.Add(PlayerObj4);
+        inGamObjs.Add(PlayerObj5);
+        inGamObjs.Add(PlayerObj6);
+        inGamObjs.Add(PlayerObj7);
+        inGamObjs.Add(PlayerObj8);
+        inGamObjs.Add(PlayerObj9);
 
         for (int i = 0; i < inGams.Count; i++)
         {
             RectTransform Rt = inGams[i].GetComponent<RectTransform>();
             Rt.anchoredPosition = inGams[i].location * 4;
+            inGams[i].setLocation(Rt.anchoredPosition);
         }
         //RectTransform Rt = PlayerObj1.GetComponent<RectTransform>();
         //Rt.anchoredPosition = inGam1.location;
     }
 
-    inGamePlayer ballCatchPlayer(List<inGamePlayer> IGL)
+    int ballCatchPlayer()
     {
-        return IGL[0];
+        //---------------변수-------------------
+        float ShortestDistance = 1000;
+        float tempDistance;
+        int PlayerNumber = -1; //공을 잡을 수비수의 번호
+        //---------------내용-------------------
+        if (newBALL.BallPowerList[0].y <= 45)
+        {
+            for(int i =2; i <= 5; i++)
+            {
+                tempDistance = Vector2.Distance(newBALL.LandingLocations[1], inGams[i].locations[0]);
+                
+                if(ShortestDistance > tempDistance)
+                {
+                    ShortestDistance = tempDistance;
+                    PlayerNumber = i;
+                }
+            }
+            return PlayerNumber;
+        }
+
+        return 7;//이건아직 다 완성못해서 그냥 좌익수가 하도록 함
     }
 
-    // Start is called before the first frame update
+    //MoveTo 함수 test
+    void MoveTo(inGamePlayer player, Vector2 Goal, float startTime) //startTime은 함수 호출 시간 , 이건 나중에 수비 매커니즘이 완성되면 제작
+    {
+        if(RealTime < startTime || (RealTime-startTime)> player.GetDistanceTime(Vector2.Distance(player.location,Goal)))
+        {
+
+        }
+    }
+
+    //수비 시뮬레이션
+    void DefMove(List<bool> Ls)
+    {
+        if(newBALL.BallPowerList[0].y>=30 && newBALL.BallPowerList[0].y <= 60) //중앙을 향하는 공
+        {
+            if(Vector2.Distance(newBALL.LandingLocations[0],newBALL.LandingLocations[1])<= 35) //외야와 내야 사이에 첫 공의 착지지점이 위치
+            {
+
+            }
+        }
+    }
+
+
+    // Start is called before the first frame update------------------------------------------------------------------------------
     void Start()
     {
         setInGamePlayerList();//선수들을 리스트에 정렬
@@ -117,13 +171,14 @@ public class TotalMovement : MonoBehaviour
         {
             Debug.Log(i + " : " +newBALL.LandingLocations[i]  + " : " + newBALL.TimeList[i]+ " : " + newBALL.MaxHeightList[i]);
         }
-        calculatePlayer(ballCatchPlayer(inGams));
+        FirstCatchPlayerNumber = ballCatchPlayer();
+        calculatePlayer(inGams[FirstCatchPlayerNumber]);
     }
 
-    // Update is called once per frame
+    // Update is called once per frame------------------------------------------------------------------------------
     void Update()
     {
-
+        RealTime += Time.deltaTime;
         //-------------------------------------------------------------------------------------------------------------------------공
         if (CatchTime > level && BallRealtime >= newBALL.TimeList[level]) //newBALL.GetListCount()를 잠시 CatchTime으로 변경
         {
@@ -153,12 +208,12 @@ public class TotalMovement : MonoBehaviour
 
         //-------------------------------------------------------------------------------------------------------------------------선수
         //실제로는 inGamePleyer에서 GameObject를 받아와서 그걸로 해야함, 여기서는 일단 방법을 몰라 임의의 GameObject에서 실행
-        RectTransform Prt = PlayerObj1.GetComponent<RectTransform>();
-        inGam1.PlusDeltaTime(Time.deltaTime);
+        RectTransform Prt = inGamObjs[FirstCatchPlayerNumber].GetComponent<RectTransform>(); //에러나면 다 0번째 element로 바꿔라
+        inGams[FirstCatchPlayerNumber].PlusDeltaTime(Time.deltaTime);  //level을 대체할 변수 만들어야 함
 
-        if(inGam1.GetTime()<=inGam1.GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[level+1], inGam1.location)))
+        if(inGams[FirstCatchPlayerNumber].GetTime()<= inGams[FirstCatchPlayerNumber].GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime+1], inGams[FirstCatchPlayerNumber].location))) //이 내부의 level인덱스를 CatchTime으로 변환
         {
-            Prt.anchoredPosition = Vector2.Lerp(inGam1.location * 4, newBALL.LandingLocations[level+1] * 4, inGam1.GetTime() / inGam1.GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[level + 1], inGam1.location)));
+            Prt.anchoredPosition = Vector2.Lerp(inGams[FirstCatchPlayerNumber].location * 4, newBALL.LandingLocations[CatchTime + 1] * 4, inGams[FirstCatchPlayerNumber].GetTime() / inGams[FirstCatchPlayerNumber].GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime + 1], inGams[FirstCatchPlayerNumber].location)));
         }
 
 
