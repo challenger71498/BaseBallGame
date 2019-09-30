@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class PitchedWild
 {
-    public static void AddStatistics(Pitcher pitcher)
+    public static void WildPitch(Pitcher pitcher)
     {
         pitcher.stats.SetStat(1, PlayerStatistics.PS.WP);
     }

@@ -182,25 +182,37 @@ public class GameManager : MonoBehaviour
     //Check whether there's matchup today.
     public bool isMatchUpToday = false;
 
+    //Which game
+    public Game game;
+
+    //DEBUG:: Check whether it already has been created sample data.
+    public static bool isCreated = false;
+
     //
     //Awake Function
     //
 
     void Start()
     {
-        //RandomNameGenerator Initialization
-        RandomNameGenerator.SetNameList();
+        if(!isCreated)
+        {
+            //RandomNameGenerator Initialization
+            RandomNameGenerator.SetNameList();
 
-        //League Initialization
-        Values.league = new League(true);
+            //League Initialization
+            Values.league = new League(true);
 
-        //MyTeam Initailization
-        Values.myTeam = Values.league.teams[0].Value;
-        //Values.myTeam = Values.league.teams[UnityEngine.Random.Range(0, Values.league.teams.d.Count)].Value;
-        Values.schedules = new Dictionary<int, Schedule>();
+            //MyTeam Initailization
+            Values.myTeam = Values.league.teams[0].Value;
 
-        //MyTeam schedule Initialization
-        Values.league.BuildGameSchedule();
+            //Values.myTeam = Values.league.teams[UnityEngine.Random.Range(0, Values.league.teams.d.Count)].Value;
+            Values.schedules = new Dictionary<int, Schedule>();
+
+            //MyTeam schedule Initialization
+            Values.league.BuildGameSchedule();
+
+            isCreated = true;
+        }
 
         //DEBUG: sample data setup
         //Values.schedules = Values.sampleSchedules;
@@ -216,6 +228,8 @@ public class GameManager : MonoBehaviour
         //Values.myPlayers = RandomPlayerGenerator.CreateTeam();
         //Values.myStartingMembers = RandomPlayerGenerator.CreateStartingMember(Values.myTeam.players);
 
+        //Set today's game.
+        game = Values.league.FindGame(Values.date, Values.myTeam);
 
         //when loaded
         animator.SetBool("isLoaded", true);
@@ -245,7 +259,7 @@ public class GameManager : MonoBehaviour
                 foreach (Schedule s in Values.scheduleByDate[d])
                 {
                     ListInstantiate(s);
-                    if(s.GetType() == typeof(Schedule_MatchUp))
+                    if(s.GetType() == typeof(Schedule_MatchUp) && s.date == Values.date)
                     {
                         isMatchUpToday = true;
                     }

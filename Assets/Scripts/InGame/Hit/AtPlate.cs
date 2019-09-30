@@ -13,10 +13,6 @@ public static class AtPlate
     public static List<KeyValuePair<int, Batter>> homeBattingOrder = InGameManager.homeBattingOrder;
     public static List<KeyValuePair<int, Batter>> awayBattingOrder = InGameManager.awayBattingOrder;
 
-    public static int strikeCount = InGameManager.strikeCount;
-    public static int ballCount = InGameManager.ballCount;
-    public static int outCount = InGameManager.outCount;
-
     /// <summary>
     /// Determines whether swing or not.
     /// </summary>
@@ -38,9 +34,9 @@ public static class AtPlate
     /// </summary>
     public static void AddStrike()
     {
-        if (strikeCount < 2)
+        if (InGameManager.strikeCount < 2)
         {
-            strikeCount++;
+            InGameManager.strikeCount++;
         }
         else
         {
@@ -54,9 +50,9 @@ public static class AtPlate
     /// </summary>
     public static void AddBall(bool isHBP = false, bool isIBB = false)
     {
-        if (ballCount < 3)
+        if (InGameManager.ballCount < 3)
         {
-            ballCount++;
+            InGameManager.ballCount++;
         }
         else
         {
@@ -109,9 +105,9 @@ public static class AtPlate
         }
 
         //Advance Batter.
-        if (outCount < 2)
+        if (InGameManager.outCount < 2)
         {
-            outCount++;
+            InGameManager.outCount++;
             if (currentAttack == game.home)
             {
                 Innings.AdvanceBattingOrder(ref InGameManager.homeCurrentBattersIndex);
@@ -134,8 +130,8 @@ public static class AtPlate
     /// </summary>
     public static void ClearCount()
     {
-        strikeCount = 0;
-        ballCount = 0;
+        InGameManager.strikeCount = 0;
+        InGameManager.ballCount = 0;
     }
 
     /// <summary>

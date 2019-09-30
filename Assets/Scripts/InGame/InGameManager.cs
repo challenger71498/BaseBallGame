@@ -27,6 +27,16 @@ public class InGameManager : MonoBehaviour
     public static int ballCount;
     public static int outCount;
 
+    public void Start()
+    {
+        InitializeGame();
+
+        while(!isGameEnd)
+        {
+            Turn();
+        }
+    }
+
     /// <summary>
     /// Initializes a game.
     /// </summary>
@@ -91,7 +101,7 @@ public class InGameManager : MonoBehaviour
             if (isWildPitch)
             {
                 //If a pitcher wild pitched, control goes to ball in play.
-                PitchedWild.AddStatistics(currentPitcher);
+                PitchedWild.WildPitch(currentPitcher);
                 BallInPlay(BallInPlayMode.WILD_PITCH);
                 return;
             }
@@ -167,15 +177,15 @@ public class InGameManager : MonoBehaviour
         {
             if (mode == BallInPlayMode.NORMAL)
             {
-
+                //Field Play Required.
             }
             else if (mode == BallInPlayMode.PICKOFF)
             {
-
+                //Field Play Required.
             }
             else if (mode == BallInPlayMode.WILD_PITCH)
             {
-
+                //Field Play Required.
             }
         }
     }
@@ -191,32 +201,32 @@ public class InGameManager : MonoBehaviour
             int random = UnityEngine.Random.Range(0, 10);
 
             //FlyOut
-            if (random == 0)
+            if (0 <= random || random <= 3)
             {
                 AtPlate.AddOut(AtPlate.Out.FLY_BALL);
             }
             //GroundBall
-            else if (random == 1)
+            else if (4 <= random || random <= 7)
             {
                 AtPlate.AddOut(AtPlate.Out.GROUND_BALL);
             }
             //Hit
-            else if (random == 2)
+            else if (8 <= random || random <= 9)
             {
-                random = UnityEngine.Random.Range(0, 3);
-                if (random == 0)
+                random = UnityEngine.Random.Range(0, 10);
+                if (0 <= random || random <= 4)
                 {
                     Hitting.AddHit(Hitting.Hit.SINGLE);
                 }
-                else if (random == 1)
+                else if (5 <= random || random <= 7)
                 {
                     Hitting.AddHit(Hitting.Hit.DOUBLE);
                 }
-                else if (random == 2)
+                else if (8 <= random || random <= 8)
                 {
                     Hitting.AddHit(Hitting.Hit.TRIPLE);
                 }
-                else if (random == 3)
+                else if (9 <= random || random <= 9)
                 {
                     Hitting.AddHit(Hitting.Hit.HOME_RUN);
                 }

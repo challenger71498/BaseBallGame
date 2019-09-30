@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TransitionButton : MonoBehaviour
 {
     //data members
+    public Game game;
     public Animator anim;
     public string whereTo = "Main";
 
@@ -27,12 +28,13 @@ public class TransitionButton : MonoBehaviour
         if(gameManager.isMatchUpToday)
         {
             //gameManager.SaveData();
+            InGameManager.game = gameManager.game;
             SceneManager.LoadScene("InGame");
         }
         else
         {
             Values.date = Values.date.AddDays(1);
-            gameManager.SaveData();
+            //gameManager.SaveData();
             SceneManager.LoadScene(whereTo);
         }
         StopCoroutine("TransitionFinishedCheck");
