@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class InGameManager : MonoBehaviour
 {
+    public InGameObjects inGameObjects;
+
     public static Game game;
     public static bool isGameEnd = false;
 
@@ -16,8 +18,8 @@ public class InGameManager : MonoBehaviour
     public static Pitcher currentPitcher;
     public static Pitcher otherPitcher;
     public static Batter currentBatter;
-    public static List<KeyValuePair<int, Batter>> homeBattingOrder;
-    public static List<KeyValuePair<int, Batter>> awayBattingOrder;
+    public static List<Batter> homeBattingOrder;
+    public static List<Batter> awayBattingOrder;
     public static int homeCurrentBattersIndex;
     public static int awayCurrentBattersIndex;
 
@@ -69,6 +71,9 @@ public class InGameManager : MonoBehaviour
     /// </summary>
     public void Turn()
     {
+        inGameObjects.outPanelLayout.ClearLayout();
+        inGameObjects.outPanelLayout.UpdateLayout();
+
         //Initializes stealingAttempts array to false.
         for (int i = 0; i < 4; ++i)
         {

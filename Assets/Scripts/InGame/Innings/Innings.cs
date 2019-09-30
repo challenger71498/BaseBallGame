@@ -8,8 +8,8 @@ public static class Innings
     public static Game game = InGameManager.game;
     public static Team currentAttack = InGameManager.currentAttack;
     public static Team currentDefend = InGameManager.currentDefend;
-    public static List<KeyValuePair<int, Batter>> homeBattingOrder = InGameManager.homeBattingOrder;
-    public static List<KeyValuePair<int, Batter>> awayBattingOrder = InGameManager.awayBattingOrder;
+    public static List<Batter> homeBattingOrder = InGameManager.homeBattingOrder;
+    public static List<Batter> awayBattingOrder = InGameManager.awayBattingOrder;
 
     public static Batter[] runnerInBases = InGameManager.runnerInBases;
     public static Batter currentBatter = InGameManager.currentBatter;
@@ -39,14 +39,14 @@ public static class Innings
             currentAttack = game.away;
             currentDefend = game.home;
 
-            currentBatter = awayBattingOrder[InGameManager.awayCurrentBattersIndex].Value;
+            currentBatter = awayBattingOrder[InGameManager.awayCurrentBattersIndex];
         }
         else if (currentAttack == game.away)
         {
             currentAttack = game.home;
             currentDefend = game.away;
 
-            currentBatter = homeBattingOrder[InGameManager.homeCurrentBattersIndex].Value;
+            currentBatter = homeBattingOrder[InGameManager.homeCurrentBattersIndex];
         }
         else
         {

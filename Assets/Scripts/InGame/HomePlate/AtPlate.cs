@@ -10,8 +10,8 @@ public static class AtPlate
     public static Batter[] runnerInBases = InGameManager.runnerInBases;
     public static Batter currentBatter = InGameManager.currentBatter;
     public static Pitcher currentPitcher = InGameManager.currentPitcher;
-    public static List<KeyValuePair<int, Batter>> homeBattingOrder = InGameManager.homeBattingOrder;
-    public static List<KeyValuePair<int, Batter>> awayBattingOrder = InGameManager.awayBattingOrder;
+    public static List<Batter> homeBattingOrder = InGameManager.homeBattingOrder;
+    public static List<Batter> awayBattingOrder = InGameManager.awayBattingOrder;
 
     /// <summary>
     /// Determines whether swing or not.
@@ -141,12 +141,12 @@ public static class AtPlate
     {
         if (currentAttack == game.home)
         {
-            runnerInBases[0] = homeBattingOrder[InGameManager.homeCurrentBattersIndex].Value;
+            runnerInBases[0] = homeBattingOrder[InGameManager.homeCurrentBattersIndex];
             currentBatter = runnerInBases[0];
         }
         else if (currentAttack == game.away)
         {
-            runnerInBases[0] = awayBattingOrder[InGameManager.awayCurrentBattersIndex].Value;
+            runnerInBases[0] = awayBattingOrder[InGameManager.awayCurrentBattersIndex];
             currentBatter = runnerInBases[0];
         }
         else
