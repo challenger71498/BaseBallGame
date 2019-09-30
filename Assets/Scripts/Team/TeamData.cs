@@ -9,18 +9,24 @@ public class TeamData
     public enum TP
     {
         NAME, CITY_NAME, TEAM_NAME, SHORT_NAME,
-        BIRTH_DATE, EMBLEM
+        BIRTH_DATE, EMBLEM, COLOR
     }
 
     public static List<string> TPString = new List<string>()
     {
         "Name", "City Name", "Team Name",
-        "Established Year", "Emblem"
+        "Established Year", "Emblem", "Color"
     };
 
-    public TeamData(string _cityName, string _teamName, string _shortName, int _year = 1990, int _month = 1, int _day = 1)
+    public TeamData(string _cityName, string _teamName, string _shortName, int _year = 1990, int _month = 1, int _day = 1, Color color = default)
     {
         data = new SerializableDict<TP, object>();
+        
+        //NOTE: this is for debug. Later, you SHOULD CHANGE THIS to actual color applying code.
+        if (color == default)
+        {
+            data.d.Add(TP.COLOR, Colors.red);
+        }
 
         data.d.Add(TP.NAME, _cityName + " " + _teamName);
         data.d.Add(TP.CITY_NAME, _cityName);

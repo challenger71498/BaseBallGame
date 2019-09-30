@@ -198,7 +198,7 @@ public class RandomPlayerGenerator
     }
 
     /// <summary>
-    /// Choose 8 batters randomly in my team, and add it to battingOrder list.
+    /// Choose 9 batters randomly in my team, and add it to battingOrder list.
     /// </summary>
     /// <param name="myPlayers"></param>
     /// <returns></returns>
@@ -206,7 +206,7 @@ public class RandomPlayerGenerator
     {
         List<Batter> batters = new List<Batter>();
         
-        while(batters.Count < 8)
+        while(batters.Count < 9)    //NOTE: THIS SHOULD BE 8 AFTER!
         {
             Player player = myPlayers[UnityEngine.Random.Range(0, myPlayers.Count)].Value;
             if (!player.isStartingMember)
