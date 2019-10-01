@@ -25,4 +25,7 @@ public class InGameObjects : MonoBehaviour
     public ScorePanel scorePanel;
     public TextMeshProUGUI leftScore;
     public TextMeshProUGUI rightScore;
+
+    [Header("BoardPanel")]
+    public BoardPanel boardPanel;
 }

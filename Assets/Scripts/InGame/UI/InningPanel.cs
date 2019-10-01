@@ -19,4 +19,9 @@ public class InningPanel : MonoBehaviour
         }
         
     }
+
+    public void OnClick()
+    {
+        inGameObjects.boardPanel.gameObject.SetActive(true);
+    }
 }

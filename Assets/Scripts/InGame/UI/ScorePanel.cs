@@ -11,4 +11,9 @@ public class ScorePanel : MonoBehaviour
         InGameObjects.leftScore.text = InGameManager.game.homeScoreBoard.R.ToString();
         InGameObjects.rightScore.text = InGameManager.game.awayScoreBoard.R.ToString();
     }
+
+    public void OnClick()
+    {
+        InGameObjects.boardPanel.gameObject.SetActive(true);
+    }
 }
