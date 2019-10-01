@@ -39,7 +39,7 @@ public class Game
 
     public void WriteData()
     {
-        if(isPlayed)
+        if (isPlayed)
         {
             throw new Exception("Game already played. Cannot re-play played game.");
         }
@@ -48,7 +48,7 @@ public class Game
 
     public Team GetTeam(Team team)
     {
-        if(home == team)
+        if (home == team)
         {
             return home;
         }
@@ -77,12 +77,12 @@ public class Game
             throw new NullReferenceException("There is no such team named as " + team.teamData.GetData(TeamData.TP.NAME) + ".");
         }
     }
-    
+
     public GameResult GetGameResult(Team team)
     {
-        if(home == team)
+        if (home == team)
         {
-            if(homeScoreBoard.R > awayScoreBoard.R)
+            if (homeScoreBoard.R > awayScoreBoard.R)
             {
                 return GameResult.WIN;
             }
@@ -95,7 +95,7 @@ public class Game
                 return GameResult.DRAW;
             }
         }
-        else if(away == team)
+        else if (away == team)
         {
             if (homeScoreBoard.R > awayScoreBoard.R)
             {
@@ -138,8 +138,9 @@ public class Game
             }
             else
             {
-                inningScores[inning] += 1;
+                inningScores[inning - 1] += 1;
             }
+            R += 1;
         }
 
         public SerializableList<int> inningScores;
