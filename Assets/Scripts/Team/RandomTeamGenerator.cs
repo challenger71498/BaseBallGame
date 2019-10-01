@@ -21,7 +21,7 @@ public class RandomTeamGenerator
 
     public static List<Color> teamColors = new List<Color>()
     {
-        Colors.red, Colors.blue, Colors.green, Colors.pink, Colors.purple, Colors.skyblue, Colors.yellow, Colors.primaryDark, Colors.redDark, Colors.blueDark
+        Colors.red, Colors.blue, Colors.green, Colors.pink, Colors.purple, Colors.skyblue, Colors.yellow, Color.grey, Color.green, Color.yellow
     };
 
     static int teamCreated = 0;
