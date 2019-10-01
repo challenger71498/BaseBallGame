@@ -125,6 +125,11 @@ public class Game
         public ScoreBoard()
         {
             inningScores = new SerializableList<int>();
+            for(int i = 0; i < 9; ++i)
+            {
+                inningScores.d.Add(0);
+            }
+
             R = 0;
             H = 0;
             E = 0;
