@@ -52,7 +52,7 @@ public class RecentMatchObject
         if (game.GetGameResult(ours) == Game.GameResult.WIN)
         {
             winLossText.text = "W";
-            backGround.color = Colors.blueDark;
+            backGround.color = Colors.blueDarker;
         }
         else if (game.GetGameResult(ours) == Game.GameResult.DRAW)
         {
@@ -61,7 +61,7 @@ public class RecentMatchObject
         else if (game.GetGameResult(ours) == Game.GameResult.LOSS)
         {
             winLossText.text = "L";
-            backGround.color = Colors.redDark;
+            backGround.color = Colors.redDarker;
         }
         else
         {
