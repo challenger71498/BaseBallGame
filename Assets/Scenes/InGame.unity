@@ -2446,6 +2446,7 @@ GameObject:
   - component: {fileID: 171794068}
   - component: {fileID: 171794070}
   - component: {fileID: 171794069}
+  - component: {fileID: 171794071}
   m_Layer: 5
   m_Name: ScorePanel
   m_TagString: Untagged
@@ -2511,6 +2512,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171794067}
   m_CullTransparentMesh: 0
+--- !u!114 &171794071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171794067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0516d0f397afdbb448174df149f070f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InGameObjects: {fileID: 1726359126}
 --- !u!1 &176616462
 GameObject:
   m_ObjectHideFlags: 0
@@ -20535,6 +20549,9 @@ MonoBehaviour:
   - {fileID: 1911606831}
   - {fileID: 842910053}
   - {fileID: 753435067}
+  scorePanel: {fileID: 171794071}
+  leftScore: {fileID: 446108222}
+  rightScore: {fileID: 543430900}
 --- !u!1 &1730775683
 GameObject:
   m_ObjectHideFlags: 0

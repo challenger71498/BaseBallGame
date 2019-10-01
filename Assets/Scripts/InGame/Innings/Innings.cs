@@ -5,48 +5,37 @@ using UnityEngine.SceneManagement;
 
 public static class Innings
 {
-    public static Game game = InGameManager.game;
-    public static Team currentAttack = InGameManager.currentAttack;
-    public static Team currentDefend = InGameManager.currentDefend;
-    public static List<Batter> homeBattingOrder = InGameManager.homeBattingOrder;
-    public static List<Batter> awayBattingOrder = InGameManager.awayBattingOrder;
-
-    public static Batter[] runnerInBases = InGameManager.runnerInBases;
-    public static Batter currentBatter = InGameManager.currentBatter;
-    public static Pitcher currentPitcher = InGameManager.currentPitcher;
-    public static Pitcher otherPitcher = InGameManager.otherPitcher;
-    
     /// <summary>
     /// Advances inning.
     /// </summary>
     public static void AdvanceInning()
     {
         //Innings pitched
-        currentPitcher.stats.SetStat(0.8f, PlayerStatistics.PS.IP);
+        InGameManager.currentPitcher.stats.SetStat(0.8f, PlayerStatistics.PS.IP);
 
         //If the game satisfies the end condition, end game.
-        if ((game.homeScoreBoard.R != game.awayScoreBoard.R) || InGameManager.isGameEnd)
+        if ((InGameManager.game.homeScoreBoard.R != InGameManager.game.awayScoreBoard.R) && InGameManager.currentInning >= 9 && InGameManager.isBottom)
         {
             EndGame();
             return;
         }
 
         //Switch side.
-        currentPitcher = otherPitcher;
+        InGameManager.currentPitcher = InGameManager.otherPitcher;
 
-        if (currentAttack == game.home)
+        if (InGameManager.currentAttack == InGameManager.game.home)
         {
-            currentAttack = game.away;
-            currentDefend = game.home;
+            InGameManager.currentAttack = InGameManager.game.away;
+            InGameManager.currentDefend = InGameManager.game.home;
 
-            currentBatter = awayBattingOrder[InGameManager.awayCurrentBattersIndex];
+            InGameManager.currentBatter = InGameManager.awayBattingOrder[InGameManager.awayCurrentBattersIndex];
         }
-        else if (currentAttack == game.away)
+        else if (InGameManager.currentAttack == InGameManager.game.away)
         {
-            currentAttack = game.home;
-            currentDefend = game.away;
+            InGameManager.currentAttack = InGameManager.game.home;
+            InGameManager.currentDefend = InGameManager.game.away;
 
-            currentBatter = homeBattingOrder[InGameManager.homeCurrentBattersIndex];
+            InGameManager.currentBatter = InGameManager.homeBattingOrder[InGameManager.homeCurrentBattersIndex];
         }
         else
         {
@@ -87,7 +76,7 @@ public static class Innings
     /// </summary>
     public static void EndGame()
     {
-        game.isPlayed = true;
+        InGameManager.game.isPlayed = true;
         InGameManager.isGameEnd = true;
         //Shows a summary tab after finishes a game.
 

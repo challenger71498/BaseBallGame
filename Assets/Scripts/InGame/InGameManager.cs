@@ -34,7 +34,7 @@ public class InGameManager : MonoBehaviour
     {
         InitializeGame();
         
-        StartCoroutine(TurnDelayed(1f));
+        StartCoroutine(TurnDelayed(0.01f));
     }
 
     IEnumerator TurnDelayed(float delayAmount = 1f)
@@ -89,6 +89,9 @@ public class InGameManager : MonoBehaviour
         //BasePanel
         inGameObjects.basePanel.UpdateLayout();
 
+        //ScorePanel
+        inGameObjects.scorePanel.UpdateLayout();
+
         //Initializes stealingAttempts array to false.
         for (int i = 0; i < 4; ++i)
         {
@@ -100,6 +103,7 @@ public class InGameManager : MonoBehaviour
             bool isBaseStealing = BaseRunning.BaseStealDetermine(runnerInBases[i], true);
             if (isBaseStealing)
             {
+                Debug.Log("BASE " + i + "TRYING TO STEAL");
                 //If a runner is going to steal base, change stealingAttempt bool to true.
                 stealingAttempts[i] = true;
             }
@@ -109,6 +113,7 @@ public class InGameManager : MonoBehaviour
         bool isPickedOff = PickingOff.PickOffDetermine(out int whichBase, true);
         if (isPickedOff)
         {
+            Debug.Log("PICK OFF");
             //If the pitcher picks off the ball, a pickoff function starts and control goes to ball in play.
             PickingOff.PickOff(-1, true);
             BallInPlay(BallInPlayMode.PICKOFF, true, whichBase);
@@ -120,6 +125,7 @@ public class InGameManager : MonoBehaviour
             Pitching.Pitch(out bool isWildPitch, out bool isHitByPitch, true);
             if (isWildPitch)
             {
+                Debug.Log("WILD PITCHED");
                 //If a pitcher wild pitched, control goes to ball in play.
                 PitchedWild.WildPitch(currentPitcher);
                 BallInPlay(BallInPlayMode.WILD_PITCH);
@@ -132,7 +138,7 @@ public class InGameManager : MonoBehaviour
                 if (isHitByPitch)
                 {
                     //If a batter got a hit-by-pitch ball, advances runner by 1 base, and the turn ends.
-                    BaseRunning.AdvanceRunner(1);
+                    AtPlate.AddBall(true);
                     return;
                 }
                 else
@@ -140,6 +146,7 @@ public class InGameManager : MonoBehaviour
                     //If not hit-by-pitch ball, check if a batter swung.
                     if (isSwung)
                     {
+                        Debug.Log("He Swings!");
                         //If swung, determine whether a swing hit or not.
                         bool isHit = Hitting.HitDetermine(true);
                         if (isHit)

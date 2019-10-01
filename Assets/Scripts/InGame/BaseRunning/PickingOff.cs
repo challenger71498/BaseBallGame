@@ -19,7 +19,7 @@ public static class PickingOff
                 if (runnerInBases[i] != null)
                 {
                     whichBase = i;
-                    return UnityEngine.Random.Range(0, 1) < 0.5f;
+                    return false;
                 }
             }
             whichBase = -1;

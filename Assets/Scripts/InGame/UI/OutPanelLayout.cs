@@ -10,15 +10,15 @@ public class OutPanelLayout : MonoBehaviour
     {
         for(int i = 0; i < InGameManager.strikeCount; ++i)
         {
-            inGameObjects.strikes[i].color = Colors.yellowDark;
+            inGameObjects.strikes[i].color = Colors.yellow;
         }
         for(int i = 0; i < InGameManager.ballCount; ++i)
         {
-            inGameObjects.balls[i].color = Colors.greenDark;
+            inGameObjects.balls[i].color = Colors.green;
         }
         for (int i = 0; i < InGameManager.outCount; ++i)
         {
-            inGameObjects.outs[i].color = Colors.redDark;
+            inGameObjects.outs[i].color = Colors.red;
         }
     }
 

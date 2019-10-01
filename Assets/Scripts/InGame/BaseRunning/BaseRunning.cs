@@ -32,12 +32,12 @@ public static class BaseRunning
             if (runnerBase == 3)
             {
                 RunnerToHomePlate(InGameManager.runnerInBases[3]);
+                return;
             }
             else if (InGameManager.runnerInBases[runnerBase + 1] != null)
             {
                 Advance(runnerBase + 1);
             }
-
             InGameManager.runnerInBases[runnerBase + 1] = InGameManager.runnerInBases[runnerBase];
             InGameManager.runnerInBases[runnerBase] = null;
         }
@@ -69,11 +69,11 @@ public static class BaseRunning
         //Add score by 1;
         if (InGameManager.currentAttack == InGameManager.game.home)
         {
-            InGameManager.game.homeScoreBoard.AddRun(1);
+            InGameManager.game.homeScoreBoard.AddRun(InGameManager.currentInning);
         }
         else if (InGameManager.currentAttack == InGameManager.game.away)
         {
-            InGameManager.game.awayScoreBoard.AddRun(1);
+            InGameManager.game.awayScoreBoard.AddRun(InGameManager.currentInning);
         }
         else
         {

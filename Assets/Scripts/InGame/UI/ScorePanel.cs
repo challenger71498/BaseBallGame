@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class ScorePanel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public InGameObjects InGameObjects;
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateLayout()
     {
-        
+        InGameObjects.leftScore.text = InGameManager.game.homeScoreBoard.R.ToString();
+        InGameObjects.rightScore.text = InGameManager.game.awayScoreBoard.R.ToString();
     }
 }

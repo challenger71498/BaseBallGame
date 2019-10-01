@@ -20,4 +20,9 @@ public class InGameObjects : MonoBehaviour
     [Header("BasePanel")]
     public BasePanel basePanel;
     public Image[] bases;
+
+    [Header("ScorePanel")]
+    public ScorePanel scorePanel;
+    public TextMeshProUGUI leftScore;
+    public TextMeshProUGUI rightScore;
 }
