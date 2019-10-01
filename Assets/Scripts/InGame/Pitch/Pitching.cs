@@ -13,12 +13,12 @@ public static class Pitching
         if (isRandom)
         {
             float randomFloat = UnityEngine.Random.Range(0f, 1f);
-            if (randomFloat < 0.05f)
+            if (randomFloat < 0.03f)
             {
                 wildPitch = true;
                 hitByPitch = false;
             }
-            else if (0.05f <= randomFloat && randomFloat < 0.15f)
+            else if (0.03f <= randomFloat && randomFloat < 0.08f)
             {
                 wildPitch = false;
                 hitByPitch = true;
@@ -44,7 +44,7 @@ public static class Pitching
     {
         if (isRandom)
         {
-            return UnityEngine.Random.Range(0f, 1f) < 0.5f;
+            return UnityEngine.Random.Range(0f, 1f) < 0.6f;
         }
         else
         {

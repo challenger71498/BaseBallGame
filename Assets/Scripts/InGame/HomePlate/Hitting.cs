@@ -20,6 +20,15 @@ public static class Hitting
         //Clears count.
         AtPlate.ClearCount();
 
+        if(InGameManager.isBottom)
+        {
+            InGameManager.game.homeScoreBoard.H++;
+        }
+        else
+        {
+            InGameManager.game.awayScoreBoard.H++;
+        }
+
         if (hit == Hit.SINGLE)
         {
             currentBatter.stats.SetStat(1, PlayerStatistics.PS.SIN);

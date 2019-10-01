@@ -32,9 +32,10 @@ public class InGameManager : MonoBehaviour
 
     public void Start()
     {
+        Debug.Log("GAME STARTED");
         InitializeGame();
         
-        StartCoroutine(TurnDelayed(0.01f));
+        StartCoroutine(TurnDelayed(0.1f));
     }
 
     IEnumerator TurnDelayed(float delayAmount = 1f)
@@ -51,6 +52,9 @@ public class InGameManager : MonoBehaviour
     /// </summary>
     public void InitializeGame()
     {
+        //Resets isGameEnd value to false.
+        isGameEnd = false;
+
         //Setting the inning.
         currentInning = 1;
         isBottom = false;
@@ -72,6 +76,9 @@ public class InGameManager : MonoBehaviour
 
         //Bring the batter to plate.
         AtPlate.AdvanceBatterToPlate();
+
+        //UI
+        inGameObjects.boardPanel.Initialize();
     }
 
     /// <summary>
@@ -91,6 +98,9 @@ public class InGameManager : MonoBehaviour
 
         //ScorePanel
         inGameObjects.scorePanel.UpdateLayout();
+
+        //BoardPanel
+        inGameObjects.boardPanel.UpdateLayout();
 
         //Initializes stealingAttempts array to false.
         for (int i = 0; i < 4; ++i)
@@ -225,20 +235,20 @@ public class InGameManager : MonoBehaviour
     {
         if (isRandom)
         {
-            int random = UnityEngine.Random.Range(0, 10);
+            float random = UnityEngine.Random.Range(0f, 10f);
 
             //FlyOut
-            if (0 <= random && random <= 3)
+            if (0 <= random && random <= 3f)
             {
                 AtPlate.AddOut(AtPlate.Out.FLY_BALL);
             }
             //GroundBall
-            else if (4 <= random && random <= 7)
+            else if (3f <= random && random <= 6f)
             {
                 AtPlate.AddOut(AtPlate.Out.GROUND_BALL);
             }
             //Hit
-            else if (8 <= random && random <= 9)
+            else if (6f <= random && random <= 10f)
             {
                 random = UnityEngine.Random.Range(0, 10);
                 if (0 <= random && random <= 4)

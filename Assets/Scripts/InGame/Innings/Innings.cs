@@ -14,11 +14,16 @@ public static class Innings
         InGameManager.currentPitcher.stats.SetStat(0.8f, PlayerStatistics.PS.IP);
 
         //If the game satisfies the end condition, end game.
-        if ((InGameManager.game.homeScoreBoard.R != InGameManager.game.awayScoreBoard.R) && InGameManager.currentInning >= 9 && InGameManager.isBottom)
+        if ((InGameManager.game.homeScoreBoard.R != InGameManager.game.awayScoreBoard.R)
+            && InGameManager.currentInning >= 9 && (InGameManager.isBottom || InGameManager.game.homeScoreBoard.R > InGameManager.game.awayScoreBoard.R))
         {
             EndGame();
             return;
         }
+
+        //BoardPanel UI.
+        InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
+        InGameObjects.boardPanel.AddScorePanel();
 
         //Switch side.
         InGameManager.currentPitcher = InGameManager.otherPitcher;
@@ -81,6 +86,7 @@ public static class Innings
         //Shows a summary tab after finishes a game.
 
         //TEMPORARILY Changes scene to main.
+        Values.date = Values.date.AddDays(1);
         SceneManager.LoadScene("Main");
     }
 }

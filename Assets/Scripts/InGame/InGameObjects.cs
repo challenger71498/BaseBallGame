@@ -6,6 +6,10 @@ using TMPro;
 
 public class InGameObjects : MonoBehaviour
 {
+    [Header("Prefabs")]
+    public GameObject titlePrefab;
+    public GameObject scorePrefab;
+
     [Header("OutPanel")]
     public OutPanelLayout outPanelLayout;
     public Image[] strikes;
@@ -28,4 +32,14 @@ public class InGameObjects : MonoBehaviour
 
     [Header("BoardPanel")]
     public BoardPanel boardPanel;
+    public TextMeshProUGUI homeTeamName;
+    public TextMeshProUGUI awayTeamName;
+    public GameObject titleLayout;
+    public GameObject scoreLayout;
+    public TextMeshProUGUI homeRunText;
+    public TextMeshProUGUI awayRunText;
+    public TextMeshProUGUI homeHitText;
+    public TextMeshProUGUI awayHitText;
+    public TextMeshProUGUI homeErrorText;
+    public TextMeshProUGUI awayErrorText;
 }
