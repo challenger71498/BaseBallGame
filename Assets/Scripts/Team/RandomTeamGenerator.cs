@@ -19,6 +19,11 @@ public class RandomTeamGenerator
         "SLB", "ICW", "BSG", "DJE", "DGL", "USD", "GJT", "SJH", "SWW", "CJG"
     };
 
+    public static List<Color> teamColors = new List<Color>()
+    {
+        Colors.red, Colors.blue, Colors.green, Colors.pink, Colors.purple, Colors.skyblue, Colors.yellow, Colors.primaryDark, Colors.redDark, Colors.blueDark
+    };
+
     static int teamCreated = 0;
     public static Team CreateTeam(int index = -1)
     {
@@ -34,6 +39,7 @@ public class RandomTeamGenerator
         team.teamData.SetData(TeamData.TP.TEAM_NAME, teamNames[index]);
         team.teamData.SetData(TeamData.TP.NAME, cityNames[index] + " " + teamNames[index]);
         team.teamData.SetData(TeamData.TP.SHORT_NAME, shortNames[index]);
+        team.teamData.SetData(TeamData.TP.COLOR, teamColors[index]);
 
         team.players.d = RandomPlayerGenerator.CreateTeam();
         team.startingMembers.d = RandomPlayerGenerator.CreateStartingMember(team.players.d);
