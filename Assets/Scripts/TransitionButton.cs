@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class TransitionButton : MonoBehaviour
 {
     //data members
-    public Game game;
     public Animator anim;
     public string whereTo = "Main";
 

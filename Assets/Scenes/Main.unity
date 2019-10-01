@@ -7937,7 +7937,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 403890104}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6766799
+  m_Size: 0.82259464
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10224,32 +10224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f391894e0318664459e51910162f7b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game:
-    isPlayed: 0
-    home: {}
-    away: {}
-    homeStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    awayStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    homeScoreBoard:
-      R: 0
-      H: 0
-      E: 0
-    awayScoreBoard:
-      R: 0
-      H: 0
-      E: 0
   anim: {fileID: 1880114576}
   whereTo: Main
   gameManager: {fileID: 112244477}
@@ -14975,32 +14949,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f391894e0318664459e51910162f7b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game:
-    isPlayed: 0
-    home: {}
-    away: {}
-    homeStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    awayStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    homeScoreBoard:
-      R: 0
-      H: 0
-      E: 0
-    awayScoreBoard:
-      R: 0
-      H: 0
-      E: 0
   anim: {fileID: 1880114576}
   whereTo: Main
   gameManager: {fileID: 112244477}
@@ -18700,32 +18648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f391894e0318664459e51910162f7b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game:
-    isPlayed: 0
-    home: {}
-    away: {}
-    homeStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    awayStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    homeScoreBoard:
-      R: 0
-      H: 0
-      E: 0
-    awayScoreBoard:
-      R: 0
-      H: 0
-      E: 0
   anim: {fileID: 1880114576}
   whereTo: Main
   gameManager: {fileID: 112244477}
@@ -29057,32 +28979,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f391894e0318664459e51910162f7b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game:
-    isPlayed: 0
-    home: {}
-    away: {}
-    homeStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    awayStarterPitcher:
-      index: 0
-      isStartingMember: 0
-      isSubstitute: 0
-      train: 0
-      order: 0
-      form: 0
-    homeScoreBoard:
-      R: 0
-      H: 0
-      E: 0
-    awayScoreBoard:
-      R: 0
-      H: 0
-      E: 0
   anim: {fileID: 1880114576}
   whereTo: Main
   gameManager: {fileID: 112244477}
@@ -37277,6 +37173,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2102907940}
     m_Modifications:
+    - target: {fileID: 16623939082761271, guid: f53f503dd28951946abbe5c697f99cf6,
+        type: 3}
+      propertyPath: m_Name
+      value: Transition
+      objectReference: {fileID: 0}
     - target: {fileID: 16623939082761268, guid: f53f503dd28951946abbe5c697f99cf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -37396,11 +37297,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 16623939082761271, guid: f53f503dd28951946abbe5c697f99cf6,
-        type: 3}
-      propertyPath: m_Name
-      value: Transition
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f53f503dd28951946abbe5c697f99cf6, type: 3}
