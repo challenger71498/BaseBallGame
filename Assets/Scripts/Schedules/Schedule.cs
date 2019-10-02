@@ -157,11 +157,11 @@ public static class Schedules
                     //Sets color to point out which side is our team.
                     if (Values.myTeam == scheduleMatchUp.game.home)
                     {
-                        teamPanel0.homeAwayText.color = Colors.blue;
+                        teamPanel0.homeAwayText.color = Colors.yellow;
                     }
                     else if (Values.myTeam == scheduleMatchUp.game.away)
                     {
-                        teamPanel1.homeAwayText.color = Colors.blue;
+                        teamPanel1.homeAwayText.color = Colors.yellow;
                     }
 
                     //Sets recentMatchPanel.
@@ -174,8 +174,8 @@ public static class Schedules
                         UnityEngine.Object.Destroy(teamPanel1.recentMatchesContent.transform.GetChild(i).gameObject);
                     }
 
-                    List<Game> recentGames0 = Values.league.RecentMatches(3, home, scheduleMatchUp.game.date.date);
-                    List<Game> recentGames1 = Values.league.RecentMatches(3, away, scheduleMatchUp.game.date.date);
+                    List<Game> recentGames0 = Values.league.RecentMatches(3, home, Values.date);
+                    List<Game> recentGames1 = Values.league.RecentMatches(3, away, Values.date);
                     
                     for(int i = 0; i < recentGames0.Count; ++i)
                     {
