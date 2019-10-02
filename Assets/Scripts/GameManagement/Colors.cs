@@ -35,6 +35,14 @@ public static class Colors
     public static Color purpleDarker = Color.HSVToRGB(0.75f, 0.7f, 0.6f);
     public static Color pinkDarker = Color.HSVToRGB(0.9f, 0.7f, 0.6f);
 
+    public static Color redDarkest = Color.HSVToRGB(0, 0.7f, 0.4f);
+    public static Color yellowDarkest = Color.HSVToRGB(0.15f, 0.7f, 0.4f);
+    public static Color greenDarkest = Color.HSVToRGB(0.3f, 0.7f, 0.3f);
+    public static Color skyblueDarkest = Color.HSVToRGB(0.5f, 0.7f, 0.3f);
+    public static Color blueDarkest = Color.HSVToRGB(0.6f, 0.7f, 0.4f);
+    public static Color purpleDarkest = Color.HSVToRGB(0.75f, 0.7f, 0.4f);
+    public static Color pinkDarkest = Color.HSVToRGB(0.9f, 0.7f, 0.4f);
+
     public static Color primary = Color.HSVToRGB(216 / 360f, 0.5f, 0.3f);
     public static Color primarySemiDark = Color.HSVToRGB(216/360f, 0.5f, 0.2f);
     public static Color primaryDark = Color.HSVToRGB(216 / 360f, 0.5f, 0.1f);
@@ -45,6 +53,7 @@ public static class Colors
         red, yellow, green, skyblue, blue, purple, pink,
         redDark, yellowDark, greenDark, skyblueDark, blueDark, purpleDark, pinkDark,
         redDarker, yellowDarker, greenDarker, skyblueDarker, blueDarker, purpleDarker, pinkDarker,
+        redDarkest, yellowDarkest, greenDarkest, skyblueDarkest, blueDarkest, purpleDarkest, pinkDarkest,
         primary, primarySemiDark, primaryDark
     };
 }

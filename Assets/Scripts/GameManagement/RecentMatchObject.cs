@@ -44,7 +44,7 @@ public class RecentMatchObject
         teamAgainstText.text = opponent.teamData.GetData(TeamData.TP.TEAM_NAME);
         if(opponent == Values.myTeam)
         {
-            teamAgainstText.color = Colors.blue;
+            teamAgainstText.color = Colors.yellow;
         }
         ourScoreText.text = game.GetScore(ours).ToString();
         opponentScoreText.text = game.GetScore(opponent).ToString();
@@ -52,7 +52,7 @@ public class RecentMatchObject
         if (game.GetGameResult(ours) == Game.GameResult.WIN)
         {
             winLossText.text = "W";
-            backGround.color = Colors.blueDarker;
+            backGround.color = Colors.blueDarkest;
         }
         else if (game.GetGameResult(ours) == Game.GameResult.DRAW)
         {
@@ -61,7 +61,7 @@ public class RecentMatchObject
         else if (game.GetGameResult(ours) == Game.GameResult.LOSS)
         {
             winLossText.text = "L";
-            backGround.color = Colors.redDarker;
+            backGround.color = Colors.redDarkest;
         }
         else
         {
