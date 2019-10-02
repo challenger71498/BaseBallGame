@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasePanel : MonoBehaviour
 {
     public InGameObjects InGameObjects;
-
+    
     public void UpdateLayout()
     {
         for(int i = 0; i < 3; ++i)
@@ -17,6 +17,21 @@ public class BasePanel : MonoBehaviour
             else
             {
                 InGameObjects.bases[i].color = Colors.primary;
+            }
+        }
+    }
+
+    public void UpdateStealing()
+    {
+        for(int i = 0; i < 3; ++i)
+        {
+            if(InGameManager.stealingAttempts[i+1])
+            {
+                InGameObjects.baseStealingAttepts[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                InGameObjects.baseStealingAttepts[i].gameObject.SetActive(false);
             }
         }
     }

@@ -13926,6 +13926,10 @@ MonoBehaviour:
   - {fileID: 1911606831}
   - {fileID: 842910053}
   - {fileID: 753435067}
+  baseStealingAttepts:
+  - {fileID: 1287539986}
+  - {fileID: 880028526}
+  - {fileID: 1149392057}
   scorePanel: {fileID: 171794071}
   leftScore: {fileID: 446108222}
   rightScore: {fileID: 543430900}
