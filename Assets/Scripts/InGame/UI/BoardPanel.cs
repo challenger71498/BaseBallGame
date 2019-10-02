@@ -67,7 +67,6 @@ public class BoardPanel : MonoBehaviour
 
     public void UpdateLayout()
     {
-        Debug.Log(scoreObjects.Count);
         TextMeshProUGUI scoreText = scoreObjects[scoreObjects.Count - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         if (InGameManager.isBottom)
         {
