@@ -21,9 +21,12 @@ public static class Innings
             return;
         }
 
-        //BoardPanel UI.
-        InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
-        InGameObjects.boardPanel.AddScorePanel();
+        if(InGameManager.isUIEnabled)
+        {
+            //BoardPanel UI.
+            InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
+            InGameObjects.boardPanel.AddScorePanel();
+        }
 
         //Switch side.
         InGameManager.currentPitcher = InGameManager.otherPitcher;
@@ -86,7 +89,10 @@ public static class Innings
         //Shows a summary tab after finishes a game.
 
         //TEMPORARILY Changes scene to main.
-        Values.date = Values.date.AddDays(1);
-        SceneManager.LoadScene("Main");
+        if(InGameManager.isUIEnabled)
+        {
+            Values.date = Values.date.AddDays(1);
+            SceneManager.LoadScene("Main");
+        }
     }
 }

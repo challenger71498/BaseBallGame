@@ -172,6 +172,12 @@ public class League
         Values.myTeam.SetSchedule(startDate, this);
     }
 
+    /// <summary>
+    /// Find a game includes such team in such date.
+    /// </summary>
+    /// <param name="date"></param>
+    /// <param name="team"></param>
+    /// <returns></returns>
     public Game FindGame(DateTime date, Team team)
     {
         bool findYear(DateTime d)
@@ -203,6 +209,13 @@ public class League
         return null;
     }
 
+    /// <summary>
+    /// Returns a list of recent games of a team based on date, length of a certain amount.
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="team"></param>
+    /// <param name="date"></param>
+    /// <returns></returns>
     public List<Game> RecentMatches(int amount, Team team, DateTime date = default)
     {
         if (date == default)
@@ -239,6 +252,33 @@ public class League
             }
         }
         return games;
+    }
+
+    /// <summary>
+    /// Proceeds games which does not include player's team.
+    /// </summary>
+    /// <param name="date"></param>
+    public void ProceedGame(DateTime date)
+    {
+        int counter = 0;
+        Game playerGame = FindGame(date, Values.myTeam);
+
+        int index = 0;
+        while(counter < 4)
+        {
+            Game game = FindGame(date, teams[index].Value);
+            index++;
+            if(game == playerGame || game.isPlayed)
+            {
+                continue;
+            }
+            else
+            {
+                InGamePlayNoUI inGamePlayNoUI = GameObject.Find("InGamePlayNoUI").GetComponent<InGamePlayNoUI>();
+                inGamePlayNoUI.GamePlayWithoutUI(game);
+                counter++;
+            }
+        }
     }
 
     //Data members

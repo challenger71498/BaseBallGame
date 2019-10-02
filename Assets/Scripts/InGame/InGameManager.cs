@@ -10,6 +10,7 @@ public class InGameManager : MonoBehaviour
 
     public static Game game;
     public static bool isGameEnd = false;
+    public static bool isUIEnabled;
 
     public static int currentInning;
     public static bool isBottom;
@@ -34,7 +35,10 @@ public class InGameManager : MonoBehaviour
     {
         Debug.Log("GAME STARTED");
         InitializeGame();
-        
+
+        //UI initialization.
+        inGameObjects.boardPanel.Initialize();
+
         StartCoroutine(TurnDelayed(0.1f));
     }
 
@@ -50,8 +54,11 @@ public class InGameManager : MonoBehaviour
     /// <summary>
     /// Initializes a game.
     /// </summary>
-    public void InitializeGame()
+    public static void InitializeGame(bool isUIEnable = true)
     {
+        //Toggles UI on or off.
+        isUIEnabled = isUIEnable;
+
         //Resets isGameEnd value to false.
         isGameEnd = false;
 
@@ -76,9 +83,6 @@ public class InGameManager : MonoBehaviour
 
         //Bring the batter to plate.
         AtPlate.AdvanceBatterToPlate();
-
-        //UI
-        inGameObjects.boardPanel.Initialize();
     }
 
     /// <summary>
@@ -86,21 +90,25 @@ public class InGameManager : MonoBehaviour
     /// </summary>
     public void Turn()
     {
-        //InningPanel
-        inGameObjects.inningPanel.UpdateLayout();
+        if(isUIEnabled)
+        {
+            //InningPanel
+            inGameObjects.inningPanel.UpdateLayout();
 
-        //OutPanel
-        inGameObjects.outPanelLayout.ClearLayout();
-        inGameObjects.outPanelLayout.UpdateLayout();
+            //OutPanel
+            inGameObjects.outPanelLayout.ClearLayout();
+            inGameObjects.outPanelLayout.UpdateLayout();
 
-        //BasePanel
-        inGameObjects.basePanel.UpdateLayout();
+            //BasePanel
+            inGameObjects.basePanel.UpdateLayout();
+            inGameObjects.basePanel.UpdateStealing();
 
-        //ScorePanel
-        inGameObjects.scorePanel.UpdateLayout();
+            //ScorePanel
+            inGameObjects.scorePanel.UpdateLayout();
 
-        //BoardPanel
-        inGameObjects.boardPanel.UpdateLayout();
+            //BoardPanel
+            inGameObjects.boardPanel.UpdateLayout();
+        }
 
         //Initializes stealingAttempts array to false.
         for (int i = 0; i < 4; ++i)
@@ -117,6 +125,12 @@ public class InGameManager : MonoBehaviour
                 //If a runner is going to steal base, change stealingAttempt bool to true.
                 stealingAttempts[i] = true;
             }
+        }
+
+        if(isUIEnabled)
+        {
+            //This is a stealingAttempts UI update.
+            inGameObjects.basePanel.UpdateStealing();
         }
 
         //Then, a pitcher determines whether pick off the ball or not.

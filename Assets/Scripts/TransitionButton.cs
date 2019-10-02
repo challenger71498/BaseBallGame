@@ -27,6 +27,7 @@ public class TransitionButton : MonoBehaviour
         if(gameManager.isMatchUpToday)
         {
             //gameManager.SaveData();
+            Values.league.ProceedGame(Values.date);
             InGameManager.game = gameManager.game;
             SceneManager.LoadScene("InGame");
         }

@@ -24,6 +24,7 @@ public class InGameObjects : MonoBehaviour
     [Header("BasePanel")]
     public BasePanel basePanel;
     public Image[] bases;
+    public Image[] baseStealingAttepts;
 
     [Header("ScorePanel")]
     public ScorePanel scorePanel;
