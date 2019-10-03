@@ -43,7 +43,7 @@ public class RandomTeamGenerator
 
         team.players.d = RandomPlayerGenerator.CreateTeam();
         team.startingMembers.d = RandomPlayerGenerator.CreateStartingMember(team.players.d);
-        team.battingOrder.d = RandomPlayerGenerator.CreateBattingOrder(team.players.d);
+        team.battingOrder.d = RandomPlayerGenerator.CreateBattingOrder(team.startingMembers.d);
         team.startPitchOrder.d = RandomPlayerGenerator.CreateStartPitchingOrder(team.players.d);
 
         teamCreated++;

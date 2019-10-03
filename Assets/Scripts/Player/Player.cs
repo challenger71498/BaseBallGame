@@ -30,10 +30,10 @@ public class Player
     public static Dictionary<MetaPosition, List<Position>> metaPosition = new Dictionary<MetaPosition, List<Position>>()
     {
         { MetaPosition.CATCHER, new List<Position>() {Position.CATCHER} },
-        { MetaPosition.IN_FIELD_PLAYER, new List<Position>() {Position.FIRST_BASE_MAN, Position.SECOND_BASE_MAN, Position.THIRD_BASE_MAN} },
-        { MetaPosition.OUT_FIELD_PLAYER, new List<Position>() {Position.LEFT_FIELDER, Position.CENTER_FIELDER, Position.RIGHT_FIELDER} },
-        { MetaPosition.STARTER_PITCHER, new List<Position>() {Position.STARTER_PITCHER, Position.LONG_RELIEF_PITCHER} },
-        { MetaPosition.RELIEF_PITCHER, new List<Position>() {Position.MIDDLE_RELIEF_PITCHER, Position.SETUP_MAN, Position.CLOSER_PITCHER} }
+        { MetaPosition.IN_FIELD_PLAYER, new List<Position>() {Position.FIRST_BASE_MAN, Position.SECOND_BASE_MAN, Position.THIRD_BASE_MAN, Position.DESIGNATED_HITTER } },
+        { MetaPosition.OUT_FIELD_PLAYER, new List<Position>() {Position.LEFT_FIELDER, Position.CENTER_FIELDER, Position.RIGHT_FIELDER, Position.DESIGNATED_HITTER } },
+        { MetaPosition.STARTER_PITCHER, new List<Position>() {Position.STARTER_PITCHER, Position.LONG_RELIEF_PITCHER, Position.DESIGNATED_HITTER } },
+        { MetaPosition.RELIEF_PITCHER, new List<Position>() {Position.MIDDLE_RELIEF_PITCHER, Position.SETUP_MAN, Position.CLOSER_PITCHER, Position.DESIGNATED_HITTER } }
     };
 
     public enum Position
@@ -48,7 +48,7 @@ public class Player
     /// Color sets for position.
     /// </summary>
     public static Color[] positionColor = {
-        Colors.yellowDark, Colors.redDark, Colors.redDark, Colors.redDark, Colors.redDark, Colors.greenDark, Colors.greenDark, Colors.greenDark, Colors.purpleDark,
+        Colors.yellowDark, Colors.redDark, Colors.redDark, Colors.redDark, Colors.redDark, Colors.greenDark, Colors.greenDark, Colors.greenDark, Colors.greyDarker,
         Colors.skyblueDark, Colors.pinkDark, Colors.pinkDark, Colors.purpleDark, Colors.blueDark,
         Colors.yellowDarker, Colors.redDarker, Colors.greenDarker, Colors.skyblueDarker, Colors.pinkDarker,
         Colors.skyblueDark

@@ -179,7 +179,7 @@ public class PlayerList : MonoBehaviour {
 
                 if (PlayerData.serializableDictPrefs.ContainsKey(stat.Key))
                 {
-                    foreach (KeyValuePair<PlayerData.PP, float> valuePair in ((SerializableDictPP)(stat.Value)).d)
+                    foreach (KeyValuePair<PlayerData.PP, float> valuePair in ((SerializableDictPP)stat.Value).d)
                     {
                         GameObject statSmallObject = Instantiate(statSmallComponent, gameManager.PIP_statPanel.transform);
                         float statSmallValue = valuePair.Value;

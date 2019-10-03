@@ -157,6 +157,8 @@ public class PlayerData
             SerializableDict<PP, float> sdpp = (SerializableDict<PP, float>)data.d[PP.POSITION_SKILLS];
             foreach (Player.Position p in Player.metaPosition[meta])
             {
+                if (p == Player.Position.DESIGNATED_HITTER) continue;
+
                 sdpp.d.Add(
                     (PP)PPString.FindIndex(delegate (string cmp)
                     {
