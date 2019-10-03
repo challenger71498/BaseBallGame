@@ -84,6 +84,19 @@ public static class Innings
     /// </summary>
     public static void EndGame()
     {
+        //Assigns win or loss to the game.
+        if(InGameManager.game.homeScoreBoard.R > InGameManager.game.awayScoreBoard.R)
+        {
+            InGameManager.game.home.teamStats.SetData(TeamStatistics.TS.WIN, 1);
+            InGameManager.game.away.teamStats.SetData(TeamStatistics.TS.LOSS, 1);
+        }
+        else if (InGameManager.game.homeScoreBoard.R < InGameManager.game.awayScoreBoard.R)
+        {
+            InGameManager.game.away.teamStats.SetData(TeamStatistics.TS.WIN, 1);
+            InGameManager.game.home.teamStats.SetData(TeamStatistics.TS.LOSS, 1);
+        }
+
+        //Marks game as played.
         InGameManager.game.isPlayed = true;
         InGameManager.isGameEnd = true;
         //Shows a summary tab after finishes a game.
