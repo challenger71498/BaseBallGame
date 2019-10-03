@@ -29,7 +29,9 @@ public static class Innings
         }
 
         //Switch side.
+        Pitcher tempPitcher = InGameManager.currentPitcher;
         InGameManager.currentPitcher = InGameManager.otherPitcher;
+        InGameManager.otherPitcher = tempPitcher;
 
         if (InGameManager.currentAttack == InGameManager.game.home)
         {
