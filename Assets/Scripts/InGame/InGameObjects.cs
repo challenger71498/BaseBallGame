@@ -43,4 +43,9 @@ public class InGameObjects : MonoBehaviour
     public TextMeshProUGUI awayHitText;
     public TextMeshProUGUI homeErrorText;
     public TextMeshProUGUI awayErrorText;
+
+    [Header("PauseButton")]
+    public GameObject pauseButton;
+    public GameObject pausePanel;
+    public GameObject optionPanel;
 }

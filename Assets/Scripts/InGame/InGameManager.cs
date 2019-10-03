@@ -9,6 +9,7 @@ public class InGameManager : MonoBehaviour
     public InGameObjects inGameObjects;
 
     public static Game game;
+    public static bool isPaused = false;
     public static bool isGameEnd = false;
     public static bool isUIEnabled;
 
@@ -46,7 +47,10 @@ public class InGameManager : MonoBehaviour
     {
         while (!isGameEnd)
         {
-            Turn();
+            if(!isPaused)
+            {
+                Turn();
+            }
             yield return new WaitForSeconds(delayAmount);
         }
     }
@@ -58,6 +62,9 @@ public class InGameManager : MonoBehaviour
     {
         //Toggles UI on or off.
         isUIEnabled = isUIEnable;
+
+        //Resets isPaused value to false.
+        isPaused = false;
 
         //Resets isGameEnd value to false.
         isGameEnd = false;
