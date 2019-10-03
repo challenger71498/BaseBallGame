@@ -152,7 +152,7 @@ public static class Schedules
                     teamPanel0.winLossText.text = home.teamStats.GetData(TeamStatistics.TS.WIN) + "W " + home.teamStats.GetData(TeamStatistics.TS.LOSS) + "L";
                     TeamObject teamPanel1 = new TeamObject(matchupPanel.transform.GetChild(1).gameObject);
                     teamPanel1.nameText.text = away.teamData.GetData(TeamData.TP.NAME);
-                    teamPanel1.winLossText.text = home.teamStats.GetData(TeamStatistics.TS.WIN) + "W " + home.teamStats.GetData(TeamStatistics.TS.LOSS) + "L";
+                    teamPanel1.winLossText.text = away.teamStats.GetData(TeamStatistics.TS.WIN) + "W " + away.teamStats.GetData(TeamStatistics.TS.LOSS) + "L";
 
                     //Sets color to point out which side is our team.
                     if (Values.myTeam == scheduleMatchUp.game.home)
