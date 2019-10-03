@@ -15,5 +15,7 @@ public class ScorePanel : MonoBehaviour
     public void OnClick()
     {
         InGameObjects.boardPanel.gameObject.SetActive(true);
+        InGameObjects.inningPanel.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
