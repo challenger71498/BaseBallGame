@@ -27,6 +27,8 @@ public class TransitionButton : MonoBehaviour
         if(gameManager.isMatchUpToday)
         {
             //gameManager.SaveData();
+            //Shows transition text, and apply text to it.
+
             Values.league.ProceedGame(Values.date);
             InGameManager.game = gameManager.game;
             SceneManager.LoadScene("InGame");

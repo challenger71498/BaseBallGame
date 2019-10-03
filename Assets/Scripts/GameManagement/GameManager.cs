@@ -168,6 +168,10 @@ public class GameManager : MonoBehaviour
     [Header("Notifications")]
     public GameObject notificationPanel;
 
+    //Transition
+    [Header("Transition")]
+    public GameObject transitionTextObject;
+
     //Hide In Inspector
     [HideInInspector] public Filter.Mode mode = Filter.Mode.ALL;
     [HideInInspector] public SortDropdown.SortMode sortMode = SortDropdown.SortMode.OVERALL;
@@ -177,13 +181,13 @@ public class GameManager : MonoBehaviour
     int counter = -1;
 
     //Schedulebutton isClicked
-    public static GameObject ClickedObject;
+    [HideInInspector] public static GameObject ClickedObject;
 
     //Check whether there's matchup today.
-    public bool isMatchUpToday = false;
+    [HideInInspector] public bool isMatchUpToday = false;
 
     //Which game
-    public Game game;
+    [HideInInspector] public Game game;
 
     //DEBUG:: Check whether it already has been created sample data.
     public static bool isCreated = false;
@@ -239,6 +243,9 @@ public class GameManager : MonoBehaviour
 
         //Inactivates menu panels
         playersPanel.SetActive(false);
+
+        //Inactivates transition text.
+        transitionTextObject.SetActive(false);
 
         //LeftPanel
 
