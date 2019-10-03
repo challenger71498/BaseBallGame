@@ -12,6 +12,11 @@ public static class Pitching
     {
         if (isRandom)
         {
+            float condition = InGameManager.currentPitcher.playerData.GetData(PlayerData.PP.CONDITION);
+            condition -= Random.Range(0.1f, 0.5f);
+            if (condition <= 0) condition = 0;
+            InGameManager.currentPitcher.playerData.SetData(PlayerData.PP.CONDITION, condition);
+
             float randomFloat = UnityEngine.Random.Range(0f, 1f);
             if (randomFloat < 0.03f)
             {

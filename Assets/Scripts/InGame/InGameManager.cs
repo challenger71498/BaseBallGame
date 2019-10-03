@@ -40,6 +40,8 @@ public class InGameManager : MonoBehaviour
         //UI initialization.
         inGameObjects.PlayerUIApply.SetPlayers();
         inGameObjects.boardPanel.Initialize();
+        inGameObjects.scorePanel.gameObject.SetActive(false);
+        inGameObjects.inningPanel.gameObject.SetActive(false);
 
         StartCoroutine(TurnDelayed(0.1f));
     }
@@ -91,8 +93,6 @@ public class InGameManager : MonoBehaviour
 
         //Brings the batter to plate.
         AtPlate.AdvanceBatterToPlate();
-
-        //Loads player to UI.
     }
 
     /// <summary>
@@ -118,6 +118,9 @@ public class InGameManager : MonoBehaviour
 
             //BoardPanel
             inGameObjects.boardPanel.UpdateLayout();
+
+            //Field_Condition
+            inGameObjects.PlayerUIApply.SetPlayers(true);
         }
 
         //Initializes stealingAttempts array to false.

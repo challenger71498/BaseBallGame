@@ -5,13 +5,8 @@ using UnityEngine;
 public class PlayerUIApply : MonoBehaviour
 {
     public TotalMovement TotalMovement;
-
-    public void Start()
-    {
-        SetPlayers();
-    }
-
-    public void SetPlayers()
+    
+    public void SetPlayers(bool conditionOnly = false)
     {
         Player.Position[] positions =
         {
@@ -35,7 +30,28 @@ public class PlayerUIApply : MonoBehaviour
         foreach(KeyValuePair<Player.Position, GameObject> pair in dict)
         {
             InGamePlayerObject InGamePlayerObject = new InGamePlayerObject(pair.Value);
-            InGamePlayerObject.SetByPlayer(InGameManager.currentDefend.GetPlayerByPosition(pair.Key), InGameManager.currentDefend);
+            if(conditionOnly)
+            {
+                if (Player.metaPosition[Player.MetaPosition.STARTER_PITCHER].Contains(pair.Key) || Player.metaPosition[Player.MetaPosition.RELIEF_PITCHER].Contains(pair.Key))
+                {
+                    InGamePlayerObject.SetByPlayerConditionOnly(InGameManager.currentPitcher);
+                }
+                else
+                {
+                    InGamePlayerObject.SetByPlayerConditionOnly(InGameManager.currentDefend.GetStartingBatterByPosition(pair.Key));
+                }
+            }
+            else
+            {
+                if (Player.metaPosition[Player.MetaPosition.STARTER_PITCHER].Contains(pair.Key) || Player.metaPosition[Player.MetaPosition.RELIEF_PITCHER].Contains(pair.Key))
+                {
+                    InGamePlayerObject.SetByPlayer(InGameManager.currentPitcher, InGameManager.currentDefend);
+                }
+                else
+                {
+                    InGamePlayerObject.SetByPlayer(InGameManager.currentDefend.GetStartingBatterByPosition(pair.Key), InGameManager.currentDefend);
+                }
+            }
         }
     }
 }
