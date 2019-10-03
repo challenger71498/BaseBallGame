@@ -67,6 +67,13 @@ public static class Innings
 
         InGameManager.outCount = 0;
         AtPlate.ClearCount();
+
+        //UI
+        if(InGameManager.isUIEnabled)
+        {
+            InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
+            InGameObjects.PlayerUIApply.SetPlayers();
+        }
     }
 
     /// <summary>

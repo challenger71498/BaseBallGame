@@ -650,6 +650,7 @@ MonoBehaviour:
     isStartingMember: 0
     isSubstitute: 0
     train: 0
+    order: 0
     form: 4
   PlayerPosition: 
   AbsPower: 100

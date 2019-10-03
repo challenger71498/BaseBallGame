@@ -12,7 +12,7 @@ public class Team
         teamData = new TeamData(cityName, teamName, shortName, year, month, day);
         teamStats = new TeamStatistics();
         players = new SerializableList<KeyValuePair<int, Player>>();
-        if(playerList != null)
+        if (playerList != null)
         {
             players.d = playerList;
         }
@@ -102,6 +102,19 @@ public class Team
                 Values.schedules.Add(Values.schedules.Count, new Schedule_MatchUp(Values.schedules.Count, game.date.date, game));
             }
         }
+    }
+
+    public Player GetPlayerByPosition(Player.Position position)
+    {
+        foreach (KeyValuePair<Player.Position, Player> playerPair in startingMembers.d)
+        {
+            if(playerPair.Key == position)
+            {
+                return playerPair.Value;
+            }
+        }
+
+        throw new NullReferenceException("There is no such player with position " + position.ToString() + ".");
     }
 
     public Player GetKeyPlayer()

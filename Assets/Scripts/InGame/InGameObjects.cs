@@ -6,6 +6,10 @@ using TMPro;
 
 public class InGameObjects : MonoBehaviour
 {
+    [Header("TotalMovement")]
+    public TotalMovement TotalMovement;
+    public PlayerUIApply PlayerUIApply;
+
     [Header("Prefabs")]
     public GameObject titlePrefab;
     public GameObject scorePrefab;

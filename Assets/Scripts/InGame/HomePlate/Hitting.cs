@@ -57,6 +57,12 @@ public static class Hitting
             BaseRunning.AdvanceRunner(4);
             Debug.Log("HOME RUN");
         }
+
+        //If inning is over 9 and walked off, finishes game.
+        if(InGameManager.currentInning > 9 && InGameManager.isBottom && InGameManager.game.homeScoreBoard.R > InGameManager.game.awayScoreBoard.R)
+        {
+            Innings.EndGame();
+        }
     }
     /// <summary>
     /// Determines whether hit or not.

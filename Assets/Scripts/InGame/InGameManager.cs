@@ -38,6 +38,7 @@ public class InGameManager : MonoBehaviour
         InitializeGame();
 
         //UI initialization.
+        inGameObjects.PlayerUIApply.SetPlayers();
         inGameObjects.boardPanel.Initialize();
 
         StartCoroutine(TurnDelayed(0.1f));
@@ -69,27 +70,29 @@ public class InGameManager : MonoBehaviour
         //Resets isGameEnd value to false.
         isGameEnd = false;
 
-        //Setting the inning.
+        //Sets the inning.
         currentInning = 1;
         isBottom = false;
         currentAttack = game.away;
         currentDefend = game.home;
 
-        //Setting batting orders.
+        //Sets batting orders.
         homeBattingOrder = game.home.battingOrder.d;
         homeCurrentBattersIndex = 0;
         awayBattingOrder = game.away.battingOrder.d;
         awayCurrentBattersIndex = 0;
 
-        //Setting a pitcher.
+        //Sets a pitcher.
         currentPitcher = game.awayStarterPitcher;
         otherPitcher = game.homeStarterPitcher;
         strikeCount = 0;
         ballCount = 0;
         outCount = 0;
 
-        //Bring the batter to plate.
+        //Brings the batter to plate.
         AtPlate.AdvanceBatterToPlate();
+
+        //Loads player to UI.
     }
 
     /// <summary>

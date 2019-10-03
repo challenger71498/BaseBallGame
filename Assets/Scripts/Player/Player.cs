@@ -40,7 +40,8 @@ public class Player
     {
         CATCHER, FIRST_BASE_MAN, SECOND_BASE_MAN, THIRD_BASE_MAN, SHORT_STOP, LEFT_FIELDER, CENTER_FIELDER, RIGHT_FIELDER, DESIGNATED_HITTER,
         STARTER_PITCHER, LONG_RELIEF_PITCHER, MIDDLE_RELIEF_PITCHER, SETUP_MAN, CLOSER_PITCHER,
-        SUB_CATCHER, SUB_IN_FIELD, SUB_OUT_FIELD, SUB_STARTER_PITCHER, SUB_RELIEF_PITCHER
+        SUB_CATCHER, SUB_IN_FIELD, SUB_OUT_FIELD, SUB_STARTER_PITCHER, SUB_RELIEF_PITCHER,
+        PITCHER
     }
 
     /// <summary>
@@ -49,7 +50,8 @@ public class Player
     public static Color[] positionColor = {
         Colors.yellowDark, Colors.redDark, Colors.redDark, Colors.redDark, Colors.redDark, Colors.greenDark, Colors.greenDark, Colors.greenDark, Colors.purpleDark,
         Colors.skyblueDark, Colors.pinkDark, Colors.pinkDark, Colors.purpleDark, Colors.blueDark,
-        Colors.yellowDarker, Colors.redDarker, Colors.greenDarker, Colors.skyblueDarker, Colors.pinkDarker
+        Colors.yellowDarker, Colors.redDarker, Colors.greenDarker, Colors.skyblueDarker, Colors.pinkDarker,
+        Colors.skyblueDark
     };
 
     /// <summary>
@@ -58,7 +60,8 @@ public class Player
     public static List<string> positionStringShort = new List<string>() {
         "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "DH",
         "SP", "LR", "MR", "SM", "CP",
-        "C", "I", "O", "S", "R"
+        "C", "I", "O", "S", "R",
+        "P"
     };
 
     /// <summary>
@@ -67,7 +70,8 @@ public class Player
     public static List<string> positionString = new List<string>() {
         "Catcher", "First Base Man", "Second Base Man", "Third Base Man", "Shortstop", "Left Fielder", "Center Fielder", "Right Fielder", "Designated Hitter",
         "Starter Pitcher", "Long Relief Pitcher", "Middle Relief Pitcher", "Setup Man", "Closer Pitcher",
-        "Substitute Catcher", "Substitute In-Fielder", "Substitute Out-Fielder", "Substitute Starter", "Substitute Reliever"
+        "Substitute Catcher", "Substitute In-Fielder", "Substitute Out-Fielder", "Substitute Starter", "Substitute Reliever",
+        "Pitcher"
     };
 
     /// <summary>
