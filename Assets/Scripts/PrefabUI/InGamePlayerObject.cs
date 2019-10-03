@@ -13,8 +13,8 @@ public class InGamePlayerObject
         ToggleHaveBall(false);
         condition = transform.GetChild(1).GetComponent<Image>();
         playerColor = transform.GetChild(2).GetComponent<Image>();
-        //positionText = transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        nameText = transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
+        //positionText = transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
+        nameText = transform.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>();
     }
 
     public void ToggleHaveBall(bool isActive)
@@ -28,6 +28,11 @@ public class InGamePlayerObject
         playerColor.color = team.teamData.GetData(TeamData.TP.COLOR);
         //positionText.text = Player.positionStringShort[(int)player.playerData.GetData(PlayerData.PP.POSITION)];
         nameText.text = ((string)player.playerData.GetData(PlayerData.PP.NAME)).Split(' ')[1];
+    }
+
+    public void SetByPlayerConditionOnly(Player player)
+    {
+        condition.fillAmount = player.playerData.GetData(PlayerData.PP.CONDITION) / 100f;
     }
 
     public Image haveBall;
