@@ -169,7 +169,7 @@ public class League
             gamesMade++;
         }
 
-        Values.myTeam.SetSchedule(startDate, this);
+        Values.myTeam.RefreshSchedule(startDate, this);
     }
 
     /// <summary>
@@ -267,17 +267,13 @@ public class League
         while(counter < 4)
         {
             Game game = FindGame(date, teams[index].Value);
-            index++;
-            if(game == playerGame || game.isPlayed)
-            {
-                continue;
-            }
-            else
+            if(game != playerGame && !game.isPlayed)
             {
                 InGamePlayNoUI inGamePlayNoUI = GameObject.Find("InGamePlayNoUI").GetComponent<InGamePlayNoUI>();
                 inGamePlayNoUI.GamePlayWithoutUI(game);
                 counter++;
             }
+            index++;
         }
     }
 
