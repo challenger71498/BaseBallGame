@@ -86,20 +86,23 @@ public class Team
         return sum / players.Count;
     }
 
-    public void SetSchedule(DateTime date, League league)
+    public void RefreshSchedule(DateTime date, League league)
     {
+        Values.schedules = new Dictionary<int, Schedule>();
         DateTime currentDate;
         for (currentDate = new DateTime(date.Year, date.Month, date.Day); (currentDate - date).Days < 14; currentDate = currentDate.AddDays(1))
         {
             Game game = league.FindGame(currentDate, this);
-
+            
             if (game == null)
             {
                 continue;
+
             }
             else
             {
-                Values.schedules.Add(Values.schedules.Count, new Schedule_MatchUp(Values.schedules.Count, game.date.date, game));
+                Schedule schedule = new Schedule_MatchUp(Values.schedules.Count, game.date.date, game);
+                Values.schedules.Add(Values.schedules.Count, schedule);
             }
         }
     }
