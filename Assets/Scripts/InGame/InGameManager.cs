@@ -85,8 +85,8 @@ public class InGameManager : MonoBehaviour
         awayCurrentBattersIndex = 0;
 
         //Sets a pitcher.
-        currentPitcher = game.awayStarterPitcher;
-        otherPitcher = game.homeStarterPitcher;
+        currentPitcher = game.homeStarterPitcher;
+        otherPitcher = game.awayStarterPitcher;
         strikeCount = 0;
         ballCount = 0;
         outCount = 0;
