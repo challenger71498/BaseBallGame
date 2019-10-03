@@ -11,13 +11,14 @@ public class newBALL : MonoBehaviour
     
     static Vector3 PowerVector  = new Vector3 (0,0,0); //공이 받은 힘을 구면좌표로 표현
     static Vector2 Location = new Vector2(0,0); //공의 현재 위치로 FirstFly, Bounding, GuLuneDaTilEnd가 호출되면 setLocation을 통해 값을 바꿔야함
-    public static List<Vector2> LandingLocations  = new List<Vector2>() { new Vector2(0,0)}; //가장 처음에 (0,0)추가해야 함
+    public static List<Vector2> LandingLocations  = new List<Vector2>() { new Vector2(0,0)}; //가장 처음에 (0,0)추가해야 함, 공이 끝까지 구를 때 각 위치를 저장
     //LandingLocations 추가설명 : 공이 착륙하거나 구른 결과의 좌표를 가지고 있으며 굴러서 나온 좌표는 항상 마지막 요소여야 한다.
+    public static List<Vector2> RealLandingLocations = new List<Vector2>() { };//실제 공의 주요 위치(공이 잡힐 때, 공이 수비를 위해 던져질 위치)등을 저장함.
     static float HittingPoint = 0.7f;
     public static List<float> TimeList = new List<float>(); //공이 땅에 닿을때 각 텀에 대한 시간
     public static List<float> MaxHeightList = new List<float>(); //최대높이 모음
     public static List<Vector3> BallPowerList = new List<Vector3>(); //공의 힘벡터 모음 -> 이후 특정지점의 높이 구할때 사용
-
+    public static bool HomeRun = false;
 
     public static void Hit(float HitterStrong, float Accuracy, bool isRight) //공의 구면좌표 설정(타자의 힘, 정확도, 오른손잡이순서)
     {
@@ -31,7 +32,7 @@ public class newBALL : MonoBehaviour
         {
             if (Accuracy >= 0.8) //정확도가 높음 -> 플라이볼, 파울이 아님, 여기서는 장타만을 고려
             {
-                inclination = Random.Range(0, 90); //기울기를 구장의 오른쪽을 향하도록 설정
+                inclination = Random.Range(30, 60); //기울기를 구장의 중앙을 향하도록 설정
                 hightAngle = Random.Range(20,30); //높이 설정(장타)
             }
             else //파울

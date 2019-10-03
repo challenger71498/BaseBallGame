@@ -9,6 +9,8 @@ public class TotalMovement : MonoBehaviour
     //public inGamePlayer inGam1, inGam2, inGam3, inGam4, inGam5, inGam6, inGam7, inGam8, inGam9;
     [HideInInspector] public List<inGamePlayer> inGams;
     public List<GameObject> inGamObjs;
+    public List<RectTransform> inGamMoves;
+    public List<Vector2> BaseLocation = new List<Vector2>() { new Vector2(27.3f, 0), new Vector2(27.3f, 27.3f), new Vector2(0, 27.3f) };//1,2,3루
 
     public float BallRealtime = 0;
     public float RealTime =0; //경기장 시간
@@ -16,19 +18,22 @@ public class TotalMovement : MonoBehaviour
     int FirstCatchPlayerNumber = -1;
     int CatchTime = -1; //공이 몇번째에 잡히는가? index로 쓰이기 때문에 -1부터 시작
     int level = 0;
-    int Magnification = 10;
+    int Magnification = 7;
 
     static public Vector3 Ball;
-
-   // Vector2 L;
 
     void Calculate()
     {
 
         ballObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 1, 0);
 
-        newBALL.Hit(20, 1, true);
+        newBALL.Hit(35, 1, true);
         newBALL.FirstFly();
+        if(newBALL.GetHeight(120)>3 && Vector2.Distance(new Vector2(0, 0), newBALL.LandingLocations[1]) >= 120)
+        {
+            newBALL.HomeRun = true;
+            Debug.Log("home run!");
+        }
         do
         {
             newBALL.NerfPower(0.5f);
@@ -108,7 +113,8 @@ public class TotalMovement : MonoBehaviour
                 isCatch = true;
                 playerPlace.x = newBALL.LandingLocations[i + 1].x;
                 playerPlace.y = newBALL.LandingLocations[i + 1].y; //플레이어의 위치를 공의 위치로 변경
-                
+                G.setLocation(playerPlace); //플레이어 위치 추가
+
                 break;
             }            
         } //마지막에서 2번째 인덱스를 catchTime이 가져야 함
@@ -120,13 +126,14 @@ public class TotalMovement : MonoBehaviour
             {
                 newBALL.GuLuneDa(G.location, G.RealSpeed, 1.9f); //공의 위치 변경
                 playerPlace =  newBALL.GetLocation(); //플레이어 위치를 GuLuneDa실행 후 공의 위치로 변경
+                G.setLocation(playerPlace);
             }
             else
             {
                 playerPlace.x = newBALL.LandingLocations[i + 1].x;
                 playerPlace.y = newBALL.LandingLocations[i + 1].y; //플레이어의 위치를 공의 위치로 변경
+                G.setLocation(playerPlace);
             }
-
         }
     }
 
@@ -159,35 +166,68 @@ public class TotalMovement : MonoBehaviour
         {
             inGams.Add(inGamObjs[i].GetComponent<inGamePlayer>());  //InGame Object에서 InGamePlayer 인스턴스를 inGams에 추가함.
             RectTransform Rt = inGams[i].GetComponent<RectTransform>();
-            Rt.anchoredPosition = inGams[i].location * Magnification;
-            inGams[i].setLocation(Rt.anchoredPosition);
+            inGams[i].setLocation((inGams[i].location));
+            Rt.anchoredPosition = inGams[i].locations[0]*Magnification;
             Debug.Log(inGams[i].locations[0]);
+
+            inGamMoves.Add(inGamObjs[i].GetComponent<RectTransform>());
         }
-        //RectTransform Rt = PlayerObj1.GetComponent<RectTransform>();
-        //Rt.anchoredPosition = inGam1.location;
+
     }
 
-    
-    //MoveTo 함수 test
-    void MoveTo(inGamePlayer player, Vector2 Goal, float startTime) //startTime은 함수 호출 시간 , 이건 나중에 수비 매커니즘이 완성되면 제작
-    {
-        if(RealTime < startTime || (RealTime-startTime)> player.GetDistanceTime(Vector2.Distance(player.location,Goal)))
-        {
 
+    //MoveTo 함수 test
+    void MoveTo(int playerNum, Vector2 start ,Vector2 goal ,float startTime) //startTime은 함수 호출 시간 , 이건 나중에 수비 매커니즘이 완성되면 제작 //수정 필요
+    {
+        //---------------변수-------------------
+        int lastIndex = inGams[playerNum].playerCallTime;
+        float time = inGams[playerNum].GetDistanceTime(Vector2.Distance(inGams[playerNum].locations[lastIndex - 1], inGams[playerNum].locations[lastIndex]));
+
+        //---------------내용-------------------       
+        
+
+        if (RealTime >= startTime && (RealTime-startTime)<= time)
+        {
+         
+            inGamMoves[playerNum].anchoredPosition = Vector2.Lerp(inGams[playerNum].location * Magnification, goal * Magnification, (RealTime - startTime) / time);
+            //inGams[playerNum].BeforeSetLocation(goal);
         }
     }
 
     //수비 시뮬레이션
-    void DefMove()
+    void setDefPlayerLocations()
     {
-        if(newBALL.BallPowerList[0].y>30 && newBALL.BallPowerList[0].y < 60) //중앙을 향하는 공
+        if(newBALL.BallPowerList[0].y>=30 && newBALL.BallPowerList[0].y <= 60) //중앙을 향하는 공
         {
-            if(Vector2.Distance(newBALL.LandingLocations[0],newBALL.LandingLocations[1])<= 40) //외야와 내야 사이에 첫 공의 착지지점이 위치
+            if(Vector2.Distance(newBALL.LandingLocations[0],newBALL.LandingLocations[1])<= 40) //내야 내부에 첫 공의 착지지점이 위치
             {
-                FirstCatchPlayerNumber = BallCatchPlayer();
+
             }
             else {
-                FirstCatchPlayerNumber = 5;
+
+                if (newBALL.BallPowerList[0].y>=45)
+                {
+                    inGams[0].setLocation(inGams[0].location);
+                    inGams[1].setLocation(inGams[1].location);
+                    inGams[2].setLocation(BaseLocation[0]);
+                    inGams[3].setLocation(inGams[3].location);
+                    inGams[4].setLocation(BaseLocation[1]);
+                    inGams[6].setLocation(new Vector2(40, 50));
+
+                    inGams[7].setLocation(inGams[7].location);
+                    inGams[8].setLocation(BaseLocation[2]);
+                }
+                else
+                {
+                    inGams[0].setLocation(inGams[0].location);
+                    inGams[1].setLocation(inGams[1].location);
+                    inGams[2].setLocation(BaseLocation[0]);
+                    inGams[3].setLocation(inGams[3].location);
+                    inGams[4].setLocation(new Vector2(50, 40));
+                    inGams[6].setLocation(BaseLocation[1]);
+                    inGams[7].setLocation(inGams[7].location);
+                    inGams[8].setLocation(BaseLocation[2]);
+                }
             }
             
         }
@@ -195,22 +235,22 @@ public class TotalMovement : MonoBehaviour
         {
             if (Vector2.Distance(newBALL.LandingLocations[0], newBALL.LandingLocations[1]) <= 100) //외야와 내야 사이에 첫 공의 착지지점이 위치
             {
-                FirstCatchPlayerNumber = BallCatchPlayer();
+
             }
             else
             {
-                FirstCatchPlayerNumber = 7;
+
             }
         }
         else if(newBALL.BallPowerList[0].y >= 0 && newBALL.BallPowerList[0].y <= 30) //오른쪽을 향하는 공
         {
             if (Vector2.Distance(newBALL.LandingLocations[0], newBALL.LandingLocations[1]) <= 100) //외야와 내야 사이에 첫 공의 착지지점이 위치
             {
-                FirstCatchPlayerNumber = BallCatchPlayer();
+
             }
             else
             {
-                FirstCatchPlayerNumber = 3;
+
             }
         }
         else
@@ -223,26 +263,36 @@ public class TotalMovement : MonoBehaviour
     // Start is called before the first frame update------------------------------------------------------------------------------
     void Start()
     {
-        Debug.Log("Start!");
         inGams = new List<inGamePlayer>();
         SetInGamePlayerList();//선수들을 리스트에 정렬
         Calculate();//구르기 전까지의 공의 위치 저장
-
-        for(int i = 0; i < newBALL.GetListCount(); i++) //검사용
+        for (int i = 0; i < newBALL.GetListCount(); i++) //검사용
         {
             Debug.Log(i + " : " +newBALL.LandingLocations[i]  + " : " + newBALL.TimeList[i]+ " : " + newBALL.MaxHeightList[i]);
         }
-        //FirstCatchPlayerNumber = BallCatchPlayer(); //이 부분은 나중에 defMove로 대체되고, ballCatchPlayer는 그 안에 호출될 예정
-        DefMove();
+      
+        
+        FirstCatchPlayerNumber = BallCatchPlayer(); //공 잡을 선수 계산
 
+        CalculatePlayer(inGams[FirstCatchPlayerNumber]); //계산된 선수가 공을 잡음
+        
+        newBALL.RealLandingLocations.Add(newBALL.LandingLocations[CatchTime + 1]);//공이 잡힌 위치를 저장
 
-        CalculatePlayer(inGams[FirstCatchPlayerNumber]);
+        setDefPlayerLocations();
     }
 
     // Update is called once per frame------------------------------------------------------------------------------
     void Update()
     {
         RealTime += Time.deltaTime;
+
+        if (newBALL.HomeRun)
+        {
+            RectTransform Rt = ballObj.GetComponent<RectTransform>();
+            Rt.anchoredPosition = Vector2.Lerp(newBALL.LandingLocations[0] * Magnification, newBALL.LandingLocations[1] * Magnification, RealTime / newBALL.TimeList[0]);
+            return;
+        }
+
         //-------------------------------------------------------------------------------------------------------------------------공
         if (CatchTime > level && BallRealtime >= newBALL.TimeList[level]) //newBALL.GetListCount()를 잠시 CatchTime으로 변경
         {
@@ -272,17 +322,31 @@ public class TotalMovement : MonoBehaviour
 
         //-------------------------------------------------------------------------------------------------------------------------선수
         //실제로는 inGamePleyer에서 GameObject를 받아와서 그걸로 해야함, 여기서는 일단 방법을 몰라 임의의 GameObject에서 실행
-        
-        RectTransform Prt = inGamObjs[FirstCatchPlayerNumber].GetComponent<RectTransform>(); //에러나면 다 0번째 element로 바꿔라
+
+        inGamMoves[FirstCatchPlayerNumber] = inGamObjs[FirstCatchPlayerNumber].GetComponent<RectTransform>(); //에러나면 다 0번째 element로 바꿔라
         inGams[FirstCatchPlayerNumber].PlusDeltaTime(Time.deltaTime);  //level을 대체할 변수 만들어야 함
+
         
-        //inGams[FirstCatchPlayerNumber.getTime를 realtime으로 변환해봄
-        if(RealTime <= inGams[FirstCatchPlayerNumber].GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime+1], inGams[FirstCatchPlayerNumber].locations[0]))) //이 내부의 level인덱스를 CatchTime으로 변환
+
+        ////inGams[FirstCatchPlayerNumber.getTime를 realtime으로 변환해봄
+        if (RealTime <= inGams[FirstCatchPlayerNumber].GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime + 1], inGams[FirstCatchPlayerNumber].locations[0]))) //이 내부의 level인덱스를 CatchTime으로 변환
         {
-            Prt.anchoredPosition = Vector2.Lerp(inGams[FirstCatchPlayerNumber].locations[0] * Magnification, newBALL.LandingLocations[CatchTime + 1] * Magnification, RealTime / inGams[FirstCatchPlayerNumber].GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime + 1], inGams[FirstCatchPlayerNumber].locations[0])));
+            inGamMoves[FirstCatchPlayerNumber].anchoredPosition = Vector2.Lerp(inGams[FirstCatchPlayerNumber].locations[0] * Magnification, newBALL.LandingLocations[CatchTime + 1] * Magnification, RealTime / inGams[FirstCatchPlayerNumber].GetDistanceTime(Vector2.Distance(newBALL.LandingLocations[CatchTime + 1], inGams[FirstCatchPlayerNumber].locations[0])));
         }
-
-
+        for(int i = 0; i < 9; i++) //선수 수만큼 반복
+        {
+            if(i != FirstCatchPlayerNumber) //처음에 공을 잡는 선수
+            {
+                for(int a = 0; a <inGams[i].startTimes.Count; a++)
+                {
+                    MoveTo(i, inGams[i].locations[a],inGams[i].locations[a+1], inGams[i].startTimes[a]);
+                }
+            }
+            else
+            {
+                continue;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------------------선수
     }
 }
