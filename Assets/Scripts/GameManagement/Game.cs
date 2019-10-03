@@ -161,7 +161,7 @@ public class Game
     public Team home;
     public Team away;
 
-    public Pitcher homeStarterPitcher;  //Need to be assigned.
+    public Pitcher homeStarterPitcher;
     public Pitcher awayStarterPitcher;
 
     public ScoreBoard homeScoreBoard;

@@ -104,7 +104,7 @@ public class Team
         }
     }
 
-    public Player GetPlayerByPosition(Player.Position position)
+    public Player GetStartingBatterByPosition(Player.Position position)
     {
         foreach (KeyValuePair<Player.Position, Player> playerPair in startingMembers.d)
         {
