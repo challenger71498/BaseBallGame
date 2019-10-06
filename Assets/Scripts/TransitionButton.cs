@@ -28,10 +28,7 @@ public class TransitionButton : MonoBehaviour
         {
             //gameManager.SaveData();
             //Shows transition text, and apply text to it.
-
-            Values.league.ProceedGame(Values.date);
-            InGameManager.game = gameManager.game;
-            SceneManager.LoadScene("InGame");
+            MatchUpInitialization();
         }
         else
         {
@@ -40,5 +37,19 @@ public class TransitionButton : MonoBehaviour
             SceneManager.LoadScene(whereTo);
         }
         StopCoroutine("TransitionFinishedCheck");
+    }
+
+    public void MatchUpInitialization()
+    {
+        //gameManager.SaveData();
+        //Shows transition text, and apply text to it.
+        gameManager.transitionTextObject.SetActive(true);
+        gameManager.transitionTextObject.GetComponent<TMPro.TextMeshProUGUI>().text = "Processing other team\'s games...";
+        Values.league.ProceedGame(Values.date);
+
+        //Game initialization.
+        InGameManager.game = gameManager.game;
+        
+        SceneManager.LoadScene("InGame");
     }
 }

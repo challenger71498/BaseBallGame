@@ -253,6 +253,8 @@ public class GameManager : MonoBehaviour
         dateText.text = Values.date.ToString("MMM dd", CultureInfo.CreateSpecificCulture("en-US")) + ", " + Values.date.Year;
 
         //ScheduleList
+        Values.myTeam.RefreshSchedule(Values.date, Values.league);
+
         bool noSchedules = true;
         for (DateTime d = new DateTime(Values.date.Year, Values.date.Month, Values.date.Day); (d - Values.date).Days < 14; d = d.AddDays(1))
         {

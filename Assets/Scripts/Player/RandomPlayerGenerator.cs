@@ -188,6 +188,7 @@ public class RandomPlayerGenerator
         AddMember(1, Player.MetaPosition.OUT_FIELD_PLAYER, Player.Position.LEFT_FIELDER);
         AddMember(1, Player.MetaPosition.OUT_FIELD_PLAYER, Player.Position.CENTER_FIELDER);
         AddMember(1, Player.MetaPosition.OUT_FIELD_PLAYER, Player.Position.RIGHT_FIELDER);
+        AddMember(1, Player.MetaPosition.IN_FIELD_PLAYER, Player.Position.DESIGNATED_HITTER);
 
         //subs
         AddMember(1, Player.MetaPosition.CATCHER, Player.Position.SUB_CATCHER, true);
@@ -202,14 +203,18 @@ public class RandomPlayerGenerator
     /// </summary>
     /// <param name="myPlayers"></param>
     /// <returns></returns>
-    public static List<Batter> CreateBattingOrder(List<KeyValuePair<int, Player>> myPlayers)
+    public static List<Batter> CreateBattingOrder(List<KeyValuePair<Player.Position, Player>> myPlayers)
     {
         List<Batter> batters = new List<Batter>();
         
-        while(batters.Count < 9)    //NOTE: THIS SHOULD BE 8 AFTER!
+        while(batters.Count < 9)
         {
             Player player = myPlayers[UnityEngine.Random.Range(0, myPlayers.Count)].Value;
             if (!player.isStartingMember)
+            {
+                continue;
+            }
+            else if (player.isSubstitute)
             {
                 continue;
             }

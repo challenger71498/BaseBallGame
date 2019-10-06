@@ -18,6 +18,7 @@ public static class Colors
     public static Color blue = Color.HSVToRGB(0.6f, 0.7f, 1f);
     public static Color purple = Color.HSVToRGB(0.75f, 0.7f, 1f);
     public static Color pink = Color.HSVToRGB(0.9f, 0.7f, 1f);
+    public static Color grey = Color.HSVToRGB(0f, 0f, 0.85f);
 
     public static Color redDark = Color.HSVToRGB(0, 0.7f, 0.8f);
     public static Color yellowDark = Color.HSVToRGB(0.15f, 0.7f, 0.8f);
@@ -26,6 +27,7 @@ public static class Colors
     public static Color blueDark = Color.HSVToRGB(0.6f, 0.7f, 0.8f);
     public static Color purpleDark = Color.HSVToRGB(0.75f, 0.7f, 0.8f);
     public static Color pinkDark = Color.HSVToRGB(0.9f, 0.7f, 0.8f);
+    public static Color greyDark = Color.HSVToRGB(0f, 0f, 0.7f);
 
     public static Color redDarker = Color.HSVToRGB(0, 0.7f, 0.6f);
     public static Color yellowDarker = Color.HSVToRGB(0.15f, 0.7f, 0.6f);
@@ -34,6 +36,7 @@ public static class Colors
     public static Color blueDarker = Color.HSVToRGB(0.6f, 0.7f, 0.6f);
     public static Color purpleDarker = Color.HSVToRGB(0.75f, 0.7f, 0.6f);
     public static Color pinkDarker = Color.HSVToRGB(0.9f, 0.7f, 0.6f);
+    public static Color greyDarker = Color.HSVToRGB(0f, 0f, 0.5f);
 
     public static Color redDarkest = Color.HSVToRGB(0, 0.7f, 0.4f);
     public static Color yellowDarkest = Color.HSVToRGB(0.15f, 0.7f, 0.4f);
@@ -42,6 +45,7 @@ public static class Colors
     public static Color blueDarkest = Color.HSVToRGB(0.6f, 0.7f, 0.4f);
     public static Color purpleDarkest = Color.HSVToRGB(0.75f, 0.7f, 0.4f);
     public static Color pinkDarkest = Color.HSVToRGB(0.9f, 0.7f, 0.4f);
+    public static Color greyDarkest = Color.HSVToRGB(0f, 0f, 0.3f);
 
     public static Color primary = Color.HSVToRGB(216 / 360f, 0.5f, 0.3f);
     public static Color primarySemiDark = Color.HSVToRGB(216/360f, 0.5f, 0.2f);
