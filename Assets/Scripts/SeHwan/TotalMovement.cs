@@ -115,6 +115,9 @@ public class TotalMovement : MonoBehaviour
                 playerPlace.y = newBALL.LandingLocations[i + 1].y; //플레이어의 위치를 공의 위치로 변경
                 G.setLocation(playerPlace); //플레이어 위치 추가
 
+                newBALL.SetCaseLocation(playerPlace);
+                newBALL.SetCaseTime(fullTime);
+
                 break;
             }            
         } //마지막에서 2번째 인덱스를 catchTime이 가져야 함
@@ -124,7 +127,7 @@ public class TotalMovement : MonoBehaviour
             fullTime += newBALL.TimeList[newBALL.GetListCount()-1];
             if (fullTime*G.RealSpeed >= Vector2.Distance(playerPlace, newBALL.LandingLocations[i + 1]))
             {
-                newBALL.GuLuneDa(G.location, G.RealSpeed, 1.9f); //공의 위치 변경
+                newBALL.GuLuneDa(G.location, G.RealSpeed, 1.9f); //공의 위치 변경 ,GuLuneDa 안에서 CaseLocation.Add가 포함되어 있음
                 playerPlace =  newBALL.GetLocation(); //플레이어 위치를 GuLuneDa실행 후 공의 위치로 변경
                 G.setLocation(playerPlace);
             }
@@ -133,6 +136,9 @@ public class TotalMovement : MonoBehaviour
                 playerPlace.x = newBALL.LandingLocations[i + 1].x;
                 playerPlace.y = newBALL.LandingLocations[i + 1].y; //플레이어의 위치를 공의 위치로 변경
                 G.setLocation(playerPlace);
+
+                newBALL.SetCaseLocation(playerPlace);
+                newBALL.SetCaseTime(G.GetDistanceTime(Vector2.Distance(G.locations[G.locations.Count-2], playerPlace)));
             }
         }
     }
@@ -193,6 +199,20 @@ public class TotalMovement : MonoBehaviour
             //inGams[playerNum].BeforeSetLocation(goal);
         }
     }
+
+    void MoveTo_BALL(Vector2 start, Vector2 goal, float startTime)
+    {
+        //---------------변수-------------------
+        float ballSpeed=30;
+        float time = (Vector2.Distance(start, goal) / ballSpeed);
+        //---------------내용------------------- 
+        if (RealTime >= startTime && (RealTime - startTime) <= time) 
+        {
+            RectTransform Rt = ballObj.GetComponent<RectTransform>();
+            Rt.anchoredPosition = Vector2.Lerp(start * Magnification, goal * Magnification, (RealTime - startTime)/time);
+        }
+    }
+
 
     //수비 시뮬레이션
     void setDefPlayerLocations()
@@ -294,7 +314,7 @@ public class TotalMovement : MonoBehaviour
         }
 
         //-------------------------------------------------------------------------------------------------------------------------공
-        if (CatchTime > level && BallRealtime >= newBALL.TimeList[level]) //newBALL.GetListCount()를 잠시 CatchTime으로 변경
+        if (CatchTime > level && BallRealtime >= newBALL.TimeList[level]) //newBALL.GetListCount()를 잠시 CatchTime으로 변경 //여기 간간히 out-of-range 나옴
         {
             BallRealtime = 0;
             level++;
@@ -303,6 +323,7 @@ public class TotalMovement : MonoBehaviour
         {
             BallRealtime += Time.deltaTime; // ball.times[level]로 왜 나눴지?
             RectTransform Rt = ballObj.GetComponent<RectTransform>();
+            //Debug.Log("level: " + level + " LL size: " + (newBALL.LandingLocations.Count-1));
             Rt.anchoredPosition = Vector2.Lerp(newBALL.LandingLocations[level] * Magnification, newBALL.LandingLocations[level+1] * Magnification, BallRealtime / newBALL.TimeList[level]);
 
             float a = 4 * newBALL.MaxHeightList[level] / Mathf.Pow(newBALL.TimeList[level], 2);
@@ -348,5 +369,9 @@ public class TotalMovement : MonoBehaviour
             }
         }
         //-------------------------------------------------------------------------------------------------------------------------선수
+        //Debug.Log("CaseTime[0]: "+ newBALL.CaseTime[0] + "RealTime: "+RealTime);
+        MoveTo_BALL(newBALL.CaseLocation[0], BaseLocation[1], newBALL.CaseTime[0]+1); //여기서는 투수가 공을 잡은 후 1초 뒤에 2루(BaseLocation[1])로 던집니다.
+
+        MoveTo_BALL(BaseLocation[1], BaseLocation[0], newBALL.CaseTime[0] + 1+(Vector2.Distance(newBALL.CaseLocation[0],BaseLocation[1])/30)+1); //뒤에 30은 공의 속도
     }
 }

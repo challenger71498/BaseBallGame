@@ -20,6 +20,9 @@ public class newBALL : MonoBehaviour
     public static List<Vector3> BallPowerList = new List<Vector3>(); //공의 힘벡터 모음 -> 이후 특정지점의 높이 구할때 사용
     public static bool HomeRun = false;
 
+    public static List<Vector2> CaseLocation = new List<Vector2>();
+    public static List<float> CaseTime = new List<float>();
+
     public static void Hit(float HitterStrong, float Accuracy, bool isRight) //공의 구면좌표 설정(타자의 힘, 정확도, 오른손잡이순서)
     {
         //---------------변수-------------------
@@ -181,7 +184,8 @@ public class newBALL : MonoBehaviour
         Location.y += distance * Mathf.Sin((Mathf.PI / 180) * PowerVector.y);
         //LandingLocations.Add(Location);
 
-
+        CaseLocation.Add(Location); //1006에서 추가됨
+        CaseTime.Add(time); //1006추가
     }
     public static float GetHeight(float someDistance)
     {
@@ -218,6 +222,15 @@ public class newBALL : MonoBehaviour
         //여까지 오면 걍 구른거임
 
         return 0.05f;
+    }
+
+    public static void SetCaseTime(float f) //1006으로 추가됨
+    {
+        CaseTime.Add(f);
+    }
+    public static void SetCaseLocation(Vector2 v) //1006으로 추가됨
+    {
+        CaseLocation.Add(v);
     }
     
     public static void SetBall(Vector3 v)
