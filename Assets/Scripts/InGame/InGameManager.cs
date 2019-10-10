@@ -43,10 +43,10 @@ public class InGameManager : MonoBehaviour
         inGameObjects.scorePanel.gameObject.SetActive(false);
         inGameObjects.inningPanel.gameObject.SetActive(false);
 
-        StartCoroutine(TurnDelayed(0.1f));
+        StartCoroutine(TurnDelayed(true));  //THIS SHOULD BE CHANGED TO FALSE AT RELEASE.
     }
 
-    IEnumerator TurnDelayed(float delayAmount = 1f)
+    IEnumerator TurnDelayed(bool isDebug = false)
     {
         while (!isGameEnd)
         {
@@ -54,7 +54,7 @@ public class InGameManager : MonoBehaviour
             {
                 Turn();
             }
-            yield return new WaitForSeconds(delayAmount);
+            yield return new WaitForSeconds(isDebug ? 0.001f : SpeedPanel.speedValue[(int)SpeedPanel.spd]);
         }
     }
 

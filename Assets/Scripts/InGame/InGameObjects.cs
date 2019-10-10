@@ -52,4 +52,7 @@ public class InGameObjects : MonoBehaviour
     public GameObject pauseButton;
     public GameObject pausePanel;
     public GameObject optionPanel;
+
+    [Header("SpeedButton")]
+    public GameObject speedButton;
 }
