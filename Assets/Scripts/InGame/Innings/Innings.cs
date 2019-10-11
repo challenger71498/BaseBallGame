@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +12,7 @@ public static class Innings
     public static void AdvanceInning()
     {
         //Innings pitched
-        InGameManager.currentPitcher.stats.SetStat(0.8f, PlayerStatistics.PS.IP);
+        InGameManager.currentPitcher.stats.SetStat(0.7f, PlayerStatistics.PS.IP);
 
         //If the game satisfies the end condition, end game.
         if ((InGameManager.game.homeScoreBoard.R != InGameManager.game.awayScoreBoard.R)
@@ -21,7 +22,7 @@ public static class Innings
             return;
         }
 
-        if(InGameManager.isUIEnabled)
+        if (InGameManager.isUIEnabled)
         {
             //BoardPanel UI.
             InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
@@ -52,7 +53,7 @@ public static class Innings
             throw new System.NullReferenceException("Error: There is no appropriate team matching. Check currentAttack and Game instance again.");
         }
 
-        if(InGameManager.isBottom)
+        if (InGameManager.isBottom)
         {
             InGameManager.isBottom = false;
             InGameManager.currentInning++;
@@ -62,7 +63,7 @@ public static class Innings
             InGameManager.isBottom = true;
         }
 
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             InGameManager.runnerInBases[i] = null;
         }
@@ -71,7 +72,7 @@ public static class Innings
         AtPlate.ClearCount();
 
         //UI
-        if(InGameManager.isUIEnabled)
+        if (InGameManager.isUIEnabled)
         {
             InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
             InGameObjects.PlayerUIApply.SetPlayers();
@@ -93,8 +94,81 @@ public static class Innings
     /// </summary>
     public static void EndGame()
     {
+        void SetZeroBatter<T>(HashSet<T> set) where T : Player
+        {
+            foreach (T player in set)
+            {
+                foreach (PlayerStatistics.PS stat in PlayerStatistics.generalPS)
+                {
+                    if (player.stats.FIndStat(stat))
+                    {
+                        player.stats.SetStat(0, stat);
+                    }
+
+                    //NOTE: THIS SHOULD BE REMOVED AFTER RATING FUNCTION DEFINED.
+                    player.stats.SetStat(Random.Range(3f, 9.9f), PlayerStatistics.PS.RAT);
+                }
+
+                if (typeof(T) == typeof(Batter))
+                {
+                    foreach (PlayerStatistics.PS stat in PlayerStatistics.batterPS)
+                    {
+                        if (!player.stats.FIndStat(stat))
+                        {
+                            player.stats.SetStat(0, stat);
+                        }
+                    }
+                }
+                else if (typeof(T) == typeof(Pitcher))
+                {
+                    foreach (PlayerStatistics.PS stat in PlayerStatistics.pitcherPS)
+                    {
+                        if (!player.stats.FIndStat(stat))
+                        {
+                            player.stats.SetStat(0, stat);
+                        }
+                    }
+                }
+            }
+        }
+
+        Player FindHighestRate()
+        {
+            float rate = 0;
+            Player highestPlayer = null;
+
+            void rateRefresh<T>(HashSet<T> set) where T : Player
+            {
+                foreach (Player player in set)
+                {
+                    float playerRate = player.stats.GetStat(PlayerStatistics.PS.RAT);
+                    if (playerRate > rate)
+                    {
+                        rate = playerRate;
+                        highestPlayer = player;
+                    }
+                }
+            }
+
+            rateRefresh(InGameManager.game.homeBatterSet);
+            rateRefresh(InGameManager.game.awayBatterSet);
+            rateRefresh(InGameManager.game.homePitcherSet);
+            rateRefresh(InGameManager.game.awayPitcherSet);
+
+            return highestPlayer;
+        }
+
+        //Set unassigned stats to be zero.
+        SetZeroBatter(InGameManager.game.homeBatterSet);
+        SetZeroBatter(InGameManager.game.awayBatterSet);
+        SetZeroBatter(InGameManager.game.homePitcherSet);
+        SetZeroBatter(InGameManager.game.awayPitcherSet);
+
+        //Assigns POTM.
+        InGameManager.game.playerOfTheMatch = FindHighestRate();
+
         //Assigns win or loss to the game.
-        if(InGameManager.game.homeScoreBoard.R > InGameManager.game.awayScoreBoard.R)
+        if (InGameManager.game.homeScoreBoard.R > InGameManager.game.awayScoreBoard.R)
         {
             InGameManager.game.home.teamStats.SetData(TeamStatistics.TS.WIN, 1);
             InGameManager.game.away.teamStats.SetData(TeamStatistics.TS.LOSS, 1);
@@ -109,12 +183,12 @@ public static class Innings
         InGameManager.game.isPlayed = true;
         InGameManager.isGameEnd = true;
         //Shows a summary tab after finishes a game.
-
-        //TEMPORARILY Changes scene to main.
-        if(InGameManager.isUIEnabled)
+        
+        if (InGameManager.isUIEnabled)
         {
-            Values.date = Values.date.AddDays(1);
-            SceneManager.LoadScene("Main");
+            InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
+            InGameObjects.resultPanel.SetActive(true);
+            InGameObjects.resultPanel.GetComponent<ResultPanel>().RefreshItems(InGameManager.game);
         }
     }
 }
