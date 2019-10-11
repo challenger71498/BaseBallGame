@@ -29,6 +29,10 @@ public static class Hitting
             InGameManager.game.awayScoreBoard.H++;
         }
 
+        //Add AB by 1.
+        InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.AB);
+        InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.H_BAT);
+
         if (hit == Hit.SINGLE)
         {
             currentBatter.stats.SetStat(1, PlayerStatistics.PS.SIN);

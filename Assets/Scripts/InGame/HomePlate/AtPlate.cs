@@ -12,7 +12,7 @@ public static class AtPlate
     {
         if (isRandom)
         {
-            return UnityEngine.Random.Range(0f, 1f) < 0.2f;
+            return UnityEngine.Random.Range(0f, 1f) < 0.5f;
         }
         else
         {
@@ -88,9 +88,9 @@ public static class AtPlate
 
         //Statistics.
         InGameManager.currentPitcher.stats.SetStat(0.1f, PlayerStatistics.PS.IP);
+        InGameManager.currentBatter.stats.SetStat(1, PlayerStatistics.PS.AB);
 
         //Determine which out happened, and apply appropriate stats.
-        //Strikout
         if (outs == Out.STRIKEOUT)
         {
             InGameManager.currentPitcher.stats.SetStat(1, PlayerStatistics.PS.K_PIT);
@@ -156,11 +156,13 @@ public static class AtPlate
         {
             InGameManager.runnerInBases[0] = InGameManager.homeBattingOrder[InGameManager.homeCurrentBattersIndex];
             InGameManager.currentBatter = InGameManager.runnerInBases[0];
+            InGameManager.game.homeBatterSet.Add(InGameManager.currentBatter);
         }
         else if (InGameManager.currentAttack == InGameManager.game.away)
         {
             InGameManager.runnerInBases[0] = InGameManager.awayBattingOrder[InGameManager.awayCurrentBattersIndex];
             InGameManager.currentBatter = InGameManager.runnerInBases[0];
+            InGameManager.game.awayBatterSet.Add(InGameManager.currentBatter);
         }
         else
         {
