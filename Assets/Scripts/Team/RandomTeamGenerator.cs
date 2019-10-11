@@ -24,6 +24,20 @@ public class RandomTeamGenerator
         Colors.red, Colors.blue, Colors.green, Colors.pink, Colors.purple, Colors.skyblue, Colors.yellow, Color.grey, Color.green, Color.yellow
     };
 
+    public static List<Stadium> stadiums = new List<Stadium>()
+    {
+        new Stadium("Seoul City Stadium"),
+        new Stadium("Dragonsreach"),
+        new Stadium("East Sea Stadium"),
+        new Stadium("Daejeon Stadium"),
+        new Stadium("Daegu Lions Stadium"),
+        new Stadium("Ulsan Central Stadium"),
+        new Stadium("Gwangju Tigers Stadium"),
+        new Stadium("Saejong Heroes Stadium"),
+        new Stadium("Suwon Wings Stadium"),
+        new Stadium("Cheongju Mariners Stadium")
+    };
+
     static int teamCreated = 0;
     public static Team CreateTeam(int index = -1)
     {
@@ -40,6 +54,7 @@ public class RandomTeamGenerator
         team.teamData.SetData(TeamData.TP.NAME, cityNames[index] + " " + teamNames[index]);
         team.teamData.SetData(TeamData.TP.SHORT_NAME, shortNames[index]);
         team.teamData.SetData(TeamData.TP.COLOR, teamColors[index]);
+        team.teamData.SetData(TeamData.TP.STADIUM, stadiums[index]);
 
         team.players.d = RandomPlayerGenerator.CreateTeam();
         team.startingMembers.d = RandomPlayerGenerator.CreateStartingMember(team.players.d);

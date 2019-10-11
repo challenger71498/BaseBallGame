@@ -9,16 +9,18 @@ public class TeamData
     public enum TP
     {
         NAME, CITY_NAME, TEAM_NAME, SHORT_NAME,
-        BIRTH_DATE, EMBLEM, COLOR
+        BIRTH_DATE, EMBLEM, COLOR,
+        STADIUM
     }
 
     public static List<string> TPString = new List<string>()
     {
         "Name", "City Name", "Team Name",
-        "Established Year", "Emblem", "Color"
+        "Established Year", "Emblem", "Color",
+        "Stadium"
     };
 
-    public TeamData(string _cityName, string _teamName, string _shortName, int _year = 1990, int _month = 1, int _day = 1, Color color = default)
+    public TeamData(string _cityName, string _teamName, string _shortName, int _year = 1990, int _month = 1, int _day = 1, Color color = default, Stadium stadium = default)
     {
         data = new SerializableDict<TP, object>();
         
@@ -33,6 +35,7 @@ public class TeamData
         data.d.Add(TP.TEAM_NAME, _teamName);
         data.d.Add(TP.SHORT_NAME, _shortName);
         data.d.Add(TP.BIRTH_DATE, new DateTime(_year, _month, _day));
+        data.d.Add(TP.STADIUM, stadium);
     }
 
     public dynamic GetData(TP pref)
