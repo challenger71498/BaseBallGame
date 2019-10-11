@@ -13,6 +13,7 @@ public class InGameObjects : MonoBehaviour
     [Header("Prefabs")]
     public GameObject titlePrefab;
     public GameObject scorePrefab;
+    public GameObject resultPlayerPrefab;
 
     [Header("OutPanel")]
     public OutPanelLayout outPanelLayout;
@@ -55,4 +56,27 @@ public class InGameObjects : MonoBehaviour
 
     [Header("SpeedButton")]
     public GameObject speedButton;
+
+    [Header("ResultPanel")]
+    public GameObject resultPanel;
+    public TextMeshProUGUI homeTeamNameText_RP;
+    public TextMeshProUGUI awayTeamNameText_RP;
+    public TextMeshProUGUI homeWinLossText_RP;
+    public TextMeshProUGUI awayWinLossText_RP;
+    public GameObject homeWon_RP;
+    public GameObject awayWon_RP;
+    public TextMeshProUGUI homeScoreText_RP;
+    public TextMeshProUGUI awayScoreText_RP;
+    public TextMeshProUGUI stadiumNameText_RP;
+    public TextMeshProUGUI weatherText_RP;
+    public GameObject homePlayers_RP;
+    public GameObject homeBatters_RP;
+    public GameObject homePitchers_RP;
+    public GameObject awayPlayers_RP;
+    public GameObject awayBatters_RP;
+    public GameObject awayPitchers_RP;
+    public GameObject proceedButton_RP;
+
+    [Header("FieldPanel")]
+    public GameObject fieldPanel;
 }

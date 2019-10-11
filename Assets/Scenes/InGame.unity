@@ -22795,8 +22795,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1892051445}
   m_HandleRect: {fileID: 1892051444}
   m_Direction: 2
-  m_Value: 1.0000002
-  m_Size: 0.6698313
+  m_Value: 1
+  m_Size: 0.6710923
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -28852,6 +28852,7 @@ GameObject:
   - component: {fileID: 802610796}
   - component: {fileID: 802610795}
   - component: {fileID: 802610797}
+  - component: {fileID: 802610798}
   m_Layer: 5
   m_Name: ProceedButton
   m_TagString: Untagged
@@ -28958,7 +28959,30 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 802610795}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 802610798}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &802610798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802610793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ae038766821e64f9b367eb1cb76474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &805497959
 GameObject:
   m_ObjectHideFlags: 0
@@ -57395,6 +57419,7 @@ MonoBehaviour:
   awayBatters_RP: {fileID: 1957950535}
   awayPitchers_RP: {fileID: 1933942186}
   proceedButton_RP: {fileID: 802610793}
+  fieldPanel: {fileID: 8479053}
 --- !u!1 &1739500385
 GameObject:
   m_ObjectHideFlags: 0
@@ -68928,7 +68953,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1277799425}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.605916
+  m_Size: 0.6070568
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class InGameManager : MonoBehaviour
 {
-    public InGameObjects inGameObjects;
+    public InGameObjects InGameObjects;
 
     public static Game game;
     public static bool isPaused = false;
@@ -38,10 +38,12 @@ public class InGameManager : MonoBehaviour
         InitializeGame();
 
         //UI initialization.
-        inGameObjects.PlayerUIApply.SetPlayers();
-        inGameObjects.boardPanel.Initialize();
-        inGameObjects.scorePanel.gameObject.SetActive(false);
-        inGameObjects.inningPanel.gameObject.SetActive(false);
+        InGameObjects.PlayerUIApply.SetPlayers();
+        InGameObjects.boardPanel.Initialize();
+        InGameObjects.scorePanel.gameObject.SetActive(false);
+        InGameObjects.inningPanel.gameObject.SetActive(false);
+        InGameObjects.resultPanel.SetActive(false);
+        InGameObjects.fieldPanel.SetActive(false);
 
         StartCoroutine(TurnDelayed(true));  //THIS SHOULD BE CHANGED TO FALSE AT RELEASE.
     }
@@ -91,6 +93,16 @@ public class InGameManager : MonoBehaviour
         ballCount = 0;
         outCount = 0;
 
+        //Initializes batter and pitcher set.
+        game.homeBatterSet = new HashSet<Batter>();
+        game.awayBatterSet = new HashSet<Batter>();
+        game.homePitcherSet = new HashSet<Pitcher>();
+        game.awayPitcherSet = new HashSet<Pitcher>();
+
+        //Sets pitcher set.
+        game.homePitcherSet.Add(currentPitcher);
+        game.awayPitcherSet.Add(otherPitcher);
+
         //Brings the batter to plate.
         AtPlate.AdvanceBatterToPlate();
     }
@@ -103,24 +115,24 @@ public class InGameManager : MonoBehaviour
         if(isUIEnabled)
         {
             //InningPanel
-            inGameObjects.inningPanel.UpdateLayout();
+            InGameObjects.inningPanel.UpdateLayout();
 
             //OutPanel
-            inGameObjects.outPanelLayout.ClearLayout();
-            inGameObjects.outPanelLayout.UpdateLayout();
+            InGameObjects.outPanelLayout.ClearLayout();
+            InGameObjects.outPanelLayout.UpdateLayout();
 
             //BasePanel
-            inGameObjects.basePanel.UpdateLayout();
-            inGameObjects.basePanel.UpdateStealing();
+            InGameObjects.basePanel.UpdateLayout();
+            InGameObjects.basePanel.UpdateStealing();
 
             //ScorePanel
-            inGameObjects.scorePanel.UpdateLayout();
+            InGameObjects.scorePanel.UpdateLayout();
 
             //BoardPanel
-            inGameObjects.boardPanel.UpdateLayout();
+            InGameObjects.boardPanel.UpdateLayout();
 
             //Field_Condition
-            inGameObjects.PlayerUIApply.SetPlayers(true);
+            InGameObjects.PlayerUIApply.SetPlayers(true);
         }
 
         //Initializes stealingAttempts array to false.
@@ -143,7 +155,7 @@ public class InGameManager : MonoBehaviour
         if(isUIEnabled)
         {
             //This is a stealingAttempts UI update.
-            inGameObjects.basePanel.UpdateStealing();
+            InGameObjects.basePanel.UpdateStealing();
         }
 
         //Then, a pitcher determines whether pick off the ball or not.
@@ -265,17 +277,17 @@ public class InGameManager : MonoBehaviour
             float random = UnityEngine.Random.Range(0f, 10f);
 
             //FlyOut
-            if (0 <= random && random <= 3f)
+            if (0 <= random && random <= 3.5f)
             {
                 AtPlate.AddOut(AtPlate.Out.FLY_BALL);
             }
             //GroundBall
-            else if (3f <= random && random <= 6f)
+            else if (3.5f <= random && random <= 7f)
             {
                 AtPlate.AddOut(AtPlate.Out.GROUND_BALL);
             }
             //Hit
-            else if (6f <= random && random <= 10f)
+            else if (7f <= random && random <= 10f)
             {
                 random = UnityEngine.Random.Range(0, 10);
                 if (0 <= random && random <= 4)

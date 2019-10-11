@@ -164,6 +164,13 @@ public class Game
     public Pitcher homeStarterPitcher;
     public Pitcher awayStarterPitcher;
 
+    public HashSet<Pitcher> homePitcherSet;
+    public HashSet<Pitcher> awayPitcherSet;
+    public HashSet<Batter> homeBatterSet;
+    public HashSet<Batter> awayBatterSet;
+
     public ScoreBoard homeScoreBoard;
     public ScoreBoard awayScoreBoard;
+
+    public Player playerOfTheMatch;
 }

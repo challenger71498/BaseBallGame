@@ -12,7 +12,7 @@ public class PlayerStatistics
     /// </summary>
     public enum PS
     {
-        G,
+        G, RAT,
 
         W, L, WLP,
         ERA, GS_PIT, GF, CG, SHO, HLD, SVO, SV, BS, IP,
@@ -43,6 +43,11 @@ public class PlayerStatistics
         PS.AB_HR, PS.RISP
     };
 
+    public static List<PS> generalPS = new List<PS>()
+    {
+        PS.G, PS.RAT
+    };
+
     public static List<PS> pitcherPS = new List<PS>()
     {
         PS.W, PS.L, PS.WLP,
@@ -71,7 +76,7 @@ public class PlayerStatistics
         PS.H_PIT, PS.RA, PS.ER, PS.HR_PIT, PS.BB_PIT, PS.IBB_PIT, PS.HB, PS.K_PIT, PS.BK, PS.BF, PS.GB_PIT, PS.FB_PIT,
         PS.GIDP, PS.GIDPO, PS.GIR, PS.IR, PS.IRA, PS.PIT, PS.QS, PS.WPS, PS.WP,
 
-        PS.H_BAT, PS.SIN, PS.DBL, PS.TRP, PS.HR_BAT, PS.GS_BAT, PS.ITPHR, PS.RBI,
+        PS.AB, PS.H_BAT, PS.SIN, PS.DBL, PS.TRP, PS.HR_BAT, PS.GS_BAT, PS.ITPHR, PS.RBI,
         PS.PA, PS.BB_BAT, PS.HBP, PS.IBB_BAT, PS.K_BAT, PS.GB_BAT, PS.FB_BAT,
         PS.SBA, PS.SB, PS.CS, PS.FC, PS.DI,
         PS.R, PS.GDP, PS.LOB, PS.SF, PS.SH, PS.TB, PS.TOB, PS.XBH
@@ -79,10 +84,12 @@ public class PlayerStatistics
 
     public static List<PS> averagePS = new List<PS>()
     {
+        PS.RAT,
+
         PS.ERA, PS.WHIP, PS.BB_9, PS.K_9, PS.K_BB, PS.H_9, PS.HR_9, PS.IP_GS, PS.GO_AO_PIT,
         PS.CERA, PS.DICE, PS.ERAP, PS.FIP, PS.LOBP, PS.OBA, PS.PC_ST, PS.PFR, PS.PNERD, PS.QOP, PS.SIERA,
 
-        PS.AB, PS.AVG, PS.OBP, PS.SLG, PS.OPS, PS.BB_K, PS.SBP,
+        PS.AVG, PS.OBP, PS.SLG, PS.OPS, PS.BB_K, PS.SBP,
         PS.AB_HR, PS.BABIP, PS.EQA, PS.GO_AO_BAT, PS.GPA, PS.HR_H, PS.ISO, PS.PA_SO, PS.RC, PS.RP, PS.RISP, PS.TA, PS.UBR
     };
 
@@ -91,7 +98,7 @@ public class PlayerStatistics
     /// </summary>
     public static List<string> PSString = new List<string>()
     {
-        "Game",
+        "Game", "Rating",
 
         "Win", "Loss", "Win-Loss Rate",
         "Earned Run Average", "Starts", "Games Finished", "Complete Game", "Shutout", "Hold", "Save Oppertunity", "Save", "Blown Save", "Innings Pitched",
@@ -111,7 +118,7 @@ public class PlayerStatistics
     /// </summary>
     public static List<string> PSStringShort = new List<string>()
     {
-        "G",
+        "G", "RAT.",
 
         "W", "L", "WLP",
         "ERA", "GS", "GF", "CG", "SHO", "HLD", "SVO", "SV", "BS", "IP",
@@ -244,6 +251,30 @@ public class PlayerStatistics
         }
     }
 
+    public bool FIndStat(PS stat, DateTime date = default)
+    {
+        if (date == default)
+        {
+            date = Values.date;
+        }
+
+        if (statistics.d.ContainsKey(date))
+        {
+            if (statistics[date].d.ContainsKey(stat))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public float GetStat(PS stat, DateTime date = default, int rounding = 3)
     {
         if (date == default)
@@ -353,7 +384,16 @@ public class PlayerStatistics
         {
             if (statistics[date].d.ContainsKey(stat))
             {
-                statistics[date][stat] = value;
+                if(accumulativePS.Contains(stat))
+                {
+                    statistics[date][stat] += value;
+                }
+                else if(averagePS.Contains(stat))
+                {
+                    statistics[date][stat] = value;
+                }
+                AddAtSeason();
+                AddAtSum();
             }
             else
             {

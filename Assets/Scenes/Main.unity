@@ -3641,6 +3641,13 @@ MonoBehaviour:
       R: 0
       H: 0
       E: 0
+    playerOfTheMatch:
+      index: 0
+      isStartingMember: 0
+      isSubstitute: 0
+      train: 0
+      order: 0
+      form: 4
 --- !u!4 &112244478
 Transform:
   m_ObjectHideFlags: 0
@@ -7938,7 +7945,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 403890104}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.67801166
+  m_Size: 0.6766799
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -31835,7 +31842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9bb12ca4152e44e9b11d5252ab7491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inGameObjects: {fileID: 0}
+  InGameObjects: {fileID: 0}
 --- !u!4 &1714341497
 Transform:
   m_ObjectHideFlags: 0
