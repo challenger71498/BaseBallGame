@@ -187,6 +187,7 @@ public static class Innings
         if (InGameManager.isUIEnabled)
         {
             InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
+            InGameObjects.boardPanel.GetComponent<UnityEngine.UI.Button>().interactable = false;
             InGameObjects.resultPanel.SetActive(true);
             InGameObjects.resultPanel.GetComponent<ResultPanel>().RefreshItems(InGameManager.game);
         }

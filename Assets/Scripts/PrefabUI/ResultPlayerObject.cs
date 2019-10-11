@@ -6,7 +6,7 @@ using TMPro;
 
 public class ResultPlayerObject : MonoBehaviour
 {
-    public void SetText(Player player, Game game)
+    public void SetText(Player player, Team team, Game game)
     {
         numberText.text = ((int)player.playerData.GetData(PlayerData.PP.NUMBER)).ToString();
         nameText.text = player.playerData.GetData(PlayerData.PP.NAME);
@@ -15,7 +15,9 @@ public class ResultPlayerObject : MonoBehaviour
         {
             if(game.playerOfTheMatch == player)
             {
-                backgroundImage.color = Colors.redDark;
+                Color color = team.teamData.GetData(TeamData.TP.COLOR);
+                color.a = 0.6f;
+                backgroundImage.color = color;
             }
             else
             {

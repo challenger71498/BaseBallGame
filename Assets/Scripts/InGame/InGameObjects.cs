@@ -76,6 +76,11 @@ public class InGameObjects : MonoBehaviour
     public GameObject awayBatters_RP;
     public GameObject awayPitchers_RP;
     public GameObject proceedButton_RP;
+    public Image leftSide0_RP;
+    public Image leftSide1_RP;
+    public Image rightSide0_RP;
+    public Image rightSide1_RP;
+
 
     [Header("FieldPanel")]
     public GameObject fieldPanel;

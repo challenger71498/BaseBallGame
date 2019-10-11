@@ -31,7 +31,7 @@ public class Weather
 
     public override string ToString()
     {
-        return skyWeatherString[(int)weather] + " " + temperature.ToString("0.0") + "°C";
+        return skyWeatherString[(int)weather] + ", " + temperature.ToString("0.0") + "°C";
     }
 
     public SkyWeather weather;

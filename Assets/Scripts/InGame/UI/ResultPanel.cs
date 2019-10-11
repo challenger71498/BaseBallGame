@@ -17,17 +17,35 @@ public class ResultPanel : MonoBehaviour
         InGameObjects.awayTeamNameText_RP.text = game.away.ToString();
         InGameObjects.homeScoreText_RP.text = game.homeScoreBoard.R.ToString();
         InGameObjects.awayScoreText_RP.text = game.awayScoreBoard.R.ToString();
-        
+
         //Team won.
+        InGameObjects.leftSide0_RP.gameObject.SetActive(false);
+        InGameObjects.leftSide1_RP.gameObject.SetActive(false);
+        InGameObjects.rightSide0_RP.gameObject.SetActive(false);
+        InGameObjects.rightSide1_RP.gameObject.SetActive(false);
         if(game.GetGameResult(game.home) == Game.GameResult.WIN)
         {
             InGameObjects.homeWon_RP.SetActive(true);
             InGameObjects.awayWon_RP.SetActive(false);
+            InGameObjects.leftSide0_RP.gameObject.SetActive(true);
+            InGameObjects.leftSide1_RP.gameObject.SetActive(true);
+            Color color = game.home.teamData.GetData(TeamData.TP.COLOR);
+            color.a = 0.1f;
+            InGameObjects.leftSide0_RP.color = color;
+            color.a = 0.3f;
+            InGameObjects.leftSide1_RP.color = color;
         }
         else if (game.GetGameResult(game.home) == Game.GameResult.LOSS)
         {
             InGameObjects.homeWon_RP.SetActive(false);
             InGameObjects.awayWon_RP.SetActive(true);
+            InGameObjects.rightSide0_RP.gameObject.SetActive(true);
+            InGameObjects.rightSide1_RP.gameObject.SetActive(true);
+            Color color = game.away.teamData.GetData(TeamData.TP.COLOR);
+            color.a = 0.1f;
+            InGameObjects.rightSide0_RP.color = color;
+            color.a = 0.3f;
+            InGameObjects.rightSide1_RP.color = color;
         }
         else
         {
@@ -65,23 +83,23 @@ public class ResultPanel : MonoBehaviour
         foreach (Batter batter in game.homeBatterSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.homeBatters_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(batter, game);
+            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(batter, game.home, game);
         }
         foreach(Pitcher pitcher in game.homePitcherSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.homePitchers_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(pitcher, game);
+            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(pitcher, game.home, game);
         }
         //Away
         foreach (Batter batter in game.awayBatterSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.awayBatters_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(batter, game);
+            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(batter, game.away, game);
         }
         foreach (Pitcher pitcher in game.awayPitcherSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.awayPitchers_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(pitcher, game);
+            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(pitcher, game.away, game);
         }
     }
 }
