@@ -277,6 +277,21 @@ public class League
         }
     }
 
+    /// <summary>
+    /// Adjusts weather by current date.
+    /// </summary>
+    public void AdjustWeather()
+    {
+        //TODO: Change weather by current date.
+        //Currently: Weather changes randomly.
+        foreach(KeyValuePair<int, Team> teamPair in teams.d)
+        {
+            Weather weather = ((Stadium)teamPair.Value.teamData.GetData(TeamData.TP.STADIUM)).currentWeather;
+            weather.weather = (Weather.SkyWeather)UnityEngine.Random.Range(1, Enum.GetNames(typeof(Weather.SkyWeather)).Length - 1);
+            weather.temperature = UnityEngine.Random.Range(3f, 30f);
+        }
+    }
+
     //Data members
     public SerializableList<KeyValuePair<int, Team>> teams;
     public LeagueData data;
