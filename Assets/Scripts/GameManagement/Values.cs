@@ -6,7 +6,7 @@ using UnityEngine;
 //This class is for global values.
 public static class Values
 {
-    public static DateTime date = new DateTime(2019, 3, 23);
+    public static DateTime date = new DateTime(2019, 3, 22);
     public static int dollar = 10000;
 
     //data

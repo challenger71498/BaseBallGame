@@ -214,6 +214,9 @@ public class GameManager : MonoBehaviour
             Values.schedules = new Dictionary<int, Schedule>();
             Values.league.BuildGameSchedule();
 
+            //Date Init.
+            DateManagement.ProceedDate();
+
             isCreated = true;
         }
 
