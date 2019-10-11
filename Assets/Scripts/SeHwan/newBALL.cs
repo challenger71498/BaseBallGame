@@ -19,6 +19,7 @@ public class newBALL : MonoBehaviour
     public static List<float> MaxHeightList = new List<float>(); //최대높이 모음
     public static List<Vector3> BallPowerList = new List<Vector3>(); //공의 힘벡터 모음 -> 이후 특정지점의 높이 구할때 사용
     public static bool HomeRun = false;
+    public static bool isCatched = false;
 
     public static List<Vector2> CaseLocation = new List<Vector2>();
     public static List<float> CaseTime = new List<float>();
@@ -184,8 +185,8 @@ public class newBALL : MonoBehaviour
         Location.y += distance * Mathf.Sin((Mathf.PI / 180) * PowerVector.y);
         //LandingLocations.Add(Location);
 
-        CaseLocation.Add(Location); //1006에서 추가됨
-        CaseTime.Add(time); //1006추가
+        SetCaseLocation(Location); //1006에서 추가됨
+        SetCaseTime(time); //1006추가
     }
     public static float GetHeight(float someDistance)
     {
@@ -226,10 +227,12 @@ public class newBALL : MonoBehaviour
 
     public static void SetCaseTime(float f) //1006으로 추가됨
     {
+        Debug.Log(f);
         CaseTime.Add(f);
     }
     public static void SetCaseLocation(Vector2 v) //1006으로 추가됨
     {
+        Debug.Log(v);
         CaseLocation.Add(v);
     }
     
