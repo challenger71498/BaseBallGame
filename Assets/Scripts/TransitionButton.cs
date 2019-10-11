@@ -32,7 +32,7 @@ public class TransitionButton : MonoBehaviour
         }
         else
         {
-            Values.date = Values.date.AddDays(1);
+            DateManagement.ProceedDate();
             //gameManager.SaveData();
             SceneManager.LoadScene(whereTo);
         }
