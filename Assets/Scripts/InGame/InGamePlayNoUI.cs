@@ -7,7 +7,7 @@ public class InGamePlayNoUI : InGameManager
     //Hid base Start function intentionally to prevent auto start.
     public void Start()
     {
-        inGameObjects = null;
+        InGameObjects = null;
     }
 
     /// <summary>
