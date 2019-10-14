@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class LeftPanel : MonoBehaviour
 {
-    public GameManager gameManager;
+    public Transform contentTransform;
+    public PlayerListObject ListObject;
 
     private void OnEnable()
     {
-        gameManager.RefreshPlayerList(gameManager.mode, gameManager.sortMode);
+
+        //gameManager.RefreshPlayerList(gameManager.mode, gameManager.sortMode);
     }
 }

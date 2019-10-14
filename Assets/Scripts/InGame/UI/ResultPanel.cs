@@ -83,23 +83,23 @@ public class ResultPanel : MonoBehaviour
         foreach (Batter batter in game.homeBatterSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.homeBatters_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(batter, game.home, game);
+            resultPlayerObject.GetComponent<ResultPlayerPrefab>().SetText(batter, game.home, game);
         }
         foreach(Pitcher pitcher in game.homePitcherSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.homePitchers_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(pitcher, game.home, game);
+            resultPlayerObject.GetComponent<ResultPlayerPrefab>().SetText(pitcher, game.home, game);
         }
         //Away
         foreach (Batter batter in game.awayBatterSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.awayBatters_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(batter, game.away, game);
+            resultPlayerObject.GetComponent<ResultPlayerPrefab>().SetText(batter, game.away, game);
         }
         foreach (Pitcher pitcher in game.awayPitcherSet)
         {
             GameObject resultPlayerObject = Instantiate(InGameObjects.resultPlayerPrefab, InGameObjects.awayPitchers_RP.transform);
-            resultPlayerObject.GetComponent<ResultPlayerObject>().SetText(pitcher, game.away, game);
+            resultPlayerObject.GetComponent<ResultPlayerPrefab>().SetText(pitcher, game.away, game);
         }
     }
 }

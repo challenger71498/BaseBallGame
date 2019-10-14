@@ -6,6 +6,7 @@ using Michsky.UI.ModernUIPack;
 public class SortDropdownItem : MonoBehaviour
 {
     public SortDropdown sortDropdown;
+    public PlayerListObject listObject;
 
     public void OnClick()
     {
@@ -29,13 +30,13 @@ public class SortDropdownItem : MonoBehaviour
         }
 
         //lastly refreshes.
-        if(GameManager.isModeNow)
+        if(PlayerListObject.isModeNow)
         {
-            gameManager.RefreshPlayerList(gameManager.mode, gameManager.sortMode, GameManager.currentStartingMemberFilter);
+            listObject.RefreshPlayerList(gameManager.mode, gameManager.sortMode, true, PlayerListObject.currentStartingMemberFilter);
         }
         else
         {
-            gameManager.RefreshPlayerList(GameManager.currentMetaPosition, gameManager.sortMode, GameManager.currentStartingMemberFilter);
+            listObject.RefreshPlayerList(PlayerListObject.currentMetaPosition, gameManager.sortMode, true, PlayerListObject.currentStartingMemberFilter);
         }
     }
 }

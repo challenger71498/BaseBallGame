@@ -7,6 +7,7 @@ public class RoasterPitchersPanelButton : MonoBehaviour
 {
     //Gameobjects
     public GameManager gameManager;
+    public RoastersPanel RoastersPanel;
 
     //data members
     public static GameObject focusedObject;
@@ -40,6 +41,6 @@ public class RoasterPitchersPanelButton : MonoBehaviour
         //Change focused object to this.
         focusedObject = gameObject;
 
-        RoastersPanel.Refresh(gameManager);
+        RoastersPanel.Refresh();
     }
 }

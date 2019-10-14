@@ -29,7 +29,7 @@ public class PlayerUIApply : MonoBehaviour
         
         foreach(KeyValuePair<Player.Position, GameObject> pair in dict)
         {
-            InGamePlayerObject InGamePlayerObject = new InGamePlayerObject(pair.Value);
+            InGamePlayerPrefab InGamePlayerObject = new InGamePlayerPrefab(pair.Value);
             if(conditionOnly)
             {
                 if (Player.metaPosition[Player.MetaPosition.STARTER_PITCHER].Contains(pair.Key) || Player.metaPosition[Player.MetaPosition.RELIEF_PITCHER].Contains(pair.Key))

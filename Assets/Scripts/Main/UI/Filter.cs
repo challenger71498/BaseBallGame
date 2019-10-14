@@ -7,6 +7,7 @@ public class Filter : MonoBehaviour
 {
     public TextMeshProUGUI text;
     public GameManager gameManager;
+    public PlayerListObject listObject;
 
     public enum Mode
     {
@@ -17,6 +18,11 @@ public class Filter : MonoBehaviour
     {
         "all", "batters", "pitchers"
     };
+
+    public enum StartingMemberFilter
+    {
+        ALL, MEMBER_ONLY, MEMBER_EXCLUDED, SUB_ONLY, SUB_EXCLUDED
+    }
 
     public void OnClick()
     {
@@ -30,7 +36,7 @@ public class Filter : MonoBehaviour
         }
         gameManager.mode = mode;
 
-        gameManager.RefreshPlayerList(mode, gameManager.sortMode);
+        listObject.RefreshPlayerList(mode, gameManager.sortMode);
 
         text.text = filterString[(int)mode];
     }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 384270481384020329}
   - component: {fileID: 8514477694601898432}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Order
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,6 +472,7 @@ GameObject:
   - component: {fileID: 5218365990966087517}
   - component: {fileID: 6716880272130881073}
   - component: {fileID: 4875321840642551066}
+  - component: {fileID: 3732053861728396180}
   m_Layer: 5
   m_Name: PlayerPanel
   m_TagString: Untagged
@@ -616,6 +617,33 @@ MonoBehaviour:
     train: 0
     order: 0
     form: 0
+--- !u!114 &3732053861728396180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895704642199460447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5016fab37c3012a428a0c054c737f22f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPanelPrefab: {fileID: 895704642199460447}
+  statPrefab: {fileID: 7041700579548358485, guid: cdfbbe020b207494c9387c9e58bd1ae6,
+    type: 3}
+  pitchesPrefab: {fileID: 6700717093564868197, guid: d229c94ec63cfdd4187dcd22c4962477,
+    type: 3}
+  condition: {fileID: 1457973312316953523}
+  listAccentPanel: {fileID: 7551146079679440504}
+  listAccentPanel2: {fileID: 3798716093816003889}
+  positionText: {fileID: 3798716093553793634}
+  nameText: {fileID: 2624978237644108117}
+  numberText: {fileID: 3923437128586900581}
+  statLayout: {fileID: 3798716093682611211}
+  overallText: {fileID: 8563984562416324338}
+  isStartingMember: {fileID: 559805163611810115}
+  orderText: {fileID: 8514477694601898432}
 --- !u!1 &3798716093553793632
 GameObject:
   m_ObjectHideFlags: 0
