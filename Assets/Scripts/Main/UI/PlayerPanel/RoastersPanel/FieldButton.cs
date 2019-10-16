@@ -6,9 +6,14 @@ using TMPro;
 
 public class FieldButton : MonoBehaviour
 {
+    [Header("Prefabs")]
     public GameObject statComponent;
     public GameObject statSmallComponent;
 
+    [Header("Game Management")]
+    public GameManager GameManager;
+
+    [Header("GameObjects")]
     public GameObject statsPanel;
     public GameObject fieldViewPanel;
     public GameObject middlePanel;
@@ -27,7 +32,7 @@ public class FieldButton : MonoBehaviour
         33, 66, 100
     };
 
-    public void OnEnable()
+    public virtual void OnEnable()
     {
         GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
@@ -39,21 +44,28 @@ public class FieldButton : MonoBehaviour
         TextMeshProUGUI positionName = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         positionName.text = Player.positionStringShort[(int)position];
         
-        foreach (KeyValuePair<Player.Position, Player> playerPair in Values.myTeam.startingMembers.d)
+        if(position == Player.Position.STARTER_PITCHER)
         {
-            if(position == Player.Position.CATCHER)
+            Game game = GameManager.game;
+            if(game != null)
             {
-                //Debug.Log(playerPair.Key.ToString() + " " + position.ToString() + " " + playerPair.Value.isSubstitute);
+                player = game.GetStarterPitcher(Values.myTeam);
             }
-
-            if(playerPair.Key == position && !playerPair.Value.isSubstitute)
+            else
             {
-                player = playerPair.Value;
-                if (position == Player.Position.CATCHER)
+                gameObject.SetActive(false);
+                return;
+            }
+        }
+        else
+        {
+            foreach (KeyValuePair<Player.Position, Player> playerPair in Values.myTeam.startingMembers.d)
+            {
+                if (playerPair.Key == position && !playerPair.Value.isSubstitute)
                 {
-                    //Debug.Log(player.playerData.GetData(PlayerData.PP.NAME));
+                    player = playerPair.Value;
+                    break;
                 }
-                break;
             }
         }
 

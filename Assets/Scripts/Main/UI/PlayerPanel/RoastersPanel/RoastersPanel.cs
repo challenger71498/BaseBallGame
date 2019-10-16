@@ -18,7 +18,7 @@ public class RoastersPanel : MonoBehaviour
         gameManager.RP_fieldViewPanel.SetActive(true);
         gameManager.RP_middlePanel.SetActive(false);
         gameManager.RP_pitchersPanel.SetActive(true);
-        
+
         Refresh(gameManager);
     }
 
@@ -34,13 +34,36 @@ public class RoastersPanel : MonoBehaviour
     
     public static void Refresh(GameManager gameManager)
     {
-        if (RoasterPitchersPanelButton.focusedObject.GetComponent<RoasterPitchersPanelButton>().buttonName == "Pitcher")
+        void RefreshPlayerList(SortDropdown.SortMode mode, PlayerList.PlayerView view)
         {
-            gameManager.RefreshPlayerList(Filter.Mode.PITCHERS, SortDropdown.SortMode.POSITION, gameManager.RP_pitchersPanelContent, GameManager.StartingMemberFilter.MEMBER_ONLY, PlayerList.PlayerView.ROASTER);
+            if (RoasterPitchersPanelButton.focusedObject.GetComponent<RoasterPitchersPanelButton>().buttonName == "Pitcher")
+            {
+                if (ChangeModeButton.changeMode == ChangeModeButton.ChangeMode.PLAYERS)
+                {
+                    gameManager.RefreshPlayerList(Filter.Mode.PITCHERS, mode, gameManager.RP_pitchersPanelContent, GameManager.StartingMemberFilter.MEMBER_ONLY, view);
+                }
+                else if (ChangeModeButton.changeMode == ChangeModeButton.ChangeMode.ORDERS)
+                {
+                    gameManager.RefreshPlayerList(Player.Position.STARTER_PITCHER, mode, gameManager.RP_pitchersPanelContent, GameManager.StartingMemberFilter.MEMBER_ONLY, view);
+                }
+            }
+            else if (RoasterPitchersPanelButton.focusedObject.GetComponent<RoasterPitchersPanelButton>().buttonName == "Substitutes")
+            {
+                gameManager.RefreshPlayerList(Filter.Mode.ALL, mode, gameManager.RP_pitchersPanelContent, GameManager.StartingMemberFilter.SUB_ONLY, view);
+            }
+            else if (RoasterPitchersPanelButton.focusedObject.GetComponent<RoasterPitchersPanelButton>().buttonName == "BattingOrder")
+            {
+                gameManager.RefreshPlayerList(Filter.Mode.BATTERS, mode, gameManager.RP_pitchersPanelContent, GameManager.StartingMemberFilter.MEMBER_ONLY, view);
+            }
         }
-        else if (RoasterPitchersPanelButton.focusedObject.GetComponent<RoasterPitchersPanelButton>().buttonName == "Substitutes")
+
+        if (ChangeModeButton.changeMode == ChangeModeButton.ChangeMode.PLAYERS)
         {
-            gameManager.RefreshPlayerList(Filter.Mode.ALL, SortDropdown.SortMode.POSITION, gameManager.RP_pitchersPanelContent, GameManager.StartingMemberFilter.SUB_ONLY, PlayerList.PlayerView.ROASTER);
+            RefreshPlayerList(SortDropdown.SortMode.POSITION, PlayerList.PlayerView.ROASTER);
+        }
+        else if (ChangeModeButton.changeMode == ChangeModeButton.ChangeMode.ORDERS)
+        {
+            RefreshPlayerList(SortDropdown.SortMode.ORDER, PlayerList.PlayerView.ORDER);
         }
     }
 }

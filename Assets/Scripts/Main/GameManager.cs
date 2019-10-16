@@ -172,6 +172,7 @@ public class GameManager : MonoBehaviour
     [Header("Transition")]
     public GameObject transitionTextObject;
 
+
     //Hide In Inspector
     [HideInInspector] public Filter.Mode mode = Filter.Mode.ALL;
     [HideInInspector] public SortDropdown.SortMode sortMode = SortDropdown.SortMode.OVERALL;
@@ -400,7 +401,7 @@ public class GameManager : MonoBehaviour
             {
                 continue;
             }
-            else if (startingMemberFilter == StartingMemberFilter.MEMBER_ONLY && !Values.myTeam.players[i].Value.isStartingMember)
+            else if (startingMemberFilter == StartingMemberFilter.MEMBER_ONLY && (!Values.myTeam.players[i].Value.isStartingMember || Values.myTeam.players[i].Value.isSubstitute))
             {
                 continue;
             }
@@ -600,6 +601,10 @@ public class GameManager : MonoBehaviour
         {
             playerList.Sort(PlayerCompareByPosition);
         }
+        else if (sortMode == SortDropdown.SortMode.ORDER)
+        {
+            playerList.Sort(PlayerCompareByOrder);
+        }
 
         if (!SortDropdown.isAscendingOrder)
         {
@@ -649,6 +654,32 @@ public class GameManager : MonoBehaviour
         else
         {
             return pair2.Value.GetOverall().CompareTo(pair1.Value.GetOverall());
+        }
+    }
+
+    public int PlayerCompareByOrder(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
+    {
+        int order1 = pair1.Value.order;
+        int order2 = pair2.Value.order;
+
+        if(order1 == -1)
+        {
+            order1 = 100;
+        }
+        
+        if (order2 == -1)
+        {
+            order2 = 100;
+        }
+
+        int orderComp = order1.CompareTo(order2);
+        if(orderComp != 0)
+        {
+            return orderComp;
+        }
+        else
+        {
+            return (int)pair1.Value.playerData.GetData(PlayerData.PP.POSITION).CompareTo(pair2.Value.playerData.GetData(PlayerData.PP.POSITION));
         }
     }
 
@@ -823,6 +854,7 @@ public class GameManager : MonoBehaviour
         if (player.isStartingMember) image.color = Color.white;
         else image.color = Color.clear;
         if (player.isSubstitute) image.color = new Color(1, 1, 1, 0.5f);
+        if (game.GetStarterPitcher(Values.myTeam) == player) image.color = Colors.yellow;
 
         if (prefs == null)
         {
@@ -889,6 +921,7 @@ public class GameManager : MonoBehaviour
         if (player.isStartingMember) image.color = Color.white;
         else image.color = Color.clear;
         if (player.isSubstitute) image.color = new Color(1, 1, 1, 0.5f);
+        if (game.GetStarterPitcher(Values.myTeam) == player) image.color = Colors.yellow;
 
 
         if (prefs == null)

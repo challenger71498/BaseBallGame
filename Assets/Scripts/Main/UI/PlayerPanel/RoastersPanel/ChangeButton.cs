@@ -15,45 +15,16 @@ public class ChangeButton : MonoBehaviour
 
     public void OnClick()
     {
+        NotificationExample noti = GameManager.notificationPanel.GetComponent<NotificationExample>();
+        noti.descriptionText = "Successfully changed " + playerFirst.playerData.GetData(PlayerData.PP.NAME) + " to " + playerSecond.playerData.GetData(PlayerData.PP.NAME) + ".";
+        noti.ShowNotification();
+
         SwapPlayer(playerFirst, playerSecond, Values.myTeam);
-        //for (int i = 0; i < Values.myTeam.startingMembers.d.Count; ++i)
-        //{
-        //    if (Values.myTeam.startingMembers[i].Value.playerData.GetData(PlayerData.PP.NAME) == playerFirst.playerData.GetData(PlayerData.PP.NAME) &&
-        //        Values.myTeam.startingMembers[i].Value.playerData.GetData(PlayerData.PP.NUMBER) == playerFirst.playerData.GetData(PlayerData.PP.NUMBER))
-        //    {
-        //        Debug.Log(playerFirst.isSubstitute + " " + playerSecond.isSubstitute);
-
-        //        bool tempStartingmember = playerSecond.isStartingMember == true;        //for deep copy.
-        //        bool tempSub = playerSecond.isSubstitute == true;                       //for deep copy.
-        //        playerSecond.isStartingMember = playerFirst.isStartingMember == true;   //for deep copy.
-        //        playerSecond.isSubstitute = playerFirst.isSubstitute == true;           //for deep copy.
-        //        playerFirst.isStartingMember = tempStartingmember;
-        //        playerFirst.isSubstitute = tempSub;
-        //        playerFirst.playerData.SetData(PlayerData.PP.POSITION, positionSecond);
-        //        playerSecond.playerData.SetData(PlayerData.PP.POSITION, positionFirst);
-                
-        //        for (int j = 0; j < Values.myTeam.startingMembers.d.Count; ++j)
-        //        {
-        //            if (Values.myTeam.startingMembers[j].Value.playerData.GetData(PlayerData.PP.NAME) == playerSecond.playerData.GetData(PlayerData.PP.NAME) &&
-        //                Values.myTeam.startingMembers[j].Value.playerData.GetData(PlayerData.PP.NUMBER) == playerSecond.playerData.GetData(PlayerData.PP.NUMBER))
-        //            {
-        //                Values.myTeam.startingMembers[j] = new KeyValuePair<Player.Position, Player>(Values.myTeam.startingMembers[j].Key, playerFirst);
-        //                break;
-        //            }
-        //        }
-        //        Values.myTeam.startingMembers[i] = new KeyValuePair<Player.Position, Player>(Values.myTeam.startingMembers[i].Key, playerSecond);
-        //        break;
-        //    }
-        //};
-
-        //NotificationExample noti = GameManager.notificationPanel.GetComponent<NotificationExample>();
-        //noti.descriptionText = "Successfully changed " + playerFirst.playerData.GetData(PlayerData.PP.NAME) + " to " + playerSecond.playerData.GetData(PlayerData.PP.NAME) + ".";
-        //noti.ShowNotification();
 
         BackToFieldViewButton.OnClick();
     }
 
-    public void SwapPlayer(Player playerBefore, Player playerAfter, Team team)
+    public static void SwapPlayer(Player playerBefore, Player playerAfter, Team team)
     {
         if(playerBefore.GetType() != playerAfter.GetType())
         {
@@ -65,12 +36,15 @@ public class ChangeButton : MonoBehaviour
             if (team.startingMembers[i].Value.playerData.GetData(PlayerData.PP.NAME) == playerBefore.playerData.GetData(PlayerData.PP.NAME) &&
                 team.startingMembers[i].Value.playerData.GetData(PlayerData.PP.NUMBER) == playerBefore.playerData.GetData(PlayerData.PP.NUMBER))
             {
-                bool tempStartingmember = playerAfter.isStartingMember == true;        //for deep copy.
-                bool tempSub = playerAfter.isSubstitute == true;                       //for deep copy.
+                bool tempStartingmember = playerAfter.isStartingMember == true;         //for deep copy.
+                bool tempSub = playerAfter.isSubstitute == true;                        //for deep copy.
+                int tempOrder = playerAfter.order;                                      //for deep copy.
                 playerAfter.isStartingMember = playerBefore.isStartingMember == true;   //for deep copy.
                 playerAfter.isSubstitute = playerBefore.isSubstitute == true;           //for deep copy.
+                playerAfter.order = playerBefore.order;
                 playerBefore.isStartingMember = tempStartingmember;
                 playerBefore.isSubstitute = tempSub;
+                playerBefore.order = tempOrder;
                 playerBefore.playerData.SetData(PlayerData.PP.POSITION, positionSecond);
                 playerAfter.playerData.SetData(PlayerData.PP.POSITION, positionFirst);
 
@@ -187,8 +161,7 @@ public class ChangeButton : MonoBehaviour
             }
         };
 
-        NotificationExample noti = GameManager.notificationPanel.GetComponent<NotificationExample>();
-        noti.descriptionText = "Successfully changed " + playerBefore.playerData.GetData(PlayerData.PP.NAME) + " to " + playerAfter.playerData.GetData(PlayerData.PP.NAME) + ".";
-        noti.ShowNotification();
+        playerFirst = null;
+        playerSecond = null;
     }
 }

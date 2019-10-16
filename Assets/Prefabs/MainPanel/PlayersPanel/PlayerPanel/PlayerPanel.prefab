@@ -296,13 +296,6 @@ MonoBehaviour:
     train: 0
     order: 0
     form: 0
-  playerSecond:
-    index: 0
-    isStartingMember: 0
-    isSubstitute: 0
-    train: 0
-    order: 0
-    form: 0
 --- !u!1 &733529760735721360
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,13 +596,6 @@ MonoBehaviour:
   statSmallComponent: {fileID: 5436155155976546834, guid: c07d049037496c34884f2ebba56fab4d,
     type: 3}
   player:
-    index: 0
-    isStartingMember: 0
-    isSubstitute: 0
-    train: 0
-    order: 0
-    form: 0
-  playerSecond:
     index: 0
     isStartingMember: 0
     isSubstitute: 0

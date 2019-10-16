@@ -15,12 +15,12 @@ public class SortDropdown : CustomDropdown
 
     public enum SortMode
     {
-        OVERALL, POSITION, NAME, NUMBER
+        OVERALL, POSITION, NAME, NUMBER, ORDER
     }
 
     public static string[] SortModeString =
     {
-        "Overall", "Position", "Name", "Number"
+        "Overall", "Position", "Name", "Number", "Order"
     };
 
     void Start()

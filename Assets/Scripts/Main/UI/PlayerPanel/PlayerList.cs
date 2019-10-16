@@ -14,10 +14,10 @@ public class PlayerList : MonoBehaviour {
 
     //public static variables
     public static GameObject focusedObject;
+    public static GameObject focusedPrevObject;
 
     //player data
     public Player player;
-    public Player playerSecond;
 
     private void OnEnable()
     {
@@ -66,7 +66,7 @@ public class PlayerList : MonoBehaviour {
 
     public enum PlayerView
     {
-        SKILLS_AND_STATISTICS, ROASTER, COMPARE
+        SKILLS_AND_STATISTICS, ROASTER, COMPARE, ORDER
     }
 
     /// <summary>
@@ -520,6 +520,25 @@ public class PlayerList : MonoBehaviour {
                 }
             }
         }
-        
+        else if (playerView == PlayerView.ORDER)
+        {
+            if(focusedPrevObject == null)
+            {
+                ChangeButton.playerFirst = player;
+                ChangeButton.positionFirst = player.playerData.GetData(PlayerData.PP.POSITION);
+                focusedPrevObject = gameObject;
+                GetComponent<Image>().color = Colors.skyblue;
+            }
+            else
+            {
+                ChangeButton.playerSecond = player;
+                ChangeButton.positionSecond = player.playerData.GetData(PlayerData.PP.POSITION);
+                focusedPrevObject.GetComponent<Image>().color = Colors.primarySemiDark;
+                GetComponent<Button>().interactable = true;
+                ChangeButton.SwapPlayer(ChangeButton.playerFirst, ChangeButton.playerSecond, Values.myTeam);
+                focusedPrevObject = null;
+                RoastersPanel.Refresh(gameManager);
+            }
+        }
     }
 }

@@ -62,6 +62,22 @@ public class Game
         }
     }
 
+    public Pitcher GetStarterPitcher(Team team)
+    {
+        if (home == team)
+        {
+            return homeStarterPitcher;
+        }
+        else if (away == team)
+        {
+            return awayStarterPitcher;
+        }
+        else
+        {
+            throw new NullReferenceException("There is no such team named as " + team.teamData.GetData(TeamData.TP.NAME) + ".");
+        }
+    }
+
     public int GetScore(Team team)
     {
         if (home == team)

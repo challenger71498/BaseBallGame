@@ -45,7 +45,7 @@ public class InGameManager : MonoBehaviour
         InGameObjects.resultPanel.SetActive(false);
         InGameObjects.fieldPanel.SetActive(false);
 
-        StartCoroutine(TurnDelayed(false));  //THIS SHOULD BE CHANGED TO FALSE AT RELEASE.
+        StartCoroutine(TurnDelayed(true));  //THIS SHOULD BE CHANGED TO FALSE AT RELEASE.
     }
 
     IEnumerator TurnDelayed(bool isDebug = false)
