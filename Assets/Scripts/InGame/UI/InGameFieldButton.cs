@@ -1,70 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI;   
 using TMPro;
 
-public class FieldButton : MonoBehaviour
+public class InGameFieldButton : MonoBehaviour
 {
     [Header("Prefabs")]
     public GameObject statComponent;
     public GameObject statSmallComponent;
 
-    [Header("Game Management")]
-    public GameManager GameManager;
-
     [Header("GameObjects")]
-    public GameObject statsPanel;
-    public GameObject fieldViewPanel;
-    public GameObject middlePanel;
-    public GameObject pitchersPanel;
     public Player.Position position;
 
     Player player;
 
-    public static Color[] conditionColor =
-    {
-        Colors.red, Colors.yellow, Colors.green
-    };
-
-    public static int[] conditionRange =
-    {
-        33, 66, 100
-    };
-
     public virtual void OnEnable()
     {
-        GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        InGameObjects InGameObjects = GameObject.Find("InGameManager").GetComponent<InGameObjects>();
 
-        gameManager.RP_statsPanel.SetActive(false);
-        gameManager.RP_fieldViewPanel.SetActive(true);
-        gameManager.RP_middlePanel.SetActive(false);
-        gameManager.RP_pitchersPanel.SetActive(true);
+        InGameObjects.statsPanel.SetActive(false);
+        InGameObjects.fieldViewPanel.SetActive(true);
+        InGameObjects.middlePanel.SetActive(false);
 
         TextMeshProUGUI positionName = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         positionName.text = Player.positionStringShort[(int)position];
-        
-        if(position == Player.Position.STARTER_PITCHER)
+
+        if (position == Player.Position.STARTER_PITCHER)
         {
-            Game game = GameManager.game;
-            if(game != null)
+            if(InGameManager.currentDefend == Values.myTeam)
             {
-                player = game.GetStarterPitcher(Values.myTeam);
+                player = InGameManager.currentPitcher;
             }
             else
             {
-                gameObject.SetActive(false);
-                return;
+                player = InGameManager.otherPitcher;
             }
         }
         else
         {
-            foreach (KeyValuePair<Player.Position, Player> playerPair in Values.myTeam.startingMembers.d)
+            if (InGameManager.currentAttack == Values.myTeam)
             {
-                if (playerPair.Key == position && !playerPair.Value.isSubstitute)
+                foreach (Batter batter in InGameManager.homeBattingOrder)
                 {
-                    player = playerPair.Value;
-                    break;
+                    if (batter.playerData.GetData(PlayerData.PP.POSITION) == position && !batter.isSubstitute)
+                    {
+                        player = batter;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                foreach (Batter batter in InGameManager.awayBattingOrder)
+                {
+                    if (batter.playerData.GetData(PlayerData.PP.POSITION) == position && !batter.isSubstitute)
+                    {
+                        player = batter;
+                        break;
+                    }
                 }
             }
         }
@@ -91,17 +85,17 @@ public class FieldButton : MonoBehaviour
         TextMeshProUGUI condition = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         float cond = player.playerData.GetData(PlayerData.PP.CONDITION);
 
-        for (int i = 0; i < conditionColor.Length; ++i)
+        for (int i = 0; i < FieldButton.conditionColor.Length; ++i)
         {
-            if (Mathf.FloorToInt(cond) < conditionRange[i])
+            if (Mathf.FloorToInt(cond) < FieldButton.conditionRange[i])
             {
-                condition.color = conditionColor[i];
+                condition.color = FieldButton.conditionColor[i];
                 break;
             }
         }
 
         string conditionTemp = "";
-        for(int i = 0; i < Mathf.FloorToInt(cond / 10); ++i)
+        for (int i = 0; i < Mathf.FloorToInt(cond / 10); ++i)
         {
             conditionTemp += "l";
         }
@@ -117,7 +111,7 @@ public class FieldButton : MonoBehaviour
         playerList.player = player;
         playerList.statComponent = statComponent;
         playerList.statSmallComponent = statSmallComponent;
-        
+
         playerList.OnClick(gameManager, PlayerList.PlayerView.ROASTER, true);
     }
 }
