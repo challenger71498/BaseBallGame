@@ -114,6 +114,7 @@ public static class Schedules
     /// </summary>
     public static void ApplyScheduleComponent(Schedule schedule)
     {
+        Prefabs Prefabs = GameObject.Find("Prefabs").GetComponent<Prefabs>();
         GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         //Remove remaining existing objects.
@@ -146,11 +147,11 @@ public static class Schedules
                     //Sets basic information.
                     GameObject textObject0 = UnityEngine.Object.Instantiate(gameManager.Schedule_text, gameManager.contentLayout.transform);
                     textObject0.GetComponent<TextMeshProUGUI>().text = "You have a match with " + scheduleMatchUp.enemy.teamData.GetData(TeamData.TP.NAME) + ".";
-                    GameObject matchupPanel = UnityEngine.Object.Instantiate(gameManager.matchUpPanel, gameManager.contentLayout.transform);
-                    TeamObject teamPanel0 = new TeamObject(matchupPanel.transform.GetChild(0).gameObject);
+                    GameObject matchupPanel = UnityEngine.Object.Instantiate(Prefabs.matchUpPanel, gameManager.contentLayout.transform);
+                    TeamPrefab teamPanel0 = new TeamPrefab(matchupPanel.transform.GetChild(0).gameObject);
                     teamPanel0.nameText.text = home.teamData.GetData(TeamData.TP.NAME);
                     teamPanel0.winLossText.text = home.teamStats.GetData(TeamStatistics.TS.WIN) + "W " + home.teamStats.GetData(TeamStatistics.TS.LOSS) + "L";
-                    TeamObject teamPanel1 = new TeamObject(matchupPanel.transform.GetChild(1).gameObject);
+                    TeamPrefab teamPanel1 = new TeamPrefab(matchupPanel.transform.GetChild(1).gameObject);
                     teamPanel1.nameText.text = away.teamData.GetData(TeamData.TP.NAME);
                     teamPanel1.winLossText.text = away.teamStats.GetData(TeamStatistics.TS.WIN) + "W " + away.teamStats.GetData(TeamStatistics.TS.LOSS) + "L";
 
@@ -179,26 +180,26 @@ public static class Schedules
                     
                     for(int i = 0; i < recentGames0.Count; ++i)
                     {
-                        GameObject recentMatchObject = UnityEngine.Object.Instantiate(gameManager.recentMatchPanel, teamPanel0.recentMatchesContent.transform);
-                        RecentMatchObject matchObject = new RecentMatchObject(recentMatchObject);
+                        GameObject recentMatchObject = UnityEngine.Object.Instantiate(Prefabs.recentMatchPanel, teamPanel0.recentMatchesContent.transform);
+                        RecentMatchPrefab matchObject = new RecentMatchPrefab(recentMatchObject);
                         matchObject.SetByGame(recentGames0[i], home);
                     }
                     for (int i = 0; i < recentGames1.Count; ++i)
                     {
-                        GameObject recentMatchObject = UnityEngine.Object.Instantiate(gameManager.recentMatchPanel, teamPanel1.recentMatchesContent.transform);
-                        RecentMatchObject matchObject = new RecentMatchObject(recentMatchObject);
+                        GameObject recentMatchObject = UnityEngine.Object.Instantiate(Prefabs.recentMatchPanel, teamPanel1.recentMatchesContent.transform);
+                        RecentMatchPrefab matchObject = new RecentMatchPrefab(recentMatchObject);
                         matchObject.SetByGame(recentGames1[i], away);
                     }
 
                     //If there's no recent matches, notice that.
                     if(recentGames0.Count == 0)
                     {
-                        RecentMatchObject obj = new RecentMatchObject(UnityEngine.Object.Instantiate(gameManager.recentMatchPanel, teamPanel0.recentMatchesContent.transform));
+                        RecentMatchPrefab obj = new RecentMatchPrefab(UnityEngine.Object.Instantiate(Prefabs.recentMatchPanel, teamPanel0.recentMatchesContent.transform));
                         obj.SetNoGame();
                     }
                     if (recentGames1.Count == 0)
                     {
-                        RecentMatchObject obj = new RecentMatchObject(UnityEngine.Object.Instantiate(gameManager.recentMatchPanel, teamPanel1.recentMatchesContent.transform));
+                        RecentMatchPrefab obj = new RecentMatchPrefab(UnityEngine.Object.Instantiate(Prefabs.recentMatchPanel, teamPanel1.recentMatchesContent.transform));
                         obj.SetNoGame();
                     }
 
@@ -207,8 +208,8 @@ public static class Schedules
                     Player keyPlayer0 = home.GetKeyPlayer();
                     Player keyPlayer1 = away.GetKeyPlayer();
 
-                    teamPanel0.keyPlayerObject.SetByPlayer(keyPlayer0);
-                    teamPanel1.keyPlayerObject.SetByPlayer(keyPlayer1);
+                    teamPanel0.keyPlayerObject.SetByPlayer(keyPlayer0, false);
+                    teamPanel1.keyPlayerObject.SetByPlayer(keyPlayer1, false);
                 }
                 break;
             default:

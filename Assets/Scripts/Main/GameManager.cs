@@ -14,22 +14,8 @@ using UnityEngine.UI.Extensions;
 
 public class GameManager : MonoBehaviour
 {
-    //Prefabs
-    [Header("Prefabs")] 
-    public GameObject datePanel;
-    public GameObject listPanel;
-    public GameObject itemPanel;
-    public GameObject playerPanel;
-    public GameObject stat;
-    public GameObject statSmall;
-    public GameObject pitches;
-    public GameObject graph;
-    public GameObject statistics;
-    public GameObject training;
-    public GameObject effectPanel;
-    public GameObject matchUpPanel;
-    public GameObject teamPanel;
-    public GameObject recentMatchPanel;
+    [Header("Prefabs")]
+    public Prefabs Prefabs;
 
     [Header("Prefabs for schedule component")]
     public GameObject Schedule_text;
@@ -293,7 +279,7 @@ public class GameManager : MonoBehaviour
         accentPanel.color = Color.white;
 
         //PlayersPanel
-        RefreshPlayerList(Filter.Mode.ALL, SortDropdown.SortMode.OVERALL);
+        //RefreshPlayerList(Filter.Mode.ALL, SortDropdown.SortMode.OVERALL);
         skillPanel.SetActive(false);
         statisticsPanel.SetActive(false);
         roastersPanel.SetActive(false);
@@ -303,279 +289,13 @@ public class GameManager : MonoBehaviour
         SP_graphPanel.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 
     //
     //Refresh Functions
     //
 
 
-    //Refreshes player list.
-    public static StartingMemberFilter currentStartingMemberFilter = StartingMemberFilter.ALL;
-    public static bool isModeNow = true;
-    public static Player.Position currentPosition;
-    public static Player.MetaPosition currentMetaPosition;
-
-    public enum StartingMemberFilter
-    {
-        ALL, MEMBER_ONLY, MEMBER_EXCLUDED, SUB_ONLY, SUB_EXCLUDED
-    }
-
-    public int RefreshPlayerList(Filter.Mode mode, SortDropdown.SortMode sortMode, StartingMemberFilter startingMemberFilter = StartingMemberFilter.ALL, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS)
-    {
-        currentStartingMemberFilter = startingMemberFilter;
-        isModeNow = true;
-
-        int instantiatedAmount = 0;
-
-        //Removes children of player content.
-        for (int i = 0; i < playerContent.transform.childCount; ++i)
-        {
-            Transform child = playerContent.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
-
-        PlayerSort(Values.myTeam.players.d, sortMode);
-
-        //Instantiates playerPanel to it.
-        for (int i = 0; i < Values.myTeam.players.d.Count; ++i)
-        {
-            if (startingMemberFilter == StartingMemberFilter.MEMBER_EXCLUDED && Values.myTeam.players[i].Value.isStartingMember && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.MEMBER_ONLY && !Values.myTeam.players[i].Value.isStartingMember)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_ONLY && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_EXCLUDED && Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-
-            if (mode == Filter.Mode.BATTERS && Values.myTeam.players[i].Value.GetType() == typeof(Pitcher))
-            {
-                continue;
-            }
-            else if (mode == Filter.Mode.PITCHERS && Values.myTeam.players[i].Value.GetType() == typeof(Batter))
-            {
-                continue;
-            }
-
-            ++instantiatedAmount;
-            PlayerInstantiate(Values.myTeam.players[i].Value, playerView);
-        }
-
-        return instantiatedAmount;
-    }
-
-    public int RefreshPlayerList(Filter.Mode mode, SortDropdown.SortMode sortMode, GameObject content, StartingMemberFilter startingMemberFilter = StartingMemberFilter.ALL, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS)
-    {
-        currentStartingMemberFilter = startingMemberFilter;
-        isModeNow = true;
-
-        int instantiatedAmount = 0;
-
-        //Removes children of player content.
-        for (int i = 0; i < content.transform.childCount; ++i)
-        {
-            Transform child = content.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
-
-        PlayerSort(Values.myTeam.players.d, sortMode);
-
-        //Instantiates playerPanel to it.
-        for (int i = 0; i < Values.myTeam.players.d.Count; ++i)
-        {
-            if (startingMemberFilter == StartingMemberFilter.MEMBER_EXCLUDED && Values.myTeam.players[i].Value.isStartingMember && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.MEMBER_ONLY && (!Values.myTeam.players[i].Value.isStartingMember || Values.myTeam.players[i].Value.isSubstitute))
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_ONLY && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_EXCLUDED && Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-
-            if (mode == Filter.Mode.BATTERS && Values.myTeam.players[i].Value.GetType() == typeof(Pitcher))
-            {
-                continue;
-            }
-            else if (mode == Filter.Mode.PITCHERS && Values.myTeam.players[i].Value.GetType() == typeof(Batter))
-            {
-                continue;
-            }
-
-            ++instantiatedAmount;
-            PlayerInstantiate(Values.myTeam.players[i].Value, content, playerView);
-        }
-
-        return instantiatedAmount;
-    }
-
-    public int RefreshPlayerList(Player.Position position, SortDropdown.SortMode sortMode, StartingMemberFilter startingMemberFilter = StartingMemberFilter.ALL, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS)
-    {
-        currentStartingMemberFilter = startingMemberFilter;
-        isModeNow = false;
-        currentPosition = position;
-
-        int instantiatedAmount = 0;
-
-        //Removes children of player content.
-        for (int i = 0; i < playerContent.transform.childCount; ++i)
-        {
-            Transform child = playerContent.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
-
-        PlayerSort(Values.myTeam.players.d, sortMode);
-
-        //Instantiates playerPanel to it.
-        for (int i = 0; i < Values.myTeam.players.d.Count; ++i)
-        {
-            if (startingMemberFilter == StartingMemberFilter.MEMBER_EXCLUDED && Values.myTeam.players[i].Value.isStartingMember && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.MEMBER_ONLY && !Values.myTeam.players[i].Value.isStartingMember)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_ONLY && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_EXCLUDED && Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-
-            if (Values.myTeam.players[i].Value.playerData.GetData(PlayerData.PP.POSITION) != position)
-            {
-                continue;
-            }
-
-            ++instantiatedAmount;
-            PlayerInstantiate(Values.myTeam.players[i].Value, playerView);
-        }
-
-        return instantiatedAmount;
-    }
-
-    public int RefreshPlayerList(Player.Position position, SortDropdown.SortMode sortMode, GameObject content, StartingMemberFilter startingMemberFilter = StartingMemberFilter.ALL, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS)
-    {
-        currentStartingMemberFilter = startingMemberFilter;
-        isModeNow = false;
-        currentPosition = position;
-
-        int instantiatedAmount = 0;
-
-        //Removes children of player content.
-        for (int i = 0; i < content.transform.childCount; ++i)
-        {
-            Transform child = content.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
-
-        PlayerSort(Values.myTeam.players.d, sortMode);
-
-        //Instantiates playerPanel to it.
-        for (int i = 0; i < Values.myTeam.players.d.Count; ++i)
-        {
-            if (startingMemberFilter == StartingMemberFilter.MEMBER_EXCLUDED && Values.myTeam.players[i].Value.isStartingMember && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.MEMBER_ONLY && !Values.myTeam.players[i].Value.isStartingMember)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_ONLY && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_EXCLUDED && Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-
-            if (Values.myTeam.players[i].Value.playerData.GetData(PlayerData.PP.POSITION) != position)
-            {
-                continue;
-            }
-
-            ++instantiatedAmount;
-            PlayerInstantiate(Values.myTeam.players[i].Value, content, playerView);
-        }
-
-        return instantiatedAmount;
-    }
-
-    public int RefreshPlayerList(Player.MetaPosition metaPosition, SortDropdown.SortMode sortMode, StartingMemberFilter startingMemberFilter = StartingMemberFilter.ALL, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS)
-    {
-        currentStartingMemberFilter = startingMemberFilter;
-        isModeNow = false;
-        currentMetaPosition = metaPosition;
-
-        int instantiatedAmount = 0;
-
-        //Removes children of player content.
-        for (int i = 0; i < playerContent.transform.childCount; ++i)
-        {
-            Transform child = playerContent.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
-
-        PlayerSort(Values.myTeam.players.d, sortMode);
-
-        //Instantiates playerPanel to it.
-        for (int i = 0; i < Values.myTeam.players.d.Count; ++i)
-        {
-            if (startingMemberFilter == StartingMemberFilter.MEMBER_EXCLUDED && Values.myTeam.players[i].Value.isStartingMember && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.MEMBER_ONLY && !Values.myTeam.players[i].Value.isStartingMember)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_ONLY && !Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-            else if (startingMemberFilter == StartingMemberFilter.SUB_EXCLUDED && Values.myTeam.players[i].Value.isSubstitute)
-            {
-                continue;
-            }
-
-            if (Values.myTeam.players[i].Value.playerData.GetData(PlayerData.PP.META_POSITION) != metaPosition)
-            {
-                continue;
-            }
-
-            ++instantiatedAmount;
-            PlayerInstantiate(Values.myTeam.players[i].Value, playerView);
-        }
-
-        return instantiatedAmount;
-    }
+    
 
 
     //
@@ -583,7 +303,7 @@ public class GameManager : MonoBehaviour
     //
 
 
-    public void PlayerSort(List<KeyValuePair<int, Player>> playerList, SortDropdown.SortMode sortMode)
+    public static void PlayerSort(List<KeyValuePair<int, Player>> playerList, SortDropdown.SortMode sortMode)
     {
         if (sortMode == SortDropdown.SortMode.NAME)
         {
@@ -612,7 +332,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int PlayerCompareByName(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
+    public static int PlayerCompareByName(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
     {
         var NameComparison = ((string)pair2.Value.playerData.GetData(PlayerData.PP.NAME)).CompareTo(pair1.Value.playerData.GetData(PlayerData.PP.NAME));
         if (NameComparison != 0)
@@ -625,13 +345,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int PlayerCompareByOverall(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
+    public static int PlayerCompareByOverall(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
     {
         var OverallComparison = pair2.Value.GetOverall().CompareTo(pair1.Value.GetOverall());
         return OverallComparison;
     }
 
-    public int PlayerCompareByPosition(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
+    public static int PlayerCompareByPosition(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
     {
         var PositionComparison = ((int)pair1.Value.playerData.GetData(PlayerData.PP.POSITION)).CompareTo((int)(pair2.Value.playerData.GetData(PlayerData.PP.POSITION)));
         if (PositionComparison != 0)
@@ -644,7 +364,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int PlayerCompareByNumber(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
+    public static int PlayerCompareByNumber(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
     {
         var NumberComparison = ((int)pair1.Value.playerData.GetData(PlayerData.PP.NUMBER)).CompareTo(pair2.Value.playerData.GetData(PlayerData.PP.NUMBER));
         if (NumberComparison != 0)
@@ -790,19 +510,19 @@ public class GameManager : MonoBehaviour
     //Instantiates date prefab.
     void DateInstantiate(Date date)
     {
-        datePanel.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = date.output;
-        Instantiate(datePanel, listContentLayout.transform);
+        Prefabs.datePanel.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = date.output;
+        Instantiate(Prefabs.datePanel, listContentLayout.transform);
     }
 
     //Instantiates list prefab.
     void ListInstantiate(Schedule schedule)
     {
 
-        listPanel.transform.GetChild(0).GetComponent<Image>().color = Schedule.categoryColors[(int)schedule.GetCategories()];
-        listPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = schedule.GetTitle();
-        listPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = schedule.GetDescription();
+        Prefabs.listPanel.transform.GetChild(0).GetComponent<Image>().color = Schedule.categoryColors[(int)schedule.GetCategories()];
+        Prefabs.listPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = schedule.GetTitle();
+        Prefabs.listPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = schedule.GetDescription();
 
-        ScheduleButton scheduleButton = listPanel.GetComponent<ScheduleButton>();
+        ScheduleButton scheduleButton = Prefabs.listPanel.GetComponent<ScheduleButton>();
         scheduleButton.index = schedule.GetIndex();
 
         scheduleButton.titleText = titleText;
@@ -812,231 +532,231 @@ public class GameManager : MonoBehaviour
         scheduleButton.dropdown = dropdown;
         scheduleButton.confirm = confirm;
 
-        Instantiate(listPanel, listContentLayout.transform);
+        Instantiate(Prefabs.listPanel, listContentLayout.transform);
     }
 
-    //Instantiates playerPanel prefab.
-    GameObject PlayerInstantiate(Player player, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS, List<PlayerData.PP> prefs = null, bool isPitchesShown = true)
-    {
-        GameObject playerObject = Instantiate(playerPanel, playerContent.transform);
+    ////Instantiates playerPanel prefab.
+    //public static GameObject PlayerInstantiate(Player player, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS, List<PlayerData.PP> prefs = null, bool isPitchesShown = true)
+    //{
+    //    GameObject playerObject = Instantiate(playerPanel, playerContent.transform);
 
-        playerObject.transform.GetChild(0).GetComponent<Image>().fillAmount = (100 - player.playerData.GetData(PlayerData.PP.CONDITION)) / 100f;
-        playerObject.transform.GetChild(1).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel
-        playerObject.transform.GetChild(2).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel2
-        playerObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = Player.positionStringShort[(int)player.playerData.data.d[PlayerData.PP.POSITION]];   //Position
-        TextMeshProUGUI nameText = playerObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
-        nameText.text = player.playerData.GetData(PlayerData.PP.NAME);   //Name
-        playerObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = player.playerData.GetData(PlayerData.PP.NUMBER).ToString(); //Number
-        TextMeshProUGUI orderText = playerObject.transform.GetChild(8).GetComponent<TextMeshProUGUI>(); //Batting/StartPitching order
-        if (player.order == -1)
-        {
-            orderText.text = "";
-        }
-        else
-        {
-            orderText.text = OrdinalNumbers.AddOrdinal(player.order);
-        }
-        TextMeshProUGUI overallText = playerObject.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
-        overallText.text = Mathf.FloorToInt(player.GetOverall()).ToString();   //Overall
-        for (int i = 0; i < Player.statRange.Count; ++i)
-        {
-            if (Mathf.FloorToInt(player.GetOverall()) < Player.statRange[i])
-            {
-                overallText.color = Player.statColor[i];
-                if (i == 0)
-                {
-                    overallText.alpha = Player.statAlpha[i];
-                }
-                break;
-            }
-        }
-        Image image = playerObject.transform.GetChild(7).GetComponent<Image>();
-        if (player.isStartingMember) image.color = Color.white;
-        else image.color = Color.clear;
-        if (player.isSubstitute) image.color = new Color(1, 1, 1, 0.5f);
-        if (game.GetStarterPitcher(Values.myTeam) == player) image.color = Colors.yellow;
+    //    PlayerPrefab obj = new PlayerPrefab(playerObject);
 
-        if (prefs == null)
-        {
-            foreach (KeyValuePair<string, float> stat in player.finalStats.d)
-            {
-                StatInstantiate(stat.Key, stat.Value, playerObject);
-            }
-            if (player.GetType() == typeof(Pitcher) && isPitchesShown)
-            {
-                PitchesInstantiate(((Pitcher)player).pitches.d, playerObject);
-            }
-        }
-        else
-        {
+    //    playerObject.transform.GetChild(0).GetComponent<Image>().fillAmount = (100 - player.playerData.GetData(PlayerData.PP.CONDITION)) / 100f;
+    //    playerObject.transform.GetChild(1).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel
+    //    playerObject.transform.GetChild(2).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel2
+    //    playerObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = Player.positionStringShort[(int)player.playerData.data.d[PlayerData.PP.POSITION]];   //Position
+    //    TextMeshProUGUI nameText = playerObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+    //    nameText.text = player.playerData.GetData(PlayerData.PP.NAME);   //Name
+    //    playerObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = player.playerData.GetData(PlayerData.PP.NUMBER).ToString(); //Number
+    //    TextMeshProUGUI orderText = playerObject.transform.GetChild(8).GetComponent<TextMeshProUGUI>(); //Batting/StartPitching order
+    //    if (player.order == -1)
+    //    {
+    //        orderText.text = "";
+    //    }
+    //    else
+    //    {
+    //        orderText.text = OrdinalNumbers.AddOrdinal(player.order);
+    //    }
+    //    TextMeshProUGUI overallText = playerObject.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
+    //    overallText.text = Mathf.FloorToInt(player.GetOverall()).ToString();   //Overall
+    //    for (int i = 0; i < Player.statRange.Count; ++i)
+    //    {
+    //        if (Mathf.FloorToInt(player.GetOverall()) < Player.statRange[i])
+    //        {
+    //            overallText.color = Player.statColor[i];
+    //            if (i == 0)
+    //            {
+    //                overallText.alpha = Player.statAlpha[i];
+    //            }
+    //            break;
+    //        }
+    //    }
+    //    Image image = playerObject.transform.GetChild(7).GetComponent<Image>();
+    //    if (player.isStartingMember) image.color = Color.white;
+    //    else image.color = Color.clear;
+    //    if (player.isSubstitute) image.color = new Color(1, 1, 1, 0.5f);
 
-        }
+    //    if (prefs == null)
+    //    {
+    //        foreach (KeyValuePair<string, float> stat in player.finalStats.d)
+    //        {
+    //            StatInstantiate(stat.Key, stat.Value, playerObject);
+    //        }
+    //        if (player.GetType() == typeof(Pitcher) && isPitchesShown)
+    //        {
+    //            PitchesInstantiate(((Pitcher)player).pitches.d, playerObject);
+    //        }
+    //    }
+    //    else
+    //    {
 
-        //For button script
-        PlayerList playerList = playerObject.GetComponent<PlayerList>();
-        playerList.player = player;
-        playerObject.GetComponent<Button>().onClick.AddListener(delegate ()
-        {
-            playerList.OnClick(this, playerView);
-        });
+    //    }
 
-        return playerObject;
-    }
+    //    //For button script
+    //    PlayerList playerList = playerObject.GetComponent<PlayerList>();
+    //    playerList.player = player;
+    //    playerObject.GetComponent<Button>().onClick.AddListener(delegate ()
+    //    {
+    //        playerList.OnClick(this, playerView);
+    //    });
 
-    GameObject PlayerInstantiate(Player player, GameObject content, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS, List<PlayerData.PP> prefs = null, bool isPitchesShown = true)
-    {
-        GameObject playerObject = Instantiate(playerPanel, content.transform);
+    //    return playerObject;
+    //}
 
-        playerObject.transform.GetChild(0).GetComponent<Image>().fillAmount = (100 - player.playerData.GetData(PlayerData.PP.CONDITION)) / 100f;
-        playerObject.transform.GetChild(1).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel
-        playerObject.transform.GetChild(2).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel2
-        playerObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = Player.positionStringShort[(int)player.playerData.data.d[PlayerData.PP.POSITION]];   //Position
-        TextMeshProUGUI nameText = playerObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
-        nameText.text = player.playerData.GetData(PlayerData.PP.NAME);   //Name
-        playerObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = player.playerData.GetData(PlayerData.PP.NUMBER).ToString(); //Number
-        TextMeshProUGUI orderText = playerObject.transform.GetChild(8).GetComponent<TextMeshProUGUI>(); //Batting/StartPitching order
-        if (player.order == -1)
-        {
-            orderText.text = "";
-        }
-        else
-        {
-            orderText.text = OrdinalNumbers.AddOrdinal(player.order);
-        }
-        TextMeshProUGUI overallText = playerObject.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
-        overallText.text = Mathf.FloorToInt(player.GetOverall()).ToString();   //Overall
-        for (int i = 0; i < Player.statRange.Count; ++i)
-        {
-            if (Mathf.FloorToInt(player.GetOverall()) < Player.statRange[i])
-            {
-                overallText.color = Player.statColor[i];
-                if (i == 0)
-                {
-                    overallText.alpha = Player.statAlpha[i];
-                }
-                break;
-            }
-        }
-        Image image = playerObject.transform.GetChild(7).GetComponent<Image>();
-        if (player.isStartingMember) image.color = Color.white;
-        else image.color = Color.clear;
-        if (player.isSubstitute) image.color = new Color(1, 1, 1, 0.5f);
-        if (game.GetStarterPitcher(Values.myTeam) == player) image.color = Colors.yellow;
+    //GameObject PlayerInstantiate(Player player, GameObject content, PlayerList.PlayerView playerView = PlayerList.PlayerView.SKILLS_AND_STATISTICS, List<PlayerData.PP> prefs = null, bool isPitchesShown = true)
+    //{
+    //    GameObject playerObject = Instantiate(playerPanel, content.transform);
+
+    //    playerObject.transform.GetChild(0).GetComponent<Image>().fillAmount = (100 - player.playerData.GetData(PlayerData.PP.CONDITION)) / 100f;
+    //    playerObject.transform.GetChild(1).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel
+    //    playerObject.transform.GetChild(2).GetComponent<Image>().color = Player.positionColor[(int)player.playerData.GetData(PlayerData.PP.POSITION)]; //ListAccentPanel2
+    //    playerObject.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = Player.positionStringShort[(int)player.playerData.data.d[PlayerData.PP.POSITION]];   //Position
+    //    TextMeshProUGUI nameText = playerObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+    //    nameText.text = player.playerData.GetData(PlayerData.PP.NAME);   //Name
+    //    playerObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = player.playerData.GetData(PlayerData.PP.NUMBER).ToString(); //Number
+    //    TextMeshProUGUI orderText = playerObject.transform.GetChild(8).GetComponent<TextMeshProUGUI>(); //Batting/StartPitching order
+    //    if (player.order == -1)
+    //    {
+    //        orderText.text = "";
+    //    }
+    //    else
+    //    {
+    //        orderText.text = OrdinalNumbers.AddOrdinal(player.order);
+    //    }
+    //    TextMeshProUGUI overallText = playerObject.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
+    //    overallText.text = Mathf.FloorToInt(player.GetOverall()).ToString();   //Overall
+    //    for (int i = 0; i < Player.statRange.Count; ++i)
+    //    {
+    //        if (Mathf.FloorToInt(player.GetOverall()) < Player.statRange[i])
+    //        {
+    //            overallText.color = Player.statColor[i];
+    //            if (i == 0)
+    //            {
+    //                overallText.alpha = Player.statAlpha[i];
+    //            }
+    //            break;
+    //        }
+    //    }
+    //    Image image = playerObject.transform.GetChild(7).GetComponent<Image>();
+    //    if (player.isStartingMember) image.color = Color.white;
+    //    else image.color = Color.clear;
+    //    if (player.isSubstitute) image.color = new Color(1, 1, 1, 0.5f);
 
 
-        if (prefs == null)
-        {
-            foreach (KeyValuePair<string, float> stat in player.finalStats.d)
-            {
-                StatInstantiate(stat.Key, stat.Value, playerObject);
-            }
-            if (player.GetType() == typeof(Pitcher) && isPitchesShown)
-            {
-                PitchesInstantiate(((Pitcher)player).pitches.d, playerObject);
-            }
-        }
-        else
-        {
+    //    if (prefs == null)
+    //    {
+    //        foreach (KeyValuePair<string, float> stat in player.finalStats.d)
+    //        {
+    //            StatInstantiate(stat.Key, stat.Value, playerObject);
+    //        }
+    //        if (player.GetType() == typeof(Pitcher) && isPitchesShown)
+    //        {
+    //            PitchesInstantiate(((Pitcher)player).pitches.d, playerObject);
+    //        }
+    //    }
+    //    else
+    //    {
 
-        }
+    //    }
 
-        //For button script
-        PlayerList playerList = playerObject.GetComponent<PlayerList>();
-        playerList.player = player;
-        playerObject.GetComponent<Button>().onClick.AddListener(delegate ()
-        {
-            playerList.OnClick(this, playerView);
-        });
+    //    //For button script
+    //    PlayerList playerList = playerObject.GetComponent<PlayerList>();
+    //    playerList.player = player;
+    //    playerObject.GetComponent<Button>().onClick.AddListener(delegate ()
+    //    {
+    //        playerList.OnClick(this, playerView);
+    //    });
 
-        return playerObject;
-    }
+    //    return playerObject;
+    //}
 
-    //Instantiates stat prefab.
-    void StatInstantiate(string title, float value, GameObject playerObject)
-    {
-        GameObject statLayout = playerObject.transform.GetChild(5).gameObject;
-        GameObject statObject = Instantiate(stat, statLayout.transform);
-        TextMeshProUGUI titleText = statObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        titleText.text = title;    //Stat.Title
-        TextMeshProUGUI valueText = statObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        valueText.text = Mathf.FloorToInt(value).ToString();    //Stat.Value
-        for (int i = 0; i < Player.statRange.Count; ++i)
-        {
-            if (Mathf.FloorToInt(value) < Player.statRange[i])
-            {
-                if (i == 4)
-                {
-                    titleText.color = Player.statColor[i];
-                }
-                valueText.color = Player.statColor[i];
-                valueText.alpha = Player.statAlpha[i];
-                break;
-            }
-        }
-    }
+    ////Instantiates stat prefab.
+    //void StatInstantiate(string title, float value, GameObject playerObject)
+    //{
+    //    GameObject statLayout = playerObject.transform.GetChild(5).gameObject;
+    //    GameObject statObject = Instantiate(stat, statLayout.transform);
+    //    TextMeshProUGUI titleText = statObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+    //    titleText.text = title;    //Stat.Title
+    //    TextMeshProUGUI valueText = statObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+    //    valueText.text = Mathf.FloorToInt(value).ToString();    //Stat.Value
+    //    for (int i = 0; i < Player.statRange.Count; ++i)
+    //    {
+    //        if (Mathf.FloorToInt(value) < Player.statRange[i])
+    //        {
+    //            if (i == 4)
+    //            {
+    //                titleText.color = Player.statColor[i];
+    //            }
+    //            valueText.color = Player.statColor[i];
+    //            valueText.alpha = Player.statAlpha[i];
+    //            break;
+    //        }
+    //    }
+    //}
 
-    //Instantiates pitches prefab.
-    void PitchesInstantiate(Dictionary<Pitcher.Pitch, float> pitchesDictionary, GameObject playerObject)
-    {
-        GameObject statLayout = playerObject.transform.GetChild(5).gameObject;
-        GameObject pitchesObject = Instantiate(pitches, statLayout.transform);
-        string text = "";
-        foreach (Pitcher.Pitch pitch in pitchesDictionary.Keys)
-        {
-            text += Pitcher.PitchStringShort[(int)pitch] + " ";
-        }
-        text.Remove(text.Length - 1);
-        pitchesObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-    }
+    ////Instantiates pitches prefab.
+    //void PitchesInstantiate(Dictionary<Pitcher.Pitch, float> pitchesDictionary, GameObject playerObject)
+    //{
+    //    GameObject statLayout = playerObject.transform.GetChild(5).gameObject;
+    //    GameObject pitchesObject = Instantiate(pitches, statLayout.transform);
+    //    string text = "";
+    //    foreach (Pitcher.Pitch pitch in pitchesDictionary.Keys)
+    //    {
+    //        text += Pitcher.PitchStringShort[(int)pitch] + " ";
+    //    }
+    //    text.Remove(text.Length - 1);
+    //    pitchesObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
+    //}
 
-    public void StatisticsInstantiate(PlayerStatistics.PS stat, float player, float average, int rank)
-    {
-        GameObject statObject = Instantiate(statistics, SP_content.transform);
-        StatisticPanel statisticPanel = statObject.GetComponent<StatisticPanel>();
+    //public void StatisticsInstantiate(PlayerStatistics.PS stat, float player, float average, int rank)
+    //{
+    //    GameObject statObject = Instantiate(statistics, SP_content.transform);
+    //    StatisticPanel statisticPanel = statObject.GetComponent<StatisticPanel>();
 
-        statisticPanel.stat = stat;
+    //    statisticPanel.stat = stat;
 
-        statObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = PlayerStatistics.PSStringShort[(int)stat];  //title
-        TextMeshProUGUI playerText = statObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();  //player
-        TextMeshProUGUI averageText = statObject.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>(); //average
-        statObject.transform.GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = rank.ToString(); //ranking
+    //    statObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = PlayerStatistics.PSStringShort[(int)stat];  //title
+    //    TextMeshProUGUI playerText = statObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();  //player
+    //    TextMeshProUGUI averageText = statObject.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>(); //average
+    //    statObject.transform.GetChild(3).GetChild(2).GetComponent<TextMeshProUGUI>().text = rank.ToString(); //ranking
 
-        if (player == (int)player)
-        {
-            playerText.text = Mathf.FloorToInt(player).ToString();
-            averageText.text = Mathf.FloorToInt(average).ToString("F0");
-        }
-        else
-        {
-            playerText.text = player.ToString("F3");
-            averageText.text = average.ToString("F3");
-        }
+    //    if (player == (int)player)
+    //    {
+    //        playerText.text = Mathf.FloorToInt(player).ToString();
+    //        averageText.text = Mathf.FloorToInt(average).ToString("F0");
+    //    }
+    //    else
+    //    {
+    //        playerText.text = player.ToString("F3");
+    //        averageText.text = average.ToString("F3");
+    //    }
 
-        if(PlayerStatistics.lowerBetter.Contains(stat))
-        {
-            if (player > average * 1.1f)
-            {
-                playerText.color = Colors.red;
-                playerText.alpha = 0.5f;
-            }
-            else if (player < average * 0.8f)
-            {
-                playerText.color = Colors.green;
-            }
-        }
-        else
-        {
-            if (player < average * 0.9f)
-            {
-                playerText.color = Colors.red;
-                playerText.alpha = 0.5f;
-            }
-            else if (player > average * 1.2f)
-            {
-                playerText.color = Colors.green;
-            }
-        }
-    }
+    //    if(PlayerStatistics.lowerBetter.Contains(stat))
+    //    {
+    //        if (player > average * 1.1f)
+    //        {
+    //            playerText.color = Colors.red;
+    //            playerText.alpha = 0.5f;
+    //        }
+    //        else if (player < average * 0.8f)
+    //        {
+    //            playerText.color = Colors.green;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if (player < average * 0.9f)
+    //        {
+    //            playerText.color = Colors.red;
+    //            playerText.alpha = 0.5f;
+    //        }
+    //        else if (player > average * 1.2f)
+    //        {
+    //            playerText.color = Colors.green;
+    //        }
+    //    }
+    //}
 
     //Instantiates graph prefab.
     public void GraphInstantiate(int year, float min, float max, float player, float average, int rank = 1)
@@ -1051,7 +771,7 @@ public class GameManager : MonoBehaviour
             average = Mathf.RoundToInt(average);
         }
 
-        GameObject graphObject = Instantiate(graph, SP_graphContent.transform);
+        GameObject graphObject = Instantiate(Prefabs.graph, SP_graphContent.transform);
 
         RectTransform averageRect = graphObject.transform.GetChild(0).GetComponent<RectTransform>();   //Average
         SetTop(averageRect, 350 * (1 - (average - min) / (max - min)) + 50);
@@ -1088,7 +808,7 @@ public class GameManager : MonoBehaviour
     //Instantiates training prefab.
     public void TrainingInstantiate(Training trainingScript, Player player)
     {
-        GameObject trainingObject = Instantiate(training, TP_content.transform);
+        GameObject trainingObject = Instantiate(Prefabs.training, TP_content.transform);
 
         TrainPanel trainPanel = trainingObject.GetComponent<TrainPanel>();
         trainPanel.train = trainingScript.train;
@@ -1141,7 +861,7 @@ public class GameManager : MonoBehaviour
     //Instantiates effect prefab.
     public void EffectInstantiate(PlayerData.PP pref, int days)
     {
-        GameObject effectObject = Instantiate(effectPanel, TP_effectContent.transform);
+        GameObject effectObject = Instantiate(Prefabs.effectPanel, TP_effectContent.transform);
         effectObject.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = PlayerData.PPString[(int)PlayerData.FindSerializablePP(pref)];
         effectObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = PlayerData.PPString[(int)pref];
         effectObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = days.ToString() + " Days";

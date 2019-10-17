@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BackToFieldViewButton : MonoBehaviour
 {
+    public RoastersPanel RoastersPanel;
     public void OnClick()
     {
         GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -13,6 +14,6 @@ public class BackToFieldViewButton : MonoBehaviour
         gameManager.RP_middlePanel.SetActive(false);
         gameManager.RP_pitchersPanel.SetActive(true);
 
-        RoastersPanel.Refresh(gameManager);
+        RoastersPanel.Refresh();
     }
 }

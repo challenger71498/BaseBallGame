@@ -203,8 +203,16 @@ public class PlayerData
         {
             return ((SerializableDictPP)data.d[pref]).GetAverage();
         }
-
-        return Convert.ChangeType(data.d[pref], data.d[pref].GetType());
+        else
+        {
+            try
+            {
+                return GetDictData(pref);
+            } catch (Exception)
+            {
+                return Convert.ChangeType(data.d[pref], data.d[pref].GetType());
+            }
+        }
     }
 
     public float GetDictData(PP p)

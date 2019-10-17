@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class InGamePlayNoUI : InGameManager
 {
-    //Hid base Start function intentionally to prevent auto start.
-    public void Start()
+    /// <summary>
+    /// Hid base Start function intentionally to prevent auto start.
+    /// </summary>
+    public new void Start()
     {
         InGameObjects = null;
     }
