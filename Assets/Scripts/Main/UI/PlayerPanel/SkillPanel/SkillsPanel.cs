@@ -92,7 +92,7 @@ public class SkillsPanel : MonoBehaviour
             {
                 foreach (KeyValuePair<PlayerData.PP, float> valuePair in ((SerializableDictPP)stat.Value).d)
                 {
-                    SkillPrefab.SkillInstantiate(player, stat.Key, contentTransform, default, true);
+                    SkillPrefab.SkillInstantiate(player, valuePair.Key, contentTransform, default, true);
                 }
             }
 

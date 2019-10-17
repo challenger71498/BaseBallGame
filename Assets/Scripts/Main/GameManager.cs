@@ -14,22 +14,8 @@ using UnityEngine.UI.Extensions;
 
 public class GameManager : MonoBehaviour
 {
-    //Prefabs
-    [Header("Prefabs")] 
-    public GameObject datePanel;
-    public GameObject listPanel;
-    public GameObject itemPanel;
-    public GameObject playerPanel;
-    public GameObject stat;
-    public GameObject statSmall;
-    public GameObject pitches;
-    public GameObject graph;
-    public GameObject statistics;
-    public GameObject training;
-    public GameObject effectPanel;
-    public GameObject matchUpPanel;
-    public GameObject teamPanel;
-    public GameObject recentMatchPanel;
+    [Header("Prefabs")]
+    public Prefabs Prefabs;
 
     [Header("Prefabs for schedule component")]
     public GameObject Schedule_text;
@@ -493,19 +479,19 @@ public class GameManager : MonoBehaviour
     //Instantiates date prefab.
     void DateInstantiate(Date date)
     {
-        datePanel.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = date.output;
-        Instantiate(datePanel, listContentLayout.transform);
+        Prefabs.datePanel.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = date.output;
+        Instantiate(Prefabs.datePanel, listContentLayout.transform);
     }
 
     //Instantiates list prefab.
     void ListInstantiate(Schedule schedule)
     {
 
-        listPanel.transform.GetChild(0).GetComponent<Image>().color = Schedule.categoryColors[(int)schedule.GetCategories()];
-        listPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = schedule.GetTitle();
-        listPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = schedule.GetDescription();
+        Prefabs.listPanel.transform.GetChild(0).GetComponent<Image>().color = Schedule.categoryColors[(int)schedule.GetCategories()];
+        Prefabs.listPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = schedule.GetTitle();
+        Prefabs.listPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = schedule.GetDescription();
 
-        ScheduleButton scheduleButton = listPanel.GetComponent<ScheduleButton>();
+        ScheduleButton scheduleButton = Prefabs.listPanel.GetComponent<ScheduleButton>();
         scheduleButton.index = schedule.GetIndex();
 
         scheduleButton.titleText = titleText;
@@ -515,7 +501,7 @@ public class GameManager : MonoBehaviour
         scheduleButton.dropdown = dropdown;
         scheduleButton.confirm = confirm;
 
-        Instantiate(listPanel, listContentLayout.transform);
+        Instantiate(Prefabs.listPanel, listContentLayout.transform);
     }
 
     ////Instantiates playerPanel prefab.
@@ -754,7 +740,7 @@ public class GameManager : MonoBehaviour
             average = Mathf.RoundToInt(average);
         }
 
-        GameObject graphObject = Instantiate(graph, SP_graphContent.transform);
+        GameObject graphObject = Instantiate(Prefabs.graph, SP_graphContent.transform);
 
         RectTransform averageRect = graphObject.transform.GetChild(0).GetComponent<RectTransform>();   //Average
         SetTop(averageRect, 350 * (1 - (average - min) / (max - min)) + 50);
@@ -791,7 +777,7 @@ public class GameManager : MonoBehaviour
     //Instantiates training prefab.
     public void TrainingInstantiate(Training trainingScript, Player player)
     {
-        GameObject trainingObject = Instantiate(training, TP_content.transform);
+        GameObject trainingObject = Instantiate(Prefabs.training, TP_content.transform);
 
         TrainPanel trainPanel = trainingObject.GetComponent<TrainPanel>();
         trainPanel.train = trainingScript.train;
@@ -844,7 +830,7 @@ public class GameManager : MonoBehaviour
     //Instantiates effect prefab.
     public void EffectInstantiate(PlayerData.PP pref, int days)
     {
-        GameObject effectObject = Instantiate(effectPanel, TP_effectContent.transform);
+        GameObject effectObject = Instantiate(Prefabs.effectPanel, TP_effectContent.transform);
         effectObject.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = PlayerData.PPString[(int)PlayerData.FindSerializablePP(pref)];
         effectObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = PlayerData.PPString[(int)pref];
         effectObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = days.ToString() + " Days";

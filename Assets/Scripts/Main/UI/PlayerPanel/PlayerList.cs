@@ -14,10 +14,10 @@ public class PlayerList : MonoBehaviour {
 
     //public static variables
     public static GameObject focusedObject;
+    public static Player playerPrev;
 
     //player data
     public Player player;
-    public Player playerSecond;
 
     private void OnEnable()
     {
@@ -100,11 +100,12 @@ public class PlayerList : MonoBehaviour {
         }   
         else if (playerView == PlayerView.ROASTER)
         {
+            playerPrev = player;
             GameManager.roastersPanel.GetComponent<RoastersPanel>().RefreshByPlayer(player);
         }
         else if (playerView == PlayerView.COMPARE)
         {
-            GameManager.roastersPanel.GetComponent<RoastersPanel>().CompareByPlayer(player);
+            GameManager.roastersPanel.GetComponent<RoastersPanel>().CompareByPlayer(playerPrev, player);
         }
         
     }

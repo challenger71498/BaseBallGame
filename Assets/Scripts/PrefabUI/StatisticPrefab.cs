@@ -7,9 +7,7 @@ using TMPro;
 public class StatisticPrefab : MonoBehaviour
 {
     [Header("Prefabs")]
-    public GameObject statisticsPrefab;
-
-    public static GameObject statistics;
+    public static Prefabs Prefabs;
 
     [Header("GameObjects")]
     public TextMeshProUGUI title;
@@ -19,13 +17,13 @@ public class StatisticPrefab : MonoBehaviour
 
     public void Start()
     {
-        statistics = statisticsPrefab;
+        Prefabs = GameObject.Find("Prefabs").GetComponent<Prefabs>();
     }
 
     public void SetByStat(Player player, PlayerStatistics.PS stat)
     {
-        SetTitle(PlayerStatistics.PSString[(int)stat]);
-        SetValueText(stat, player.stats.GetStat(stat), PlayerStatistics.StatAverage(stat, Values.date.Year), 1);
+        SetTitle(PlayerStatistics.PSStringShort[(int)stat]);
+        SetValueText(stat, player.stats.GetSeason(stat), PlayerStatistics.StatAverage(stat, Values.date.Year), 1);
     }
 
     public void SetTitle(string value)
@@ -81,7 +79,7 @@ public class StatisticPrefab : MonoBehaviour
     /// <param name="rank"></param>
     public static void StatisticsInstantiate(Player player, PlayerStatistics.PS stat, Transform parentTransform)
     {
-        GameObject statObject = Instantiate(statistics, parentTransform);
+        GameObject statObject = Instantiate(Prefabs.statistics, parentTransform);
         StatisticPanel statisticPanel = statObject.GetComponent<StatisticPanel>();
         statisticPanel.stat = stat;
         StatisticPrefab statisticPrefab = statObject.GetComponent<StatisticPrefab>();

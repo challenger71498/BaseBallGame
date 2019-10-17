@@ -118,6 +118,7 @@ public class PlayerListObject : MonoBehaviour
     {
         currentStartingMemberFilter = startingMemberFilter;
         isModeNow = false;
+        currentPosition = position;
 
         int instantiatedAmount = 0;
 
@@ -164,6 +165,7 @@ public class PlayerListObject : MonoBehaviour
     {
         currentStartingMemberFilter = startingMemberFilter;
         isModeNow = false;
+        currentMetaPosition = metaPosition;
 
         int instantiatedAmount = 0;
 

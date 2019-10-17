@@ -7,11 +7,7 @@ using TMPro;
 public class SkillPrefab : MonoBehaviour
 {
     [Header("Prefabs")]
-    public GameObject skillPrefab;
-    public GameObject skillSmallPrefab;
-
-    public static GameObject skill;
-    public static GameObject skillSmall;
+    public static Prefabs Prefabs;
 
     [Header("GameObjects")]
     public Image ListAccentPanel;
@@ -24,8 +20,7 @@ public class SkillPrefab : MonoBehaviour
 
     public void Start()
     {
-        skill = skillPrefab;
-        skillSmall = skillSmallPrefab;
+        Prefabs = GameObject.Find("Prefabs").GetComponent<Prefabs>();
     }
 
     public void SetByPref(Player player, PlayerData.PP pref, Player playerCompare = default)
@@ -49,10 +44,22 @@ public class SkillPrefab : MonoBehaviour
 
     public void SetValue(Player player, PlayerData.PP pref, Player playerCompare = default)
     {
-        value.text = Mathf.FloorToInt((float)player.playerData.GetData(pref)).ToString();
+        int value1 = Mathf.FloorToInt((float)player.playerData.GetData(pref));
+        value.text = value1.ToString();
         if(playerCompare != default)
         {
-            valueSecond.text = Mathf.FloorToInt((float)playerCompare.playerData.GetData(pref)).ToString();
+            int value2 = Mathf.FloorToInt((float)playerCompare.playerData.GetData(pref));
+            valueSecond.text = value2.ToString();
+            if (value1 < value2)
+            {
+                value.color = Colors.red;
+                valueSecond.color = Color.white;
+            }
+            else
+            {
+                value.color = Color.white;
+                valueSecond.color = Colors.red;
+            }
         }
         else
         {
@@ -67,6 +74,7 @@ public class SkillPrefab : MonoBehaviour
         ListPercentPanel.fillAmount = Mathf.FloorToInt(value) / 100f;
         if(valueSecond != -1)
         {
+            arrow.SetActive(true);
             ListPercentPanelSecond.fillAmount = Mathf.FloorToInt(valueSecond) / 100f;
         }
         else
@@ -81,11 +89,11 @@ public class SkillPrefab : MonoBehaviour
         SkillPrefab skillPrefab;
         if (isSmallPrefab)
         {
-            skillPrefab = Instantiate(skillSmall, parentTransform).GetComponent<SkillPrefab>();
+            skillPrefab = Instantiate(Prefabs.skillSmall, parentTransform).GetComponent<SkillPrefab>();
         }
         else
         {
-            skillPrefab = Instantiate(skill, parentTransform).GetComponent<SkillPrefab>();
+            skillPrefab = Instantiate(Prefabs.skill, parentTransform).GetComponent<SkillPrefab>();
         }
         
         skillPrefab.SetByPref(player, pref, playerCompare);

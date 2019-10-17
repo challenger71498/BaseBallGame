@@ -12,14 +12,15 @@ public class SortDropdownItem : MonoBehaviour
     {
         //changes sort mode.
         sortDropdown = GameObject.Find("Sort").GetComponent<SortDropdown>();
-        GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        GameManager GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        listObject = GameManager.playerContent.GetComponent<PlayerListObject>();
 
-        gameManager.sortMode = (SortDropdown.SortMode)sortDropdown.selectedItemIndex;
+        GameManager.sortMode = (SortDropdown.SortMode)sortDropdown.selectedItemIndex;
         
         //changes order.
-        if (gameManager.recentClick == null || gameObject != gameManager.recentClick)
+        if (GameManager.recentClick == null || gameObject != GameManager.recentClick)
         {
-            gameManager.recentClick = gameObject;
+            GameManager.recentClick = gameObject;
         }
         else
         {
@@ -32,11 +33,11 @@ public class SortDropdownItem : MonoBehaviour
         //lastly refreshes.
         if(PlayerListObject.isModeNow)
         {
-            listObject.RefreshPlayerList(gameManager.mode, gameManager.sortMode, true, PlayerListObject.currentStartingMemberFilter);
+            listObject.RefreshPlayerList(GameManager.mode, GameManager.sortMode, true, PlayerListObject.currentStartingMemberFilter);
         }
         else
         {
-            listObject.RefreshPlayerList(PlayerListObject.currentMetaPosition, gameManager.sortMode, true, PlayerListObject.currentStartingMemberFilter);
+            listObject.RefreshPlayerList(PlayerListObject.currentMetaPosition, GameManager.sortMode, true, PlayerListObject.currentStartingMemberFilter);
         }
     }
 }

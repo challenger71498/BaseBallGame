@@ -69826,7 +69826,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2053826724}
   m_HandleRect: {fileID: 2053826723}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -71100,6 +71100,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 711874359}
     m_Modifications:
+    - target: {fileID: 1286020128643183925, guid: cfe65c54ba093ba46bcbd41c902f5705,
+        type: 3}
+      propertyPath: m_Name
+      value: OptionButton
+      objectReference: {fileID: 0}
     - target: {fileID: 1286020128643183922, guid: cfe65c54ba093ba46bcbd41c902f5705,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -71204,11 +71209,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1286020128643183925, guid: cfe65c54ba093ba46bcbd41c902f5705,
-        type: 3}
-      propertyPath: m_Name
-      value: OptionButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfe65c54ba093ba46bcbd41c902f5705, type: 3}
@@ -73394,6 +73394,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1158448190}
     m_Modifications:
+    - target: {fileID: 8420625520641681387, guid: 83be47742b2ac034e9348f8dcf874d7d,
+        type: 3}
+      propertyPath: m_Name
+      value: ResultPlayerPanel (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 8420625520641681386, guid: 83be47742b2ac034e9348f8dcf874d7d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -73498,11 +73503,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8420625520641681387, guid: 83be47742b2ac034e9348f8dcf874d7d,
-        type: 3}
-      propertyPath: m_Name
-      value: ResultPlayerPanel (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83be47742b2ac034e9348f8dcf874d7d, type: 3}

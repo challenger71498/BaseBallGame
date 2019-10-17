@@ -9,6 +9,7 @@ public class RoastersPanel : MonoBehaviour
 {
     public GameObject filter;
     public GameObject filterText;
+    public PlayerListObject listObjectRoaster;
     public PlayerListObject listObject;
     public GameManager GameManager;
 
@@ -40,7 +41,7 @@ public class RoastersPanel : MonoBehaviour
         GameManager.RP_middlePanel.SetActive(true);
         GameManager.RP_pitchersPanel.SetActive(false);
 
-        int instantiatedAmount = 0; // GameManager.RefreshPlayerList(player.playerData.GetData(PlayerData.PP.META_POSITION), GameManager.sortMode, Filter.StartingMemberFilter.ALL, PlayerView.COMPARE);
+        int instantiatedAmount = listObject.RefreshPlayerList(player.playerData.GetData(PlayerData.PP.META_POSITION), SortDropdown.SortMode.OVERALL, true, Filter.StartingMemberFilter.ALL, PlayerList.PlayerView.COMPARE);
 
         //Removes myself.
         for (int i = 0; i < GameManager.playerContent.transform.childCount; ++i)
@@ -55,6 +56,7 @@ public class RoastersPanel : MonoBehaviour
             }
         }
 
+        
         if (instantiatedAmount == 0)
         {
             NotificationExample noti = GameManager.notificationPanel.GetComponent<NotificationExample>();
@@ -137,7 +139,7 @@ public class RoastersPanel : MonoBehaviour
         }
     }
 
-    public void CompareByPlayer(Player player)
+    public void CompareByPlayer(Player playerPrev, Player player)
     {
         //Sets change target.
         ChangeButton.playerSecond = player;
@@ -179,44 +181,13 @@ public class RoastersPanel : MonoBehaviour
         //Stats
         for (int i = 0; i < GameManager.RP_content.transform.childCount; ++i)
         {
-            Transform statTranform = GameManager.RP_content.transform.GetChild(i);
+            SkillPrefab skillPrefab = GameManager.RP_content.transform.GetChild(i).GetComponent<SkillPrefab>();
 
             for (int j = 0; j < PlayerData.PPString.Count; ++j)
             {
-                if (statTranform.GetChild(3).GetComponent<TextMeshProUGUI>().text == PlayerData.PPString[j])
+                if (skillPrefab.title.text == PlayerData.PPString[j])
                 {
-                    int statValue;
-                    if (statTranform.GetComponent<StatComponent>().isSmall)
-                    {
-                        statValue = Mathf.FloorToInt(player.playerData.GetDictData((PlayerData.PP)j));
-                    }
-                    else
-                    {
-                        statValue = Mathf.FloorToInt((float)player.playerData.GetData((PlayerData.PP)j));
-                    }
-
-                    statTranform.GetChild(0).GetComponent<Image>().color = Player.ColorPicker(statValue);
-
-                    statTranform.GetChild(4).GetComponent<TextMeshProUGUI>().text = statValue.ToString();
-                    statTranform.GetChild(2).GetComponent<Image>().fillAmount = statValue / 100f;
-
-                    if (statValue < int.Parse(statTranform.GetChild(5).GetComponent<TextMeshProUGUI>().text))
-                    {
-                        statTranform.GetChild(3).GetComponent<TextMeshProUGUI>().color = Colors.red;
-                    }
-                    else
-                    {
-                        statTranform.GetChild(3).GetComponent<TextMeshProUGUI>().color = Color.white;
-                    }
-
-                    for (int k = 0; k < Player.statRange.Count; ++k)
-                    {
-                        if (statValue < Player.statRange[k])
-                        {
-                            statTranform.transform.GetChild(4).GetComponent<TextMeshProUGUI>().color = Player.statColor[k];
-                            break;
-                        }
-                    }
+                    skillPrefab.SetByPref(playerPrev, (PlayerData.PP)j, player);
                     break;
                 }
             }
@@ -227,11 +198,11 @@ public class RoastersPanel : MonoBehaviour
     {
         if (RoasterPitchersPanelButton.focusedObject.GetComponent<RoasterPitchersPanelButton>().buttonName == "Pitcher")
         {
-            listObject.RefreshPlayerList(Filter.Mode.PITCHERS, SortDropdown.SortMode.POSITION, GameManager.RP_pitchersPanelContent, Filter.StartingMemberFilter.MEMBER_ONLY, PlayerList.PlayerView.ROASTER);
+            listObjectRoaster.RefreshPlayerList(Filter.Mode.PITCHERS, SortDropdown.SortMode.POSITION, GameManager.RP_pitchersPanelContent, Filter.StartingMemberFilter.MEMBER_ONLY, PlayerList.PlayerView.ROASTER);
         }
         else if (RoasterPitchersPanelButton.focusedObject.GetComponent<RoasterPitchersPanelButton>().buttonName == "Substitutes")
         {
-            listObject.RefreshPlayerList(Filter.Mode.ALL, SortDropdown.SortMode.POSITION, GameManager.RP_pitchersPanelContent, Filter.StartingMemberFilter.SUB_ONLY, PlayerList.PlayerView.ROASTER);
+            listObjectRoaster.RefreshPlayerList(Filter.Mode.ALL, SortDropdown.SortMode.POSITION, GameManager.RP_pitchersPanelContent, Filter.StartingMemberFilter.SUB_ONLY, PlayerList.PlayerView.ROASTER);
         }
     }
 }

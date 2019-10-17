@@ -7,13 +7,7 @@ using TMPro;
 public class PlayerPrefab : MonoBehaviour
 {
     [Header("Prefabs")]
-    public GameObject playerPanelPrefab;
-    public GameObject statPrefab;
-    public GameObject pitchesPrefab;
-
-    public static GameObject playerPanel;
-    public static GameObject stat;
-    public static GameObject pitches;
+    public static Prefabs Prefabs;
 
     [Header("GameObjects")]
     public Image condition;
@@ -29,9 +23,7 @@ public class PlayerPrefab : MonoBehaviour
 
     public void Start()
     {
-        playerPanel = playerPanelPrefab;
-        stat = statPrefab;
-        pitches = pitchesPrefab;
+        Prefabs = GameObject.Find("Prefabs").GetComponent<Prefabs>();
     }
 
     /// <summary>
@@ -99,7 +91,7 @@ public class PlayerPrefab : MonoBehaviour
     /// <param name="overall"></param>
     public void SetOverall(float overall)
     {
-        overallText.text = overall.ToString();   //Overall
+        overallText.text = overall.ToString("##");   //Overall
         overallText.color = Player.ColorPicker(overall, new bool[] { false, true, true, true, true });
     }
 
@@ -158,7 +150,7 @@ public class PlayerPrefab : MonoBehaviour
     /// <param name="value"></param>
     void StatInstantiate(string title, float value)
     {
-        GameObject statObject = Instantiate(stat, statLayout.transform);
+        GameObject statObject = Instantiate(Prefabs.stat, statLayout.transform);
         TextMeshProUGUI titleText = statObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         titleText.text = title;    //Stat.Title
         TextMeshProUGUI valueText = statObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -184,7 +176,7 @@ public class PlayerPrefab : MonoBehaviour
     /// <param name="pitchesDictionary"></param>
     void PitchesInstantiate(Dictionary<Pitcher.Pitch, float> pitchesDictionary)
     {
-        GameObject pitchesObject = Instantiate(pitches, statLayout.transform);
+        GameObject pitchesObject = Instantiate(Prefabs.pitches, statLayout.transform);
         string text = "";
         foreach (Pitcher.Pitch pitch in pitchesDictionary.Keys)
         {
@@ -201,7 +193,7 @@ public class PlayerPrefab : MonoBehaviour
     public static GameObject PlayerInstantiate(Player player, Transform parentTransform, PlayerList.PlayerView playerView = PlayerList.PlayerView.UNDEFINED, bool isPrefShown = true)
     {
         GameManager GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        GameObject playerObject = Instantiate(playerPanel, parentTransform);
+        GameObject playerObject = Instantiate(Prefabs.playerPanel, parentTransform);
         PlayerPrefab playerPrefab = playerObject.GetComponent<PlayerPrefab>();
         playerPrefab.SetByPlayer(player, isPrefShown);
 
