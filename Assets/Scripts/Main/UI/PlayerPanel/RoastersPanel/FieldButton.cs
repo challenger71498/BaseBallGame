@@ -22,12 +22,12 @@ public class FieldButton : MonoBehaviour
 
     Player player;
 
-    public static Color[] conditionColor =
+    Color[] conditionColor =
     {
         Colors.red, Colors.yellow, Colors.green
     };
 
-    public static int[] conditionRange =
+    int[] conditionRange =
     {
         33, 66, 100
     };

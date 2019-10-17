@@ -84,9 +84,4 @@ public class InGameObjects : MonoBehaviour
 
     [Header("FieldPanel")]
     public GameObject fieldPanel;
-
-    [Header("ChangePlayerPanel")]
-    public GameObject statsPanel;
-    public GameObject fieldViewPanel;
-    public GameObject middlePanel;
 }
