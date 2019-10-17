@@ -22,6 +22,10 @@ public static class Sort
         {
             playerList.Sort(PlayerCompareByPosition);
         }
+        else if (sortMode == SortDropdown.SortMode.ORDER)
+        {
+            playerList.Sort(PlayerCompareByOrder);
+        }
 
         if (!SortDropdown.isAscendingOrder)
         {
@@ -71,6 +75,31 @@ public static class Sort
         else
         {
             return pair2.Value.GetOverall().CompareTo(pair1.Value.GetOverall());
+        }
+    }
+    public static int PlayerCompareByOrder(KeyValuePair<int, Player> pair1, KeyValuePair<int, Player> pair2)
+    {
+        int order1 = pair1.Value.order;
+        int order2 = pair2.Value.order;
+
+        if (order1 == -1)
+        {
+            order1 = 100;
+        }
+
+        if (order2 == -1)
+        {
+            order2 = 100;
+        }
+
+        int orderComp = order1.CompareTo(order2);
+        if (orderComp != 0)
+        {
+            return orderComp;
+        }
+        else
+        {
+            return (int)pair1.Value.playerData.GetData(PlayerData.PP.POSITION).CompareTo(pair2.Value.playerData.GetData(PlayerData.PP.POSITION));
         }
     }
 }

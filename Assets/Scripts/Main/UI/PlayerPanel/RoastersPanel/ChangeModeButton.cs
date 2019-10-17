@@ -6,6 +6,7 @@ using TMPro;
 public class ChangeModeButton : MonoBehaviour
 {
     public GameManager GameManager;
+    public RoastersPanel RoastersPanel;
     public TextMeshProUGUI changeText;
 
     public enum ChangeMode
@@ -25,7 +26,7 @@ public class ChangeModeButton : MonoBehaviour
         if(changeMode == ChangeMode.PLAYERS)
         {
             changeMode = ChangeMode.ORDERS;
-            RoastersPanel.Refresh(GameManager);
+            RoastersPanel.Refresh();
         }
         else if (changeMode == ChangeMode.ORDERS)
         {
@@ -35,7 +36,7 @@ public class ChangeModeButton : MonoBehaviour
                 PlayerList.focusedPrevObject = null;
             }
             changeMode = ChangeMode.PLAYERS;
-            RoastersPanel.Refresh(GameManager);
+            RoastersPanel.Refresh();
         }
         changeText.text = changeModeString[(int)changeMode];
     }

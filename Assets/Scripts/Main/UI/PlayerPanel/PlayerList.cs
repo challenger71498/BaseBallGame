@@ -67,7 +67,7 @@ public class PlayerList : MonoBehaviour {
 
     public enum PlayerView
     {
-        UNDEFINED, SKILLS_STATISTICS_TRAININGS, ROASTER, COMPARE
+        UNDEFINED, SKILLS_STATISTICS_TRAININGS, ROASTER, COMPARE, ORDER
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public class PlayerList : MonoBehaviour {
                 GetComponent<Button>().interactable = true;
                 ChangeButton.SwapPlayer(ChangeButton.playerFirst, ChangeButton.playerSecond, Values.myTeam);
                 focusedPrevObject = null;
-                RoastersPanel.Refresh(gameManager);
+                GameManager.roastersPanel.GetComponent<RoastersPanel>().Refresh();
             }
         }
     }

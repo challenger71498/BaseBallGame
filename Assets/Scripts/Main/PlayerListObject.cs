@@ -36,7 +36,7 @@ public class PlayerListObject : MonoBehaviour
         {
             return false;
         }
-        else if (startingMemberFilter == Filter.StartingMemberFilter.MEMBER_ONLY && !Values.myTeam.players[i].Value.isStartingMember)
+        else if (startingMemberFilter == Filter.StartingMemberFilter.MEMBER_ONLY && (!Values.myTeam.players[i].Value.isStartingMember || Values.myTeam.players[i].Value.isSubstitute))
         {
             return false;
         }

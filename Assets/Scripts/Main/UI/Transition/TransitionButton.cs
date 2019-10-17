@@ -48,7 +48,7 @@ public class TransitionButton : MonoBehaviour
         Values.league.ProceedGame(Values.date);
 
         //Game initialization.
-        InGameManager.game = gameManager.game;
+        InGameManager.game = GameManager.game;
         
         SceneManager.LoadScene("InGame");
     }

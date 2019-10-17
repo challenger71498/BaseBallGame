@@ -38,7 +38,7 @@ public class PlayerPrefab : MonoBehaviour
         SetName(player.playerData.GetData(PlayerData.PP.NAME));
         SetNumber(player.playerData.GetData(PlayerData.PP.NUMBER));
         SetOverall(player.playerData.GetData(PlayerData.PP.OVERALL));
-        SetStartMemberImage(player.isStartingMember);
+        SetStartMemberImage(player, player.isStartingMember);
         SetOrder(player.order);
 
         if(isPrefAvailable)
@@ -99,7 +99,7 @@ public class PlayerPrefab : MonoBehaviour
     /// Sets start member image.
     /// </summary>
     /// <param name="isStarting"></param>
-    public void SetStartMemberImage(bool isStarting)
+    public void SetStartMemberImage(Player player, bool isStarting)
     {
         if(isStarting)
         {
@@ -108,6 +108,11 @@ public class PlayerPrefab : MonoBehaviour
         else
         {
             isStartingMember.color = Color.clear;
+        }
+
+        if(GameManager.game.GetStarterPitcher(Values.myTeam) == player)
+        {
+            isStartingMember.color = Colors.red;
         }
     }
 

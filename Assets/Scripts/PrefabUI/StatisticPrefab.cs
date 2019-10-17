@@ -15,7 +15,7 @@ public class StatisticPrefab : MonoBehaviour
     public TextMeshProUGUI averageText;
     public TextMeshProUGUI ranking;
 
-    public void Start()
+    public void Awake()
     {
         Prefabs = GameObject.Find("Prefabs").GetComponent<Prefabs>();
     }
@@ -79,6 +79,7 @@ public class StatisticPrefab : MonoBehaviour
     /// <param name="rank"></param>
     public static void StatisticsInstantiate(Player player, PlayerStatistics.PS stat, Transform parentTransform)
     {
+        Prefabs = GameObject.Find("Prefabs").GetComponent<Prefabs>();
         GameObject statObject = Instantiate(Prefabs.statistics, parentTransform);
         StatisticPanel statisticPanel = statObject.GetComponent<StatisticPanel>();
         statisticPanel.stat = stat;
