@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class FieldViewPanel : MonoBehaviour
 {
-    public GameObject leftPanel;
-
+    public InGameObjects InGameObjects;
     private void OnEnable()
     {
-        leftPanel.SetActive(false);
+        InGameObjects.pauseButton.SetActive(false);
+        InGameObjects.speedButton.SetActive(false);
     }
 
     private void OnDisable()
     {
-        leftPanel.SetActive(true);
+        InGameObjects.pauseButton.SetActive(true);
+        InGameObjects.speedButton.SetActive(true);
     }
 }
