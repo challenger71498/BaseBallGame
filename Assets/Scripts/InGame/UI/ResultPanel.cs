@@ -1,10 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResultPanel : MonoBehaviour
 {
     public InGameObjects InGameObjects;
+
+    /// <summary>
+    /// When on enabled.
+    /// </summary>
+    private void OnEnable()
+    {
+        //Disables upper buttons, and forces to show boardpanel.
+        InGameObjects.speedButton.SetActive(false);
+        InGameObjects.pauseButton.SetActive(false);
+        InGameObjects.boardPanel.gameObject.SetActive(true);
+        InGameObjects.scorePanel.gameObject.SetActive(false);
+        InGameObjects.inningPanel.gameObject.SetActive(false);
+        InGameObjects.boardPanel.gameObject.GetComponent<Button>().interactable = false;
+    }
 
     /// <summary>
     /// Refreshes result panel objects.
