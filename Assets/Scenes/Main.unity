@@ -19994,11 +19994,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1958593843}
     m_Modifications:
-    - target: {fileID: 5436155155976546834, guid: b26e5fe70e5d3034e8fd6807932a3b4a,
-        type: 3}
-      propertyPath: m_Name
-      value: StatPanel
-      objectReference: {fileID: 0}
     - target: {fileID: 5436155155976546986, guid: b26e5fe70e5d3034e8fd6807932a3b4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20103,6 +20098,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436155155976546834, guid: b26e5fe70e5d3034e8fd6807932a3b4a,
+        type: 3}
+      propertyPath: m_Name
+      value: StatPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b26e5fe70e5d3034e8fd6807932a3b4a, type: 3}
@@ -23424,11 +23424,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 705804984}
     m_Modifications:
-    - target: {fileID: 5436155155976546834, guid: b26e5fe70e5d3034e8fd6807932a3b4a,
-        type: 3}
-      propertyPath: m_Name
-      value: StatPanel
-      objectReference: {fileID: 0}
     - target: {fileID: 5436155155976546986, guid: b26e5fe70e5d3034e8fd6807932a3b4a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -38649,11 +38644,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2102907940}
     m_Modifications:
-    - target: {fileID: 16623939082761271, guid: f53f503dd28951946abbe5c697f99cf6,
-        type: 3}
-      propertyPath: m_Name
-      value: Transition
-      objectReference: {fileID: 0}
     - target: {fileID: 16623939082761268, guid: f53f503dd28951946abbe5c697f99cf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -38773,6 +38763,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 16623939082761271, guid: f53f503dd28951946abbe5c697f99cf6,
+        type: 3}
+      propertyPath: m_Name
+      value: Transition
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f53f503dd28951946abbe5c697f99cf6, type: 3}

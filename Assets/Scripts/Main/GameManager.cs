@@ -194,8 +194,8 @@ public class GameManager : MonoBehaviour
             Values.league = new League(true);
 
             //MyTeam Initailization
-            Values.myTeam = Values.league.teams[0].Value;
-            //Values.myTeam = Values.league.teams[UnityEngine.Random.Range(0, Values.league.teams.d.Count)].Value;
+            //Values.myTeam = Values.league.teams[0].Value;
+            Values.myTeam = Values.league.teams[UnityEngine.Random.Range(0, Values.league.teams.d.Count)].Value;
             
             //MyTeam schedule Initialization
             Values.schedules = new Dictionary<int, Schedule>();
